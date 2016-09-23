@@ -4,7 +4,7 @@ var monsters;
 var monster;
 var monster2;
 
-//CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
+//CREATE Mob. CALLED IN INITIAL.JS.CREATE() create mobs in a for loop or something.. 
  function createMob1(x,y){
 	monsters = game.add.group();
 
@@ -25,8 +25,8 @@ var monster2;
 	monster.body.collideWorldBounds = true;
 
 	//GRAVITY AND BOUNCE OF PLAYER.
-	player.body.bounce.y = 0.5;
 	monster.body.gravity.y = 300;
+	monster.body.velocity.x = -70;
  }
  //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
  function createMob2(x,y){
@@ -42,16 +42,33 @@ var monster2;
 
 	// //ADD PHYSICS TO PLAYER
 	game.physics.enable(monster2,Phaser.Physics.ARCADE);
+	monsters.enableBody=true;
 
 	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
 	monster2.body.collideWorldBounds = true;
 
 	//GRAVITY AND BOUNCE OF PLAYER.
-	player.body.bounce.y = 0.5;
 	monster2.body.gravity.y = 300;
+	monster2.body.velocity.x = -100;
  }
 
  function mobUpdate(){
- 	monster.body.velocity.x = -30;
- 	monster2.body.velocity.x = -20;
+
+ 	if(monster2.body.blocked.left){
+
+ 		monster2.anchor.setTo(0.5,0.5);
+ 		monster2.body.velocity.x = monster2.body.velocity.x*-1;
+ 		monster2.scale.x *=-1;
+ 		//error detection purpose.
+ 		console.log('left');
+ 	}
+ 	else if(monster2.body.blocked.right){
+
+ 		monster2.anchor.setTo(0.5,0.5);
+ 		monster2.scale.x *=-1;
+ 		monster2.body.velocity.x = monster2.body.velocity.x*-1;
+
+ 		console.log('right');
+ 	}
+ 	
  }
