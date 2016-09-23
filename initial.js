@@ -14,6 +14,7 @@ window.onload = function() {
             game.load.image('wizard', 'assets/wizard.png');
             game.load.image('mob', 'assets/namoo.png');
             game.load.image('pikachu', 'assets/pikachu.png');
+            game.load.image('platform', 'assets/platform2.png');
         }
         function create () {
             //create game field.
@@ -22,11 +23,15 @@ window.onload = function() {
             createPlayer(0,430);
             createMob1(700,430);
             createMob2(650,400);
+            createPlatform();
+
+            //detect keyboard input.
             cursor = game.input.keyboard.createCursorKeys();
         }
         function update(){
             playerUpdate();
             mobUpdate();
+            platformUpdate();
         }
 
 };

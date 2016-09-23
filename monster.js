@@ -9,7 +9,7 @@ var monster2;
 	monsters = game.add.group();
 
 	//player is added as a sprite at x,y coordinates entered from create() function from initial.js
-	monster = game.add.sprite(x,y,'mob');
+	monster = monsters.create(x,y,'mob');
 	// player = players.create(x,y,'player');
 	//set player's image scale
 	monster.scale.setTo(.5,.5);
@@ -32,7 +32,7 @@ var monster2;
  function createMob2(x,y){
 
 	//player is added as a sprite at x,y coordinates entered from create() function from initial.js
-	monster2 = game.add.sprite(x,y,'pikachu');
+	monster2 = monsters.create(x,y,'pikachu');
 	// player = players.create(x,y,'player');
 	//set player's image scale
 	monster2.scale.setTo(.5,.5);
@@ -54,8 +54,4 @@ var monster2;
  function mobUpdate(){
  	monster.body.velocity.x = -30;
  	monster2.body.velocity.x = -20;
-
- 	if(monster.x == 0){
- 		monster.body.velocity.x = 100;
- 	}
  }
