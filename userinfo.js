@@ -1,12 +1,11 @@
-//menu.js
+//userinfo.js
 
-//this is the main menu screen. called by load.
-
-var menuState ={
+var userState = {
 
 	create: function(){
 		//set background color for menu screen.
-	    game.add.tileSprite(0,0,4600,540,'background');
+	    game.stage.setBackgroundColor(0x2d2d2d);
+
 		var header = game.add.text(80,80,'U Too Old For This Game');
 
 

@@ -78,7 +78,6 @@ var monster = {
  	});
  	
  	//game.physics.arcade.collide(monsters, bullets);
- 	
  	killIfHit(monsters,bullets);
  }
 
@@ -121,6 +120,8 @@ var monster = {
  	return true;
  }
 
+//when monsters hit player, player loses HP.
+//gotta work on this function.
  function collisionPlayerMonster(player,monster){
  	monsters.forEach(function(m){
  		if (game.physics.arcade.collide(m, player, pm_collisionHandler, pm_processHandler, this)){
