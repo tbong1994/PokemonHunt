@@ -1,4 +1,4 @@
- 
+
 //initializing game. Booting phase.
 
 var cursor;

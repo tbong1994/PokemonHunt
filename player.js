@@ -69,7 +69,8 @@ var player={
 	}
 
 	//only make it able to jump, not fly. Check if character is on the ground or on a platform. 
-	else if(cursor.up.isDown&&(player.body.touching.down||player.body.onFloor())){
+	//also make it able to jump while pressing left or right arrow key.
+	if(cursor.up.isDown&&(player.body.touching.down||player.body.onFloor())){
 		player.body.velocity.y = -300;
 	}
 

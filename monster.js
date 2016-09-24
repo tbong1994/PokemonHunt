@@ -94,14 +94,48 @@ var monster = {
 
  function collisionHandler(monster,bullet){ 	
  	if(monster.HP<0){
+ 		//monster dead.
  		monster.kill();
- 	}
- 	bullet.kill();
- 	player.score++;
- 	console.log("Got Em");
 
+ 		//player score up.
+ 		player.score++;
+ 	}
+
+ 	//monsters need to keep going in the same direction even though they're hit.
+ 	if(monster.scale.x > 0 && bullet.scale.x<0){
+ 		monster.scale.x *= -1;
+ 		monster.body.velocity.x *=-1;
+ 	} 
+ 	else if(monster.scale.x <0 && bullet.scale.x>0){
+ 		monster.scale.x *= -1;
+ 		monster.body.velocity.x *=-1;
+ 	}
+ 	else{
+ 		monster.body.velocity.x *=-1;
+ 	} 		
+ 	bullet.kill();
+ 	console.log("Got Em");
  }
  function processHandler(monster,bullet){
  	//processHandler needs to return true for the collision to happen.
+ 	return true;
+ }
+
+ function collisionPlayerMonster(player,monster){
+ 	monsters.forEach(function(m){
+ 		if (game.physics.arcade.collide(m, player, pm_collisionHandler, pm_processHandler, this)){
+			console.log("OUCH");
+			player.HP =-10;
+		}
+ 	});
+ }
+
+ function pm_collisionHandler(){
+ 	if(player.HP<0){
+ 		//player dead.
+ 		player.kill();
+ 	}
+ }
+ function pm_processHandler(){
  	return true;
  }
