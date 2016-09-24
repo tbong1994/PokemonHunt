@@ -1,10 +1,13 @@
 //player class
 
 var players;
-var player;
 
-//time in between each shot.
-
+var player={
+	name:"",
+	HP:100,
+	lvl:0,
+	score:0
+};
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 //later on, you give user a choice which character they want to choose.
@@ -13,6 +16,13 @@ var player;
 
 	//player is added as a sprite at x,y coordinates entered from create() function from initial.js
 	player = players.create(x,y,'wizard');
+
+	//initialize player's properties.
+	player.Name = "wiz";
+	player.HP = 100;
+	player.lvl = 0;
+	player.score =0;
+
 	//set player's image scale
 	player.scale.setTo(.3,.3);
 
@@ -24,9 +34,10 @@ var player;
 	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
 	player.body.collideWorldBounds = true;
 
+	// player.body.fixedRotation = true;
 	//GRAVITY AND BOUNCE OF PLAYER.
 	player.body.bounce.y = 0.2;
-	player.body.gravity.y = 300;
+	player.body.gravity.y = 350;
  }
 
  function playerUpdate(){
@@ -74,3 +85,7 @@ var player;
 		});
 	}
  }
+
+ // function updateScore(){
+
+ // }

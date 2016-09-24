@@ -9,8 +9,8 @@ var platforms;
 function createPlatform(){
 	platforms = game.add.group();
 
-	for(i =0;i<2;i++){
-		var platform = platforms.create(Math.random()*(500-400)+300,Math.random()*(500-350)+350,'platform');
+	for(i =0;i<4;i++){
+		var platform = platforms.create(Math.random()*(500-400)+300,Math.random()*(550-400)+400,'platform');
 		platform.scale.setTo(1,1);
 
 	//enable physics for platforms.

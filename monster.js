@@ -2,13 +2,24 @@
 
 var monsters;
 
+
+var monster = {
+	HP: 100,
+	Name:""
+};
+
 //CREATE Mob. CALLED IN INITIAL.JS.CREATE() create mobs in a for loop or something.. 
- function createMob(x,y){
+ function createMob(){
 	monsters = game.add.group();
 
-	for(i =0;i<2;i++){
+	for(i =0;i<7;i++){
 		//player is added as a sprite at x,y coordinates entered from create() function from initial.js
-		var monster = monsters.create(x,y,'mob'+''+i);
+		monster = monsters.create(Math.random()*(game.world.width-0)+0,game.world.height,'mob'+''+i);
+
+		//initialize monster's HP.
+		monster.HP = 100;
+
+
 	// player = players.create(x,y,'player');
 	//set player's image scale
 		monster.scale.setTo(.5,.5);
@@ -17,6 +28,7 @@ var monsters;
 		game.physics.enable(monster,Phaser.Physics.ARCADE);
 		monsters.enableBody=true;
 
+		
 	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
 		monster.body.collideWorldBounds = true;
 
@@ -48,7 +60,7 @@ var monsters;
  			m.scale.x *= -1;
  			// console.log("right block");
  		}
- 		/*Initially, monster starts with vel =0, so give monsters 
+ 		/*Initially, monster starts with vel =0, make monsters 
 		*initally move towards the player.
 		*/
  		else if(m.body.velocity.x ==0){
@@ -59,6 +71,10 @@ var monsters;
  			}
  			// console.log('this');
  		}
+ 		// if(monsters.length<5){
+ 		// 	createMob(0,0);
+ 		// }
+
  	});
  	
  	//game.physics.arcade.collide(monsters, bullets);
@@ -70,15 +86,20 @@ var monsters;
  function killIfHit(monsters, bullets){
  	monsters.forEach(function(m){
  		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
-			console.log("dead");
+			console.log("BOOM");
+			m.HP = m.HP-30;
 		}
  	});
  }
 
- function collisionHandler(monster,bullet){
- 	//if they collide, gotta get rid of both monster and bullet.
- 	monster.kill();
+ function collisionHandler(monster,bullet){ 	
+ 	if(monster.HP<0){
+ 		monster.kill();
+ 	}
  	bullet.kill();
+ 	player.score++;
+ 	console.log("Got Em");
+
  }
  function processHandler(monster,bullet){
  	//processHandler needs to return true for the collision to happen.
