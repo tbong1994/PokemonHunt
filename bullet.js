@@ -6,6 +6,10 @@ var shootTime = 20;
 //group of bullts.
 var bullets;
 var bullet;
+
+//make special attack for player. 
+var specialAttackTime = 100;
+
 function createBullets(){
 	bullets = game.add.group();
 	bullets.enableBody = true;

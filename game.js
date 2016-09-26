@@ -31,5 +31,19 @@ var gameState = {
 	    mobUpdate();
 	    platformUpdate();
 	    updateBullets();
+
+	    //defined in monster.js
+	    //updateNumMonsterKilled();
+	},
+
+	render: function(){
+
+		//need to pick a better font. font like debug.text is good.
+		var monsterKilledText = game.add.text(32,32,"monsters killed: " + numMonsterKilled, {font:"16px Courier", 
+			fill: "rgb(255,255,255)", align :"center"});
+		
+		monsterKilledText.fixedToCamera = true;
+		// game.debug.text(""+player.Name , game.world.centerX, 32);
+		// game.debug.text("HP : " + player.HP, game.world.centerX + 50,32);
 	}
 }

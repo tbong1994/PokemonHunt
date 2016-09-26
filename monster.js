@@ -83,10 +83,9 @@ var monster = {
  	//defined below.
  	killIfHit(monsters,bullets);
 
-
  	collisionPlayerMonster(players,monsters);
 
- 	updateNumMonsterKilled();
+ 	// updateNumMonsterKilled();
  }
 
 //this function checks collision between monster and bullet and if collision happens, kills both of them. called in updateMob() function.
@@ -106,14 +105,6 @@ var monster = {
  		numMonsterKilled++;
  		//player score up.
  		player.score++;
-
- 		//display message that you killed a monster.                                 Need to work on this.
-	 	var msg = game.add.text(80,80,'dead');
-	 	msg.font = 'Revalia';
-	    msg.fontSize = 60;
-	    msg.stroke = '#000000';
-	    msg.strokeThickness = 2;
-	    msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
  	}
 
  	//monsters need to keep going in the same direction even though they're hit.
@@ -190,6 +181,6 @@ var monster = {
     msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
  }
 
- function updateNumMonsterKilled(){
- 	displayText.setText("You have killed " + numMonsterKilled + "!");                //make sure this fades after some time. 
- }
+ // function updateNumMonsterKilled(){
+ // 	displayText.setText("You have killed " + numMonsterKilled + "!");                //make sure this fades after some time. 
+ // }

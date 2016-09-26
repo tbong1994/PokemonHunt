@@ -8,6 +8,7 @@ var game = new Phaser.Game(1200,540, Phaser.AUTO,'');
 game.state.add("boot",bootState);
 game.state.add("load",loadState);
 game.state.add("menu",menuState);
+game.state.add("info",infoState);
 game.state.add("game",gameState);
 
 

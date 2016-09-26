@@ -15,10 +15,11 @@ var player={
 	players = game.add.group();
 
 	//player is added as a sprite at x,y coordinates entered from create() function from initial.js
-	player = players.create(x,y,'wizard');
+	//userCharacter is a variable from menu.
+	player = players.create(x,y,userCharacter);
 
 	//initialize player's properties.
-	player.Name = "wiz";
+	player.Name = userCharacter;
 	player.HP = 100;
 	player.lvl = 0;
 	player.score =0;

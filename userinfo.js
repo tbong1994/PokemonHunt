@@ -10,9 +10,6 @@ var userState = {
 
 		var header = game.add.text(80,80,'U Too Old For This Game');
 
-
-		var subHeader = game.add.text(100, game.world.height -200, 'If you still wanna play'+'\n'+ 'press Enter');
-
 		//font for nameLabel and startLabel.
 		header.font = 'Revalia';
 	    header.fontSize = 60;
@@ -28,26 +25,13 @@ var userState = {
 	    header.strokeThickness = 2;
 	    header.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
 
-	    subHeader.font = 'Revalia';
-	    subHeader.fontSize = 60;
-	   
-	    subHeader.fill = grd;
-
-	    subHeader.align = 'center';
-	    subHeader.stroke = '#000000';
-	    subHeader.strokeThickness = 2;
-	    subHeader.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
-
-
-		//make a variable to store a startkey.
-		var startKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
-		//when startKey is pressed, call start function.
-		startKey.onDown.addOnce(this.start, this);
+	    //if this button is pressed, start the game.
+	    game.load.spritesheet('button', 'assets/buttons/button_sprite_sheet.png', 193, 71);
+	    button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);
 	},
 
 	//this function is called when startKey is pressed down.
-	start: function(){
+	actionOnClick: function(){
 		game.state.start('game');
 	}
 }

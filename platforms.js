@@ -9,8 +9,9 @@ var platforms;
 function createPlatform(){
 	platforms = game.add.group();
 
-	for(i =0;i<100;i++){
-		var platform = platforms.create(Math.random()*(game.world.width)+300,Math.random()*(game.world.height-400)+400,'platform');
+	//work on creating platform, make sure they're not too over populated in one area and empty in other areas.
+	for(i =0;i<40;i++){
+		var platform = platforms.create(Math.random()*(game.world.width)+0,Math.random()*(game.world.height-400)+400,'platform');
 		platform.scale.setTo(1,1);
 
 	//enable physics for platforms.
@@ -23,7 +24,6 @@ function createPlatform(){
 			p.body.checkCollision.up = true;
 		});
 	}
-	
 }
 
 function platformUpdate(){
