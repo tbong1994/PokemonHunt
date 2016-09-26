@@ -1,5 +1,7 @@
 //userinfo.js
 
+//allow user to enter their name(username) and choose character!!!
+
 var userState = {
 
 	create: function(){

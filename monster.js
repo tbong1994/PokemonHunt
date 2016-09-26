@@ -1,7 +1,9 @@
 //monsters class.
 
 var monsters;
-
+var collisionTime = 20;
+var displayText;
+var numMonsterKilled =0;
 
 var monster = {
 	HP: 100,
@@ -11,6 +13,8 @@ var monster = {
 //CREATE Mob. CALLED IN INITIAL.JS.CREATE() create mobs in a for loop or something.. 
  function createMob(){
 	monsters = game.add.group();
+
+	displayText = game.add.text(80,80,'');
 
 	for(i =0;i<7;i++){
 		//player is added as a sprite at x,y coordinates entered from create() function from initial.js
@@ -44,9 +48,6 @@ var monster = {
  	//each monster's direction and random speed.
  	monsters.forEach(function(m){
  		//if monster reached left wall, change direction and keep going.
- 		
- 		//this works..but kind of terrible.
-
  		if(m.body.blocked.left&&(m.scale.x>0)){
  			m.body.velocity.x = (Math.random()*(100-50)+50);
  			m.anchor.setTo(0.5,0.5);
@@ -77,8 +78,15 @@ var monster = {
 
  	});
  	
- 	//game.physics.arcade.collide(monsters, bullets);
+ 	//game.physics.arcade.collide(monsters, bullets);  //this line is unnecessary because we allow collision between monsters and bullets in processHandler function.
+
+ 	//defined below.
  	killIfHit(monsters,bullets);
+
+
+ 	collisionPlayerMonster(players,monsters);
+
+ 	updateNumMonsterKilled();
  }
 
 //this function checks collision between monster and bullet and if collision happens, kills both of them. called in updateMob() function.
@@ -86,7 +94,7 @@ var monster = {
  	monsters.forEach(function(m){
  		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
 			console.log("BOOM");
-			m.HP = m.HP-30;
+			m.HP -= 30;
 		}
  	});
  }
@@ -95,17 +103,29 @@ var monster = {
  	if(monster.HP<0){
  		//monster dead.
  		monster.kill();
-
+ 		numMonsterKilled++;
  		//player score up.
  		player.score++;
+
+ 		//display message that you killed a monster.                                 Need to work on this.
+	 	var msg = game.add.text(80,80,'dead');
+	 	msg.font = 'Revalia';
+	    msg.fontSize = 60;
+	    msg.stroke = '#000000';
+	    msg.strokeThickness = 2;
+	    msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
  	}
 
  	//monsters need to keep going in the same direction even though they're hit.
  	if(monster.scale.x > 0 && bullet.scale.x<0){
+ 		monster.anchor.setTo(0.5,0.5);
  		monster.scale.x *= -1;
  		monster.body.velocity.x *=-1;
  	} 
+
+ 	//if player hits the monsters from the back. Monsters turn around and go towards the player.
  	else if(monster.scale.x <0 && bullet.scale.x>0){
+ 		monster.anchor.setTo(0.5,0.5);
  		monster.scale.x *= -1;
  		monster.body.velocity.x *=-1;
  	}
@@ -115,28 +135,61 @@ var monster = {
  	bullet.kill();
  	console.log("Got Em");
  }
+
+ //processHandler needs to return true for the collision to happen.
  function processHandler(monster,bullet){
- 	//processHandler needs to return true for the collision to happen.
  	return true;
  }
 
 //when monsters hit player, player loses HP.
 //gotta work on this function.
- function collisionPlayerMonster(player,monster){
+ function collisionPlayerMonster(players,monsters){
  	monsters.forEach(function(m){
- 		if (game.physics.arcade.collide(m, player, pm_collisionHandler, pm_processHandler, this)){
-			console.log("OUCH");
-			player.HP =-10;
+ 		if (game.physics.arcade.collide(m, players, pm_collisionHandler, pm_processHandler, this)){
 		}
  	});
  }
 
- function pm_collisionHandler(){
+ function pm_collisionHandler(monster,player){
+ 	//player's HP drops when contacted by monster but there's time frame, so that the player is not hit every ms.
+ 	if(collisionTime%20==0){
+ 		console.log("OUCH");
+ 		player.HP -= 30;
+ 	}
  	if(player.HP<0){
  		//player dead.
  		player.kill();
+ 		gameOver();
  	}
+
+ 	//if player hit when facing the right direction, just push back.
+ 	if(player.scale.x >0){
+ 		player.body.x -= 40;
+ 	}
+
+ 	//if player hit when facing the left, also push back but to the right.
+ 	if(player.scale.x <0){
+ 		player.body.x += 40;
+ 	}
+
+ 	collisionTime++;
+
+ 	player.body.checkCollision.left = false;
+ 	player.body.checkCollision.right = false;
  }
  function pm_processHandler(){
  	return true;
+ }
+
+ function gameOver(){
+ 	var msg = game.add.text(80,80,'Game Over :(');
+ 	msg.font = 'Revalia';
+    msg.fontSize = 60;
+    msg.stroke = '#000000';
+    msg.strokeThickness = 2;
+    msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+ }
+
+ function updateNumMonsterKilled(){
+ 	displayText.setText("You have killed " + numMonsterKilled + "!");                //make sure this fades after some time. 
  }

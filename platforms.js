@@ -17,6 +17,8 @@ function createPlatform(){
 		game.physics.enable(platforms,Phaser.Physics.ARCADE);
 		platforms.enableBody=true;
 		platform.body.collideWorldBounds = true;
+
+	//for each platform created, allow collision on their top side. so that players can land on it.
 		platforms.forEach(function(p){
 			p.body.checkCollision.up = true;
 		});
@@ -28,10 +30,11 @@ function platformUpdate(){
 
 	platforms.forEach(function(p){
 		p.body.immovable = true;
+		
 	//only players and platforms collide
 		game.physics.arcade.collide(platforms,players);
 
-		//one way collision.players can land on the platform but collision from other directions will not happen.
+	//one way collision.players can land on the platform but collision from other directions will not happen.
 		p.body.checkCollision.down = false;
 		p.body.checkCollision.left = false;
 		p.body.checkCollision.right = false;

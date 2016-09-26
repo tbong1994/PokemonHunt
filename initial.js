@@ -1,5 +1,5 @@
  
-//initializing game. Booting phase.
+//initializing game.
 
 var cursor;
 

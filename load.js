@@ -10,6 +10,8 @@ var loadState = {
 
 		//load all assets here.
 		game.load.image('background', 'assets/background.jpg');
+
+		game.load.image('platform', 'assets/platform2.png');
 	           
 	    game.load.image('wizard', 'assets/wizard.png');
 	    
@@ -20,9 +22,6 @@ var loadState = {
 	    game.load.image('mob4', 'assets/pokemon2.png');
 	    game.load.image('mob5', 'assets/pokemon.png');
 	    game.load.image('mob6', 'assets/squirtle2.png');
-	  
-	    
-	    game.load.image('platform', 'assets/platform2.png');
 
 	    game.load.image('bullet', 'assets/bullet0.png');
 
