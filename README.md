@@ -1,2 +1,2 @@
 # PokemonHunt
-game for fun
+game for fun with Javascript, Phaser.js is mainly used.
