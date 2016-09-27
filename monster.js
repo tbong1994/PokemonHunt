@@ -180,7 +180,3 @@ var monster = {
     msg.strokeThickness = 2;
     msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
  }
-
- // function updateNumMonsterKilled(){
- // 	displayText.setText("You have killed " + numMonsterKilled + "!");                //make sure this fades after some time. 
- // }
