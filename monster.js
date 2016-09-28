@@ -42,7 +42,6 @@ var monster = {
  }
  //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 
-
  function mobUpdate(){
 
  	//each monster's direction and random speed.
@@ -142,35 +141,39 @@ var monster = {
  }
 
  function pm_collisionHandler(monster,player){
- 	//player's HP drops when contacted by monster but there's time frame, so that the player is not hit every ms.
- 	if(collisionTime%20==0){
- 		console.log("OUCH");
- 		player.HP -= 30;
- 	}
- 	if(player.HP<0){
- 		//player dead.
- 		player.kill();
- 		gameOver();
- 	}
+ 	game.time.events.loop(Phaser.Timer.SECOND*10, updateCollisionTime,this);
+ 		//player's HP drops when contacted by monster but there's time frame, so that the player is not hit every ms.
+	 	if(collisionTime%10==0){
+	 		console.log("OUCH");
+	 		player.HP -= 30;
+	 	}
 
- 	//if player hit when facing the right direction, just push back.
- 	if(player.scale.x >0){
- 		player.body.x -= 40;
- 	}
+	 	//player dead.
+	 	if(player.HP<=0){
+	 		player.kill();
+	 		gameOver();
+	 	}
 
- 	//if player hit when facing the left, also push back but to the right.
- 	if(player.scale.x <0){
- 		player.body.x += 40;
- 	}
+	 	//if player hit when facing the right direction, just push back.
+	 	if(player.scale.x >0){
+	 		player.body.x -= 50;
+	 	}
 
- 	collisionTime++;
-
- 	player.body.checkCollision.left = false;
- 	player.body.checkCollision.right = false;
+	 	//if player hit when facing the left, also push back but to the right.
+	 	if(player.scale.x <0){
+	 		player.body.x += 50;
+	 	}
+ 	// player.body.checkCollision.left = false;
+ 	// player.body.checkCollision.right = false;
  }
  function pm_processHandler(){
  	return true;
  }
+ //callback function for player and monster collision.
+ function updateCollisionTime(){
+ 	collisionTime++;
+ }
+
 
  function gameOver(){
  	var msg = game.add.text(80,80,'Game Over :(');
@@ -179,4 +182,13 @@ var monster = {
     msg.stroke = '#000000';
     msg.strokeThickness = 2;
     msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+
+    var replayButton = game.add.button(20 ,500, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
+    var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+49,"Play Again");
+    decorateText(replayButtonText);
+    replayButtonText.fontSize = 22;
+ }
+
+ function replay(){
+ 	game.state.start('menu');
  }

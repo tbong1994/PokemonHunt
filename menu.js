@@ -19,6 +19,10 @@ var menuState ={
 	    //all buttons layout in the same horizontal level.
 	    var allButtonY = 400;
 
+	    /*button parameter (x,y,buttonimage_id,functionCalledWhenButtonClicked,callbackContext*, outFrame, downFrame)
+	    *callBackContext is the context which the call back will be called, usually 'this'.
+	    */
+
 	    //display startbutton.
 	    var startButton = game.add.button(game.world.centerX + 300, allButtonY, 'startbutton', start, this, 0.3, 0.3, 0.5);
 	    
