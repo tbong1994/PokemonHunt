@@ -14,31 +14,42 @@ var monster = {
  function createMob(){
 	monsters = game.add.group();
 
-	displayText = game.add.text(80,80,'');
+	monster = monsters.create(300,game.world.height,'mob');
+	
+	//sprite's transparency.
+	monster.alpha = 0.8;
+	monster.animations.add('walk');
+	monster.animations.play('walk',1,true);
 
-	for(i =0;i<7;i++){
-		//player is added as a sprite at x,y coordinates entered from create() function from initial.js
-		monster = monsters.create(Math.random()*(game.world.width-0)+0,game.world.height,'mob'+''+i);
+	game.physics.enable(monster,Phaser.Physics.ARCADE);
+	monsters.enableBody=true;
 
-		//initialize monster's HP.
-		monster.HP = 100;
+	monster.HP = 100;
+
+	monster.body.collideWorldBounds=true;
+	// for(i =0;i<7;i++){
+	// 	//player is added as a sprite at x,y coordinates entered from create() function from initial.js
+	// 	monster = monsters.create(Math.random()*(game.world.width-0)+0,game.world.height,'mob'+''+i);
+
+	// 	//initialize monster's HP.
+	// 	monster.HP = 100;
 
 
-	// player = players.create(x,y,'player');
-	//set player's image scale
-		monster.scale.setTo(.5,.5);
+	// // player = players.create(x,y,'player');
+	// //set player's image scale
+	// 	monster.scale.setTo(.5,.5);
 
-	// //ADD PHYSICS TO Monsters
-		game.physics.enable(monster,Phaser.Physics.ARCADE);
-		monsters.enableBody=true;
+	// // //ADD PHYSICS TO Monsters
+	// 	game.physics.enable(monster,Phaser.Physics.ARCADE);
+	// 	monsters.enableBody=true;
 
 		
-	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
-		monster.body.collideWorldBounds = true;
+	// //ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
+	// 	monster.body.collideWorldBounds = true;
 
-	//GRAVITY AND BOUNCE OF PLAYER.
-		monster.body.gravity.y = 300;
-	}
+	// //GRAVITY AND BOUNCE OF PLAYER.
+	// 	monster.body.gravity.y = 300;
+	// }
  }
  //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 

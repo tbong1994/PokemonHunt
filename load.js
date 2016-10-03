@@ -9,24 +9,19 @@ var loadState = {
 		var loadingLabel = game.add.text(80,150,'loading...',{font:'30px Courier', fill: '#ffffff'});
 
 		//load all assets here.
-		game.load.image('background', 'assets/background.jpg');
+		game.load.image('background', 'assets/background/background.jpg');
 
-		game.load.image('platform', 'assets/platform2.png');
-		game.load.image('platform', 'assets/ice-platform.png');
+		game.load.image('platform', 'assets/platform/platform2.png');
+		game.load.image('platform', 'assets/platform/ice-platform.png');
 
-	    game.load.image('wizard', 'assets/wizard.png');
-	    game.load.image('berserker', 'assets/berserker.png');
-	    game.load.image('bowman', 'assets/bowman.png');
+	    game.load.image('wizard', 'assets/player/wizard.png');
+	    game.load.image('berserker', 'assets/player/berserker.png');
+	    game.load.image('bowman', 'assets/player/bowman.png');
 	    
-	    game.load.image('mob0', 'assets/namoo.png');
-	    game.load.image('mob1', 'assets/pikachu.png');
-	    game.load.image('mob2', 'assets/squirtle.png');
-	    game.load.image('mob3', 'assets/Bulbasaur.png');
-	    game.load.image('mob4', 'assets/pokemon2.png');
-	    game.load.image('mob5', 'assets/pokemon.png');
-	    game.load.image('mob6', 'assets/squirtle2.png');
-
-	    game.load.image('bullet', 'assets/bullet0.png');
+	    //load sprite sheets for pokemons here.
+	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
+	    game.load.spritesheet('mob','assets/Pokemons/lighchu.png',30,45,5);
+	    game.load.image('bullet', 'assets/bullet/bullet0.png');
 
 	    //font 
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
