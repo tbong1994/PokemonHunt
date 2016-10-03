@@ -4,6 +4,8 @@ var monsters;
 var collisionTime = 20;
 var displayText;
 var numMonsterKilled =0;
+var timer;
+var timeElapsed =0;
 
 var monster = {
 	HP: 100,
@@ -12,74 +14,80 @@ var monster = {
 
 //CREATE Mob. CALLED IN INITIAL.JS.CREATE() create mobs in a for loop or something.. 
  function createMob(){
+ 	mob();
+ 	// timer = game.time.create(false);
+ }
+ function mob(){
+ 	//create monsters group.
 	monsters = game.add.group();
 
+	//create a monster, which is a part of monsters group.
 	monster = monsters.create(300,game.world.height,'mob');
 	
-	//sprite's transparency.
-	monster.alpha = 0.8;
-	monster.animations.add('walk');
-	monster.animations.play('walk',1,true);
+	//increate sprite size.
+	monster.scale.setTo(1.5,1.5);
 
+	//flip monster.scale.x because initial sprite sheet 
+	//is drawn facing to the right, but in this game,
+	//player starts from the left and monsters start from the right.
+	//and initially monsters are supposed to move towards the player.
+	monster.scale.x*=-1;
+
+	//play() parameter takes animation name, array of frames, frames per second,true.
+	monster.animations.add('walk',[0,1,2,3],10,true);
+	monster.animations.play('walk');
+
+	//monster sprite should have physics system in order to collide, etc.
 	game.physics.enable(monster,Phaser.Physics.ARCADE);
 	monsters.enableBody=true;
 
+	//initialize monster's HP.
 	monster.HP = 100;
 
+	//monsters should collide with boundaries of the game.
 	monster.body.collideWorldBounds=true;
-	// for(i =0;i<7;i++){
-	// 	//player is added as a sprite at x,y coordinates entered from create() function from initial.js
-	// 	monster = monsters.create(Math.random()*(game.world.width-0)+0,game.world.height,'mob'+''+i);
-
-	// 	//initialize monster's HP.
-	// 	monster.HP = 100;
-
-
-	// // player = players.create(x,y,'player');
-	// //set player's image scale
-	// 	monster.scale.setTo(.5,.5);
-
-	// // //ADD PHYSICS TO Monsters
-	// 	game.physics.enable(monster,Phaser.Physics.ARCADE);
-	// 	monsters.enableBody=true;
-
-		
-	// //ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
-	// 	monster.body.collideWorldBounds = true;
-
-	// //GRAVITY AND BOUNCE OF PLAYER.
-	// 	monster.body.gravity.y = 300;
-	// }
+	monster.body.gravity.y = 300;
  }
- //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
-
  function mobUpdate(){
 
  	//each monster's direction and random speed.
  	monsters.forEach(function(m){
  		//if monster reached left wall, change direction and keep going.
- 		if(m.body.blocked.left&&(m.scale.x>0)){
+ 		if(m.body.blocked.left&&(m.scale.x<0)){
  			m.body.velocity.x = (Math.random()*(100-50)+50);
- 			m.anchor.setTo(0.5,0.5);
+ 			m.anchor.setTo(0.5,0);
  			m.scale.x *= -1;
  			// console.log("left block");
  		}
+
+ 		//this shouldn't happen but sometimes, monsters collide with players, and then
+ 		//they just walk backwards.. when walking backwards and touch left wall, don't 
+ 		//change direction but just change velocity.
+ 		else if(m.body.blocked.left&&(m.scale.x>0)){
+ 			m.body.velocity.x = (Math.random()*(100-50)+50);
+ 			// console.log("left block");
+ 		}
  		//if monster reached right wall, change direction and keep going.
- 		else if(m.body.blocked.right){
+ 		else if(m.body.blocked.right&&(m.scale.x>0)){
  			m.body.velocity.x = -(Math.random()*(100-50)+50);
- 			m.anchor.setTo(0.5,0.5);
+ 			m.anchor.setTo(0.5,0);
  			m.scale.x *= -1;
  			// console.log("right block");
  		}
+ 		//same as when monsters walk backwards but reach the right wall.
+ 		else if(m.body.blocked.right&&(m.scale.x<0)){
+ 			m.body.velocity.x = -(Math.random()*(100-50)+50);
+ 		}
+
  		/*Initially, monster starts with vel =0, make monsters 
 		*initally move towards the player.
 		*/
  		else if(m.body.velocity.x ==0){
  			m.body.velocity.x = -(Math.random()*(100-50)+50);
 
- 			if(m.body.velocity.x<0&&(m.scale.x<0)){
- 				m.body.velocity.x = (Math.random()*(100-50)+50);
- 			}
+ 			// if(m.body.velocity.x<0&&(m.scale.x<0)){
+ 			// 	m.body.velocity.x = (Math.random()*(100-50)+50);
+ 			// }
  			// console.log('this');
  		}
  		// if(monsters.length<5){
@@ -98,7 +106,7 @@ var monster = {
  	// updateNumMonsterKilled();
  }
 
-//this function checks collision between monster and bullet and if collision happens, kills both of them. called in updateMob() function.
+//this function checks collision between monster and bullet and if collision happens, calls collisionHandler function.
  function killIfHit(monsters, bullets){
  	monsters.forEach(function(m){
  		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
@@ -108,6 +116,7 @@ var monster = {
  	});
  }
 
+//this function handles when collision happens between bullet and monster.
  function collisionHandler(monster,bullet){ 	
  	if(monster.HP<0){
  		//monster dead.
@@ -116,23 +125,39 @@ var monster = {
  		//player score up.
  		player.score++;
  	}
-
- 	//monsters need to keep going in the same direction even though they're hit.
- 	if(monster.scale.x > 0 && bullet.scale.x<0){
- 		monster.anchor.setTo(0.5,0.5);
+ 	//bullet initial scale.x is positive.
+ 	//monsters initial scale.x is negative.
+ 
+ 	//monster hit from the back(left) when monster is moving towards the right. change direction(towards where the bullet came from).
+ 	if(monster.scale.x > 0 && bullet.scale.x>0){
+ 		monster.anchor.setTo(0.5,0);
  		monster.scale.x *= -1;
  		monster.body.velocity.x *=-1;
- 	} 
+ 	}
 
- 	//if player hits the monsters from the back. Monsters turn around and go towards the player.
- 	else if(monster.scale.x <0 && bullet.scale.x>0){
- 		monster.anchor.setTo(0.5,0.5);
+ 	//monster walking towards the right, hit from the right.
+ 	else if(monster.scale.x > 0 && bullet.scale.x<0){
+ 		monster.anchor.setTo(0.5,0);
+ 		monster.body.velocity.x *=-1;
+ 	}
+
+ 	//monster hit directly in the face. keep moving in the same direction.
+ 	else if(monster.scale.x < 0 && bullet.scale.x>0){
+ 		monster.anchor.setTo(0.5,0);
+ 		monster.body.velocity.x *=-1;
+ 	}
+
+ 	//if player hits the monsters from the back again but from the right, when monster is moving towards the left. Change direction.
+ 	else if(monster.scale.x <0 && bullet.scale.x<0){
+ 		monster.anchor.setTo(0.5,0);
  		monster.scale.x *= -1;
  		monster.body.velocity.x *=-1;
  	}
  	else{
- 		monster.body.velocity.x *=-1;
- 	} 		
+ 		if(monster.scale.x<0){
+	 		monster.body.velocity.x *=-1;
+ 		}
+ 	}
  	bullet.kill();
  	console.log("Got Em");
  }
@@ -142,22 +167,27 @@ var monster = {
  	return true;
  }
 
-//when monsters hit player, player loses HP.
-//gotta work on this function.
+//detect when player and monster collide.
  function collisionPlayerMonster(players,monsters){
  	monsters.forEach(function(m){
+ 		timer.loop(4000,updateTimeElapsed,this);
  		if (game.physics.arcade.collide(m, players, pm_collisionHandler, pm_processHandler, this)){
 		}
  	});
  }
 
+ function updateTimeElapsed(){
+ 	timeElapsed++;
+ }
+//handle collision between monster and player.
  function pm_collisionHandler(monster,player){
- 	game.time.events.loop(Phaser.Timer.SECOND*10, updateCollisionTime,this);
+ 	//allow player's respawn time(re-collide).
+ 	// game.time.events.loop(Phaser.Timer.SECOND*3000, updateCollisionTime,this);
  		//player's HP drops when contacted by monster but there's time frame, so that the player is not hit every ms.
-	 	if(collisionTime%10==0){
-	 		console.log("OUCH");
+ 		if(timeElapsed % 3){
+			console.log("OUCH");
 	 		player.HP -= 30;
-	 	}
+ 		}
 
 	 	//player dead.
 	 	if(player.HP<=0){
@@ -167,37 +197,45 @@ var monster = {
 
 	 	//if player hit when facing the right direction, just push back.
 	 	if(player.scale.x >0){
-	 		player.body.x -= 50;
+	 		player.body.x -= 100;
 	 	}
 
 	 	//if player hit when facing the left, also push back but to the right.
 	 	if(player.scale.x <0){
 	 		player.body.x += 50;
 	 	}
- 	// player.body.checkCollision.left = false;
- 	// player.body.checkCollision.right = false;
+	 	
+	 	//monster to the left, player to the right.
+	 	if(monster.scale.x<0&&(monster.body.x>player.body.x)){
+	 		if(monster.body.velocity.x>0){
+		 		monster.body.velocity.x *= -1;
+	 		}
+	 	}
+	 	//monster to the right, player to the left.
+	 	else if(monster.scale.x>0&&(monster.body.x<player.body.x)){
+	 		monster.body.velocity.x *= -1;
+	 	}
  }
  function pm_processHandler(){
  	return true;
  }
- //callback function for player and monster collision.
- function updateCollisionTime(){
- 	collisionTime++;
- }
-
 
  function gameOver(){
+ 	//display game over text.
  	var msg = game.add.text(80,80,'Game Over :(');
  	msg.font = 'Revalia';
     msg.fontSize = 60;
     msg.stroke = '#000000';
     msg.strokeThickness = 2;
     msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+    msg.fixedToCamera=true;
 
-    var replayButton = game.add.button(20 ,500, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
+    //display replay button.
+    var replayButton = game.add.button(400,500, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
     var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+49,"Play Again");
     decorateText(replayButtonText);
     replayButtonText.fontSize = 22;
+    replayButton.fixedToCamera = true;
  }
 
  function replay(){

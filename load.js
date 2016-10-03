@@ -20,7 +20,7 @@ var loadState = {
 	    
 	    //load sprite sheets for pokemons here.
 	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
-	    game.load.spritesheet('mob','assets/Pokemons/lighchu.png',30,45,5);
+	    game.load.spritesheet('mob','assets/Pokemons/mummy.png',37,45,18);
 	    game.load.image('bullet', 'assets/bullet/bullet0.png');
 
 	    //font 
