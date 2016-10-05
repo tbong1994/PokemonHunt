@@ -24,8 +24,9 @@ var player={
 	player.lvl = 0;
 	player.score =0;
 
-	//set player's image scale
-	player.scale.setTo(.3,.3);
+	//walking is defined.
+	player.animations.add('walk');
+	player.scale.setTo(.7,.7);
 
 
 	//ADD PHYSICS TO PLAYER
@@ -53,19 +54,23 @@ var player={
 	//when left arrow is pressed;
 	if(cursor.left.isDown){
 		player.body.velocity.x = -150;
+		player.animations.play('walk',50,false);
 		//if character is facing right, change direction to left.
 		if(player.scale.x >0){
-			player.anchor.setTo(0.5,0.5);
+			player.anchor.setTo(0.5,0);
 			player.scale.x *=-1;
-		}
 
-	//when right arrow is pressed;
-	}else if(cursor.right.isDown){
+		}
+	}
+	if(cursor.right.isDown){
 		player.body.velocity.x = 150;
+		player.animations.play('walk',50,false);
+
 		//if character is facing left, then change back to right.
 		if(player.scale.x<0){
-			player.anchor.setTo(0.5,0.5);
+			player.anchor.setTo(0.5,0);
 			player.scale.x *=-1;
+			player.animations.paused = false;
 		}
 	}
 

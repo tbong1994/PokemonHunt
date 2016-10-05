@@ -1,11 +1,12 @@
 //menu.js
 
 //this is the main menu screen. called by load.
-var userCharacter;
 
 //text font and stuff for the game.
 var grd;
-
+// var charButton = {
+// 	num:0;
+// }
 var menuState ={
 
 	create: function(){
@@ -16,32 +17,40 @@ var menuState ={
 		//set font and style.
 		decorateText(header);
 
-	    //all buttons layout in the same horizontal level.
+		//all buttons have the same y coordinates.
 	    var allButtonY = 400;
 
 	    /*button parameter (x,y,buttonimage_id,functionCalledWhenButtonClicked,callbackContext*, outFrame, downFrame)
 	    *callBackContext is the context which the call back will be called, usually 'this'.
 	    */
-
 	    //display startbutton.
 	    var startButton = game.add.button(game.world.centerX + 300, allButtonY, 'startbutton', start, this, 0.3, 0.3, 0.5);
 	    
-	    //character buttons.
-	    var wizardButton = game.add.button(20 ,allButtonY, 'emptybutton', wizardChosen, this, 0.3, 0.3, 0.5);
-	    var wizardButtonText = game.add.text(wizardButton.x+25,wizardButton.y+49,"Wizard");
-	    decorateText(wizardButtonText);
-	    wizardButtonText.fontSize = 22;
+	    //x position for first button. will change for each button.
+	    
+	    // for(i = 0;i<3;i++){
+	    // 	var aiButton = new charButton();
+	    // 	aiButton= game.add.button(20,allButtonY, 'emptybutton', charChosen, this, 0.3, 0.3, 0.5);
+		   //  var ai1ButtonText = game.add.text(aiButton.x+10,aiButton.y+49,"AlienHunter "+i);
+		   //  decorateText(aiButtonText);
+		   //  aiButtonText.fontSize = 18;
+	    // }
+	    //create character buttons.
+    	var a1Button= game.add.button(20,allButtonY, 'emptybutton', a1Chosen, this, 0.3, 0.3, 0.5);
+	    var a1ButtonText = game.add.text(a1Button.x+10,a1Button.y+49,"AlienHunter 1");
+	    decorateText(a1ButtonText);
+	    a1ButtonText.fontSize = 18;
 
-	    var berserkerButton = game.add.button(220 ,allButtonY, 'emptybutton', berserkerChosen, this, 0.3, 0.3, 0.5);
-	    var berserkerButtonText = game.add.text(berserkerButton.x + 15,berserkerButton.y+49,"Berserker");
-	    decorateText(berserkerButtonText);
-	    berserkerButtonText.fontSize = 22;
+	    var a2Button= game.add.button(220,allButtonY, 'emptybutton', a2Chosen, this, 0.3, 0.3, 0.5);
+	    var a2ButtonText = game.add.text(a2Button.x+10,a2Button.y+49,"AlienHunter 2");
+	    decorateText(a2ButtonText);
+	    a2ButtonText.fontSize = 18;
 
-	    var bowmanButton = game.add.button(420,allButtonY, 'emptybutton', bowmanChosen, this, 0.3, 0.3, 0.5);
-	    var bowmanButtonText = game.add.text(bowmanButton.x+20,bowmanButton.y+49,"Bowman");
-	    decorateText(bowmanButtonText);
-	    bowmanButtonText.fontSize = 22;
-
+	    var a3Button= game.add.button(420,allButtonY, 'emptybutton', a3Chosen, this, 0.3, 0.3, 0.5);
+	    var a3ButtonText = game.add.text(a3Button.x+10,a3Button.y+49,"AlienHunter 3");
+	    decorateText(a3ButtonText);
+	    a3ButtonText.fontSize = 18;
+	    
 	    //info button.
 	    var infoButton = game.add.button(game.world.centerX,allButtonY, 'emptybutton', infoPressed, this, 0.3, 0.3, 0.5);
 	    var infoButtonText = game.add.text(infoButton.x + 46,infoButton.y+49,"Info");
@@ -53,7 +62,7 @@ var menuState ={
 //this function is called when button is clicked.
 function start(){
 
-	//if character is not chosen, let them know to choose character first.
+	//if character is not chosen, force to choose character first.
 	if(userCharacter == null){
 		var msg = game.add.text(50,350,"Choose a character first!!");
 		decorateText(msg);
@@ -62,20 +71,19 @@ function start(){
 	}
 }
 
+function a1Chosen(){
+	userCharacter = "alienhunter1";
+}
+function a2Chosen(){
+	userCharacter = "alienhunter2";
+}
+function a3Chosen(){
+	userCharacter = "alienhunter3";
+}
 //based on the character button clicked, set character.
-
-function wizardChosen(){
-	userCharacter = "wizard";
-}
-
-function berserkerChosen(){
-	userCharacter = "berserker";	
-}
-
-function bowmanChosen(){
-	userCharacter = "bowman";
-}
-
+// function charChosen(){
+// 	userCharacter = "alienhunter1";
+// }
 function infoPressed(){
 	game.state.start("info");
 }

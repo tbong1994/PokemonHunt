@@ -14,9 +14,9 @@ var loadState = {
 		game.load.image('platform', 'assets/platform/platform2.png');
 		game.load.image('platform', 'assets/platform/ice-platform.png');
 
-	    game.load.image('wizard', 'assets/player/wizard.png');
-	    game.load.image('berserker', 'assets/player/berserker.png');
-	    game.load.image('bowman', 'assets/player/bowman.png');
+	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,158);
+	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,158);
+	    game.load.spritesheet('alienhunter3', 'assets/player/alienhunter3.png',93,158);
 	    
 	    //load sprite sheets for pokemons here.
 	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
