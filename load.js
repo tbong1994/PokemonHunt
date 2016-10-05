@@ -17,7 +17,6 @@ var loadState = {
 	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,158);
 	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,158);
 	    game.load.spritesheet('alienhunter3', 'assets/player/alienhunter3.png',103,160);
-	    game.load.spritesheet('alienhunter1jump', 'assets/player/alienhunter_jump.png',93,155);
 	    
 	    //load sprite sheets for pokemons here.
 	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
