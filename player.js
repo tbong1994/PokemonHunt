@@ -18,6 +18,8 @@ var player={
 	//userCharacter is a variable from menu.
 	player = players.create(x,y,userCharacter);
 
+	//sprite for jumping animation.
+
 	//initialize player's properties.
 	player.Name = userCharacter;
 	player.HP = 100;
@@ -27,7 +29,6 @@ var player={
 	//walking is defined.
 	player.animations.add('walk');
 	player.scale.setTo(.7,.7);
-
 
 	//ADD PHYSICS TO PLAYER
 	game.physics.enable(player,Phaser.Physics.ARCADE);
@@ -70,7 +71,6 @@ var player={
 		if(player.scale.x<0){
 			player.anchor.setTo(0.5,0);
 			player.scale.x *=-1;
-			player.animations.paused = false;
 		}
 	}
 
