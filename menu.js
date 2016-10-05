@@ -4,7 +4,7 @@
 
 //text font and stuff for the game.
 var grd;
-var playerNum = 1;
+var playerNum;
 var menuState ={
 	create: function(){
 		//set background color for menu screen.
@@ -26,10 +26,11 @@ var menuState ={
 	    //x position for first button. will change for each button.
 	    var buttonX = 20;
 
+	    playerNum= 1;
 	    //create character buttons.
-	    for(i = 0;i<3;i++){
+	    for(i = 1;i<4;i++){
 	    	var button= game.add.button(buttonX,allButtonY, 'emptybutton', charChosen, this, 0.3, 0.3, 0.5);
-		    var buttonText = game.add.text(button.x+10,button.y+49,"AlienHunter "+playerNum);
+		    var buttonText = game.add.text(button.x+10,button.y+49,"AlienHunter "+i);
 		    decorateText(buttonText);
 		    buttonText.fontSize = 18;
 		    buttonX += 200;
@@ -52,15 +53,12 @@ var menuState ={
 function charChosen(){
 	if(playerNum==1){
 		userCharacter =	'alienhunter1';
-		// playerNum++;
 	}
 	if(playerNum==2){
 		userCharacter = 'alienhunter2';		
-		// playerNum++;
 	}
 	if(playerNum==3){
 		userCharacter = 'alienhunter3';	
-		// playerNum++;
 	}
 }
 //called when infobutton is pressed.
@@ -85,7 +83,7 @@ function decorateText(str){
 function start(){
 
 	//if character is not chosen, force to choose character first.
-	if(player.userCharacter == null){
+	if(userCharacter == null){
 		var msg = game.add.text(50,350,"Choose a character first!!");
 		decorateText(msg);
 	}else{
