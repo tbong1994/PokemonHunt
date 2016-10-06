@@ -1,7 +1,6 @@
 //player class
 
 var players;
-var userCharacter = "";
 
 var player={
 	name:"",

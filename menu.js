@@ -4,7 +4,7 @@
 
 //text font and stuff for the game.
 var grd;
-var playerNum;
+
 var menuState ={
 	create: function(){
 		//set background color for menu screen.
@@ -23,19 +23,22 @@ var menuState ={
 	    //display startbutton.
 	    var startButton = game.add.button(game.world.centerX + 300, allButtonY, 'startbutton', start, this, 0.3, 0.3, 0.5);
 	    
-	    //x position for first button. will change for each button.
-	    var buttonX = 20;
-
-	    playerNum= 1;
 	    //create character buttons.
-	    for(i = 1;i<4;i++){
-	    	var button= game.add.button(buttonX,allButtonY, 'emptybutton', charChosen, this, 0.3, 0.3, 0.5);
-		    var buttonText = game.add.text(button.x+10,button.y+49,"AlienHunter "+i);
-		    decorateText(buttonText);
-		    buttonText.fontSize = 18;
-		    buttonX += 200;
-		    playerNum++;
-	    }
+    	var button1= game.add.button(20,allButtonY, 'emptybutton', a1Chosen, this, 0.3, 0.3, 0.5);
+	    var button1Text = game.add.text(button1.x+10,button1.y+49,"AlienHunter 1");
+	    decorateText(button1Text);
+	    button1Text.fontSize = 18;
+
+	    var button2= game.add.button(220,allButtonY, 'emptybutton', a2Chosen, this, 0.3, 0.3, 0.5);
+	    var button2Text = game.add.text(button2.x+10,button2.y+49,"AlienHunter 2");
+	    decorateText(button2Text);
+	    button2Text.fontSize = 18;
+		
+		var button3= game.add.button(420,allButtonY, 'emptybutton', a3Chosen, this, 0.3, 0.3, 0.5);
+	    var button3Text = game.add.text(button3.x+10,button3.y+49,"AlienHunter 3");
+	    decorateText(button3Text);
+	    button3Text.fontSize = 18;
+
 	    //info button.
 	    var infoButton = game.add.button(game.world.centerX,allButtonY, 'emptybutton', infoPressed, this, 0.3, 0.3, 0.5);
 	    var infoButtonText = game.add.text(infoButton.x + 46,infoButton.y+49,"Info");
@@ -46,21 +49,17 @@ var menuState ={
 
 //this function is called when button is clicked.
 
-//initial player number. used for setting userCharacter to alien1, alien2, or alien3.
-//playerNum =1;
-
 //set character for each button.
-function charChosen(){
-	if(playerNum==1){
-		userCharacter =	'alienhunter1';
-	}
-	if(playerNum==2){
-		userCharacter = 'alienhunter2';		
-	}
-	if(playerNum==3){
-		userCharacter = 'alienhunter3';	
-	}
+function a1Chosen(){
+	userCharacter =	'alienhunter1';
 }
+function a2Chosen(){
+	userCharacter =	'alienhunter2';
+}
+function a3Chosen(){
+	userCharacter =	'alienhunter3';
+}
+
 //called when infobutton is pressed.
 function infoPressed(){
 	game.state.start("info");
@@ -83,7 +82,7 @@ function decorateText(str){
 function start(){
 
 	//if character is not chosen, force to choose character first.
-	if(userCharacter == null){
+	if(userCharacter== null){
 		var msg = game.add.text(50,350,"Choose a character first!!");
 		decorateText(msg);
 	}else{
