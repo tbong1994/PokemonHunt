@@ -13,7 +13,6 @@ var userState = {
 		//font for nameLabel and startLabel.
 		header.font = 'Revalia';
 	    header.fontSize = 60;
-
 	    //  x0, y0 - x1, y1
 	    grd = header.context.createLinearGradient(0, 0, 0, header.canvas.height);
 	    grd.addColorStop(0, '#8ED6FF');   
@@ -24,7 +23,7 @@ var userState = {
 	    header.stroke = '#000000';
 	    header.strokeThickness = 2;
 	    header.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
-
+	    
 	    //if this button is pressed, start the game.
 	    game.load.spritesheet('button', 'assets/buttons/button_sprite_sheet.png', 193, 71);
 	    button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);

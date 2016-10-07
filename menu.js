@@ -10,7 +10,7 @@ var menuState ={
 		//set background color for menu screen.
 	    game.add.tileSprite(0,0,4600,540,'background');
 		var header = game.add.text(80,70,'Ready to Play?' + "\n" + "Choose Character and Click Play");
-
+		
 		//set font and style.
 		decorateText(header);
 
@@ -52,12 +52,15 @@ var menuState ={
 //set character for each button.
 function a1Chosen(){
 	userCharacter =	'alienhunter1';
+	charName = "JoonNam";
 }
 function a2Chosen(){
 	userCharacter =	'alienhunter2';
+	charName = "Muscle Lee aka Sudden Lee";
 }
 function a3Chosen(){
 	userCharacter =	'alienhunter3';
+	charName = "T-Bong";
 }
 
 //called when infobutton is pressed.

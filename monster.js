@@ -21,33 +21,34 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	//create a monster, which is a part of monsters group.
-	monster = monsters.create(300,game.world.height,'mob');
+	for(i=0;i<30;i++){
+		//create a monster, which is a part of monsters group.
+		monster = monsters.create(300,game.world.height,'mob');
+		//increate sprite size.
+		monster.scale.setTo(1.5,1.5);
 
-	//increate sprite size.
-	monster.scale.setTo(1.5,1.5);
+		//flip monster.scale.x because initial sprite sheet 
+		//is drawn facing to the right, but in this game,
+		//player starts from the left and monsters start from the right.
+		//and initially monsters are supposed to move towards the player.
+		monster.scale.x*=-1;
 
-	//flip monster.scale.x because initial sprite sheet 
-	//is drawn facing to the right, but in this game,
-	//player starts from the left and monsters start from the right.
-	//and initially monsters are supposed to move towards the player.
-	monster.scale.x*=-1;
+		//play() parameter takes animation name, array of frames, frames per second, boolean value.
+		//if boolean value is true, animation loops, if false, just operate once.
+		monster.animations.add('walk');
+		monster.animations.play('walk',10,true);
 
-	//play() parameter takes animation name, array of frames, frames per second, boolean value.
-	//if boolean value is true, animation loops, if false, just operate once.
-	monster.animations.add('walk');
-	monster.animations.play('walk',10,true);
+		//monster sprite should have physics system in order to collide, etc.
+		game.physics.enable(monster,Phaser.Physics.ARCADE);
+		monsters.enableBody=true;
 
-	//monster sprite should have physics system in order to collide, etc.
-	game.physics.enable(monster,Phaser.Physics.ARCADE);
-	monsters.enableBody=true;
+		//initialize monster's HP.
+		monster.HP = 100;
 
-	//initialize monster's HP.
-	monster.HP = 100;
-
-	//monsters should collide with boundaries of the game.
-	monster.body.collideWorldBounds=true;
-	monster.body.gravity.y = 300;
+		//monsters should collide with boundaries of the game.
+		monster.body.collideWorldBounds=true;
+		monster.body.gravity.y = 300;
+	}
 }
 
 function mobUpdate(){
@@ -179,6 +180,8 @@ function pm_collisionHandler(monster,player){
 		console.log("first damage");
 		player.HP -= 30;
 		lastCollisionTime = timeElapsed;
+
+		//disable collision for 3 seconds.
 	}
 
 	//if it's been more than 3 seconds since last contact with monster, drop HP.
@@ -193,6 +196,9 @@ function pm_collisionHandler(monster,player){
  		gameOver();
  	}
 
+	// do all this only when collision is allowed 
+	//for 3 seconds after collision, player will not collide with monsters.
+	
  	//if player hit when facing the right direction, just push back.
  	if(player.scale.x >0){
  		player.body.x -= 100;

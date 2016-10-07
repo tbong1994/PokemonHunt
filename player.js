@@ -16,7 +16,7 @@ var player={
 
 	//PLAYER CREATION. USERCHARACTER IS ASSIGNED IN MENU.JS WHEN CHARACTER BUTTON IS CLICKED.
 	player = players.create(x,y,userCharacter);
-	player.Name = userCharacter;
+	player.name = charName
 	player.HP = 100;
 	player.lvl = 0;
 	player.score =0;

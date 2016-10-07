@@ -37,6 +37,6 @@ var gameState = {
 
 	render: function(){
 		//display monsters killed, player name and HP left.
-		game.debug.text("monsters killed: " + numMonsterKilled + " " + player.Name+" HP : " + player.HP, 32, 32);
+		game.debug.text("monsters killed: " + numMonsterKilled + " " + player.name+" HP : " + player.HP, 32, 32);
 	}
 }
