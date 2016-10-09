@@ -9,12 +9,14 @@ var platforms;
 function createPlatform(){
 	platforms = game.add.group();
 
+	platformX = 30;
+
 	//work on creating platform, make sure they're not too over populated in one area and empty in other areas.
 	for(i =0;i<40;i++){
 		var randomNum = Math.floor((Math.random()*2)+1);
 
 		//generate 2 platforms randomly.
-		var platform = platforms.create(Math.random()*(game.world.width)+0,Math.random()*(game.world.height-400)+400,'platform' + ''+randomNum);
+		var platform = platforms.create(platformX,Math.random()*(game.world.height-350)+350,'platform' + ''+randomNum);
 		platform.scale.setTo(1,1);
 
 		//enable physics for platforms.
@@ -22,6 +24,7 @@ function createPlatform(){
 		platforms.enableBody=true;
 		platform.body.collideWorldBounds = true;
 
+		platformX += 150;
 		//for each platform created, allow collision on their top side. so that players can land on it.
 		platforms.forEach(function(p){
 			p.body.checkCollision.up = true;

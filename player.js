@@ -11,7 +11,7 @@ var player={
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 //later on, you give user a choice which character they want to choose.
- function createPlayer(x,y){
+function createPlayer(x,y){
 	players = game.add.group();
 
 	//PLAYER CREATION. USERCHARACTER IS ASSIGNED IN MENU.JS WHEN CHARACTER BUTTON IS CLICKED.
@@ -20,7 +20,7 @@ var player={
 	player.HP = 100;
 	player.lvl = 0;
 	player.score =0;
-
+	
 	//WALKING IS DEFINED.
 	player.animations.add('walk');
 	player.scale.setTo(.7,.7);
@@ -39,11 +39,11 @@ var player={
 	//GRAVITY AND BOUNCE OF PLAYER.
 	player.body.bounce.y = 0.2;
 	player.body.gravity.y = 700;
- }
+}
 
- function playerUpdate(){
+function playerUpdate(){
 
- 	//INITIAL VELOCITY
+	//INITIAL VELOCITY
 	player.body.velocity.x = 0;
 
 	//SET COLLISION BEFORE INPUT.
@@ -52,7 +52,7 @@ var player={
 	//LEFT ARROW KEY PRESSED
 	if(cursor.left.isDown){
 		player.body.velocity.x = -150;
-		player.animations.play('walk',50,false);
+		player.animations.play('walk',100,false);
 		//IF PLAYER IS FACING TO THE RIGHT, TURN AROUND AND KEEP GOING.
 		if(player.scale.x >0){
 			player.anchor.setTo(0.5,0);
@@ -62,7 +62,7 @@ var player={
 	}
 	if(cursor.right.isDown){
 		player.body.velocity.x = 150;
-		player.animations.play('walk',50,false);
+		player.animations.play('walk',100,false);
 
 		if(player.scale.x<0){
 			player.anchor.setTo(0.5,0);
@@ -86,8 +86,14 @@ var player={
 			p.body.checkCollision.up = true;
 		});
 	}
- }
+}
 
+//set hit box for players.
+function setHitBox(){
+	hitboxes = game.add.group();
+	hitbox = hitboxes.create(0,0,null);
+	hitbox.body.setSize(10,10,player.body.x,player.body.y);
+}
  // function updateScore(){
 
  // }

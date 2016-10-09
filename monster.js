@@ -93,6 +93,8 @@ function mobUpdate(){
 
 	//keep checking if monsters and players collided.
 	collisionPlayerMonster(players,monsters);
+	monsters.setAll('outOfBoundsKill',true);
+
 }
 
 //Checks collision between monster and bullet and if collision happens, calls collisionHandler function.
@@ -180,7 +182,6 @@ function pm_collisionHandler(monster,player){
 		console.log("first damage");
 		player.HP -= 30;
 		lastCollisionTime = timeElapsed;
-
 		//disable collision for 3 seconds.
 	}
 
@@ -201,11 +202,14 @@ function pm_collisionHandler(monster,player){
 	
  	//if player hit when facing the right direction, just push back.
  	if(player.scale.x >0){
+ 		//make the sprite jump after collision
+ 		player.anchor.setTo(0,1.0);
  		player.body.x -= 100;
  	}
 
  	//if player hit when facing the left, also push back but to the right.
  	if(player.scale.x <0){
+ 		player.anchor.setTo(0,1.0);
  		player.body.x += 50;
  	}
  	
