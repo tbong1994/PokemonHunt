@@ -20,7 +20,9 @@ var menuState ={
 	    /*button parameter (x,y,buttonimage_id,functionCalledWhenButtonClicked,callbackContext*, outFrame, downFrame)
 	    *callBackContext is the context which the call back will be called, usually 'this'.
 	    */
-
+	    //display startbutton.
+	    var startButton = game.add.button(game.world.centerX + 300, allButtonY, 'startbutton', start, this, 0.3, 0.3, 0.5);
+	    
 	    //create character buttons.
     	var button1= game.add.button(20,allButtonY, 'emptybutton', a1Chosen, this, 0.3, 0.3, 0.5);
 	    var button1Text = game.add.text(button1.x+10,button1.y+49,"AlienHunter 1");
@@ -42,13 +44,6 @@ var menuState ={
 	    var infoButtonText = game.add.text(infoButton.x + 46,infoButton.y+49,"Info");
 	    decorateText(infoButtonText);
 	    infoButtonText.fontSize = 22;
-
-	    //display startbutton.
-		var startButton= game.add.button(infoButton.x + 300,allButtonY-20, 'emptybutton', start, this, 0.3, 0.3, 0.5);
-	    var startButtonText = game.add.text(startButton.x+30,startButton.y+50,"Start");
-	    decorateText(startButtonText);
-	    startButton.scale.setTo(1.3,1.3);
-	    startButtonText.fontSize = 50;	    
 	},
 }
 
@@ -88,6 +83,7 @@ function decorateText(str){
 }
 
 function start(){
+
 	//if character is not chosen, force to choose character first.
 	if(userCharacter== null){
 		var msg = game.add.text(50,350,"Choose a character first!!");

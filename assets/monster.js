@@ -21,9 +21,9 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=0;i<20;i++){
+	for(i=0;i<30;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+1500)-650)+650,Math.random()*(600-100)+100,'mob');
+		monster = monsters.create(300,game.world.height,'mob');
 		//increate sprite size.
 		monster.scale.setTo(1.5,1.5);
 
@@ -36,7 +36,7 @@ function mob(){
 		//play() parameter takes animation name, array of frames, frames per second, boolean value.
 		//if boolean value is true, animation loops, if false, just operate once.
 		monster.animations.add('walk');
-		monster.animations.play('walk',20,true);
+		monster.animations.play('walk',10,true);
 
 		//monster sprite should have physics system in order to collide, etc.
 		game.physics.enable(monster,Phaser.Physics.ARCADE);
@@ -47,7 +47,7 @@ function mob(){
 
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
-		monster.body.gravity.y = 400;
+		monster.body.gravity.y = 300;
 	}
 }
 
@@ -81,17 +81,20 @@ function mobUpdate(){
 		else if(m.body.blocked.right&&(m.scale.x<0)){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 		}
+
 		//Initially monsters move towards the player(to the left).
 		else if(m.body.velocity.x ==0){
-			m.body.velocity.x = -(Math.random()*(130-70)+70);
+			m.body.velocity.x = -(Math.random()*(100-50)+50);
 		}
 	});
 
 	//keep checking if bullets and monsters collided.
 	killIfHit(monsters,bullets);
+
 	//keep checking if monsters and players collided.
 	collisionPlayerMonster(players,monsters);
 	monsters.setAll('outOfBoundsKill',true);
+
 }
 
 //Checks collision between monster and bullet and if collision happens, calls collisionHandler function.
@@ -162,19 +165,13 @@ function processHandler(monster,bullet){
 
 //detect when player and monster collide.
 function collisionPlayerMonster(players,monsters){
-	//disable collision for 3 seconds after player got hit by monster.
-	if(timeElapsed - lastCollisionTime<=3){
-		player.body.checkCollision.left = false;
-		player.body.checkCollision.right = false;
-	}else{
-		//after 3 seconds had passed.
-		player.body.checkCollision.left = true;
-		player.body.checkCollision.right = true;
-		monsters.forEach(function(m){
-			if (game.physics.arcade.collide(m, players, pm_collisionHandler, pm_processHandler, this)){
-			}
-		});
-	}
+	// console.log("lastcollision:"+lastCollisionTime);
+	// console.log("time:"+timeElapsed);
+
+	monsters.forEach(function(m){
+		if (game.physics.arcade.collide(m, players, pm_collisionHandler, pm_processHandler, this)){
+		}
+	});
 }
 
 //Called when monster and player collided. Handles collision between monster and player
@@ -185,21 +182,21 @@ function pm_collisionHandler(monster,player){
 		console.log("first damage");
 		player.HP -= 30;
 		lastCollisionTime = timeElapsed;
+		//disable collision for 3 seconds.
 	}
 
 	//if it's been more than 3 seconds since last contact with monster, drop HP.
-	else if((timeElapsed - lastCollisionTime)>3){
+	if((timeElapsed - lastCollisionTime)>3){
 		console.log("second damage");		
 		player.HP -= 30;
 		lastCollisionTime = timeElapsed;
 	}
  	//player dead.
  	if(player.HP<=0){
- 		//don't display negative number.
- 		player.HP = 0;
  		player.kill();
  		gameOver();
  	}
+
 	// do all this only when collision is allowed 
 	//for 3 seconds after collision, player will not collide with monsters.
 	
@@ -213,7 +210,7 @@ function pm_collisionHandler(monster,player){
  	//if player hit when facing the left, also push back but to the right.
  	if(player.scale.x <0){
  		player.anchor.setTo(0,1.0);
- 		player.body.x += 100;
+ 		player.body.x += 50;
  	}
  	
  	//monster to the left, player to the right.
@@ -230,6 +227,7 @@ function pm_collisionHandler(monster,player){
 function pm_processHandler(){
 	return true;
 }
+
 function gameOver(){
 	//display game over text.
 	var msg = game.add.text(80,80,'Game Over :(');
@@ -249,17 +247,7 @@ function gameOver(){
 	
 	//stop time.
 }
-function threeSecoundRule(){
-	//Disable collision for 3 seconds when player is hit.
-	if((timeElapsed - lastCollisionTime)<=3){
-		return false;
- 		player.body.checkCollision.left = false;
- 		player.body.checkCollision.right = false;
-	}else{
-		//more than 3 seconds.
-		return true;
-	}
-}
+
 function replay(){
 	game.state.start('menu');
 }

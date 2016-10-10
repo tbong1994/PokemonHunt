@@ -1,13 +1,12 @@
 //player class
 
 var players;
-var userCharacter;
 
 var player={
 	name:"",
-	HP:150,
+	HP:100,
 	lvl:0,
-	score:0,
+	score:0
 };
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
@@ -18,10 +17,10 @@ function createPlayer(x,y){
 	//PLAYER CREATION. USERCHARACTER IS ASSIGNED IN MENU.JS WHEN CHARACTER BUTTON IS CLICKED.
 	player = players.create(x,y,userCharacter);
 	player.name = charName
-	player.HP = 150;
+	player.HP = 100;
 	player.lvl = 0;
 	player.score =0;
-
+	
 	//WALKING IS DEFINED.
 	player.animations.add('walk');
 	player.scale.setTo(.7,.7);

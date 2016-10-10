@@ -9,19 +9,24 @@ var gameState = {
 	create: function(){
 	    //create game field.
 	    background = game.add.tileSprite(0,0,4600,540,'background');
-	    game.world.setBounds(0,0,background.width,background.height);
+	    game.world.setBounds(0,0,4600,540);
 
 	    //order of creating matters because of the layer. platforms must be behind the user and monster sprites.
  		createPlatform();
+
+	    //game.stage.backgroundColor = "196F3D";
 	    createPlayer(0,350);
-	    createMob();
-	    createBullets();
 
 	    //for the camera to be able to actually follow, tileSprite must be greater than the Phaser.Game() initial screen.
 	    game.camera.follow(player);
+	   
+	    //put monsters into the game.
+	    createMob();
+	    createBullets();
 	    //detect keyboard input.
 	    cursor = game.input.keyboard.createCursorKeys();
 	},
+
 	update: function(){
 	    playerUpdate();
 	    mobUpdate();
@@ -29,6 +34,7 @@ var gameState = {
 	    updateBullets();
 	    // background.tilePosition.x -= 1;
 	},
+
 	render: function(){
 		//display monsters killed, player name and HP left.
 		game.debug.text("monsters killed: " + numMonsterKilled + " " + player.name+" HP : " + player.HP, 32, 32);
