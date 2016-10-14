@@ -38,7 +38,7 @@ var menuState ={
 	    button3Text.fontSize = 18;
 
 	    //info button.
-	    var infoButton = game.add.button(game.world.centerX,allButtonY, 'emptybutton', infoPressed, this, 0.3, 0.3, 0.5);
+	    var infoButton = game.add.button(620,allButtonY, 'emptybutton', infoPressed, this, 0.3, 0.3, 0.5);
 	    var infoButtonText = game.add.text(infoButton.x + 46,infoButton.y+49,"Info");
 	    decorateText(infoButtonText);
 	    infoButtonText.fontSize = 22;

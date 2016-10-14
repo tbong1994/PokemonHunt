@@ -18,9 +18,9 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=0;i<20;i++){
+	for(i=0;i<10;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+1500)-650)+650,Math.random()*(600-100)+100,'mob');
+		monster = monsters.create(Math.random()*((player.body.x+3500)-650)+650,Math.random()*(600-100)+100,'mob');
 		//increate sprite size.
 		monster.scale.setTo(1.5,1.5);
 
@@ -89,6 +89,7 @@ function mobUpdate(){
 	killIfHit(monsters,bullets);
 	//keep checking if monsters and players collided.
 	collisionPlayerMonster(players,monsters);
+	attackPlayer(player,monsters);
 	monsters.setAll('outOfBoundsKill',true);
 }
 
@@ -186,9 +187,9 @@ function pm_collisionHandler(monster,player){
  		//don't display negative number.
  		player.HP = 0;
  		player.kill();
- 		gameOver();
  		myHealthBar.kill();
- 	}
+ 		gameOver();
+  	}
 	// do all this only when collision is allowed 
 	//for 3 seconds after collision, player will not collide with monsters.
 	
@@ -235,16 +236,19 @@ function gameOver(){
 	msg.fixedToCamera=true;
 	//stop time.
 }
-function threeSecoundRule(){
-	//Disable collision for 3 seconds when player is hit.
-	if((timeElapsed - lastCollisionTime)<=3){
-		return false;
- 		player.body.checkCollision.left = false;
- 		player.body.checkCollision.right = false;
-	}else{
-		//more than 3 seconds.
-		return true;
-	}
+
+//doesn't work yet but need to work on it!
+function attackPlayer(player,monsters){
+	monsters.forEach(function(m){
+		//when player is right above monster, monster jumps to attack.
+		if(m.body.x == player.body.x){
+			m.body.velocity.y =-300;
+			console.log("same x");
+		}
+		if(m.body.y == player.body.y&&Math.abs(player.body.x-m.body.x)<300){
+			//run into player
+		}
+	});
 }
 function replay(){
 	game.state.start('menu');

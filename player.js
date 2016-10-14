@@ -4,13 +4,13 @@ var players;
 var userCharacter;
 var expForLevelUp;
 var myHealthBar;
-
-var player={
-	name:"",
-	HP:100,
-	lvl:0,
-	score:0,
-};
+var player;
+// var player={
+// 	name:"",
+// 	HP:100,
+// 	lvl:0,
+// 	score:0,
+// };
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 //later on, you give user a choice which character they want to choose.
@@ -38,7 +38,7 @@ function createPlayer(x,y){
 	players.enableBody=true;
 
 	//create health bar.
-	var hpBarPosition ={x:player.body.x+10, y:player.body.y};
+	var hpBarPosition ={x:player.body.x+10, y:player.body.y+5};
 	myHealthBar = new HealthBar(this.game,hpBarPosition);
 
 	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
@@ -100,7 +100,7 @@ function playerUpdate(){
 		expForLevelUp*=1.5; 
 	}
 	//health bar should stay with the player.
-	this.myHealthBar.setPosition(player.body.x+30,player.body.y);
+	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);
 }
  // function updateScore(){
 
