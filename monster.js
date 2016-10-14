@@ -3,7 +3,6 @@
 var monsters;
 var lastCollisionTime = 0;
 var displayText;
-var numMonsterKilled =0;
 var timeElapsed =0;
 
 var monster = {
@@ -11,12 +10,10 @@ var monster = {
 	Name:""
 };
 
-//CREATE Mob. CALLED IN INITIAL.JS.CREATE() create mobs in a for loop or something.. 
 function createMob(){
 	mob();
-	
-	//timer variable keeps track of time elapsed since game started.
 }
+
 function mob(){
 	//create monsters group.
 	monsters = game.add.group();
@@ -27,10 +24,11 @@ function mob(){
 		//increate sprite size.
 		monster.scale.setTo(1.5,1.5);
 
-		//flip monster.scale.x because initial sprite sheet 
-		//is drawn facing to the right, but in this game,
-		//player starts from the left and monsters start from the right.
-		//and initially monsters are supposed to move towards the player.
+		/*flip monster.scale.x because initial sprite sheet 
+		*is drawn facing to the right, but in this game,
+		*player starts from the left and monsters start from the right.
+		*and initially monsters are supposed to move towards the player.
+		*/
 		monster.scale.x*=-1;
 
 		//play() parameter takes animation name, array of frames, frames per second, boolean value.
@@ -103,7 +101,6 @@ function killIfHit(monsters, bullets){
 		*is acknowledged and calls the call back function. if false, the collision is ignored and fallback function also is ignored.
 		*/
 		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
-			console.log("BOOM");
 			m.HP -= 30;
 		}
 	});
@@ -111,12 +108,11 @@ function killIfHit(monsters, bullets){
 
 //this function handles when collision happens between bullet and monster.
 function collisionHandler(monster,bullet){
-	if(monster.HP<0){
+	if(monster.HP<=0){
 		//monster dead.
 		monster.kill();
-		numMonsterKilled++;
 		//player score up.
-		player.score++;
+		player.score += 30;
 	}
 
 	//bullet initial scale.x is positive.
@@ -148,11 +144,10 @@ function collisionHandler(monster,bullet){
 	}
 	else{
 		if(monster.scale.x<0){
- 		monster.body.velocity.x *=-1;
+ 			monster.body.velocity.x *=-1;
 		}
 	}
 	bullet.kill();
-	console.log("Got Em");
 }
 
 //processHandler needs to return true for the collision to happen.
@@ -181,17 +176,10 @@ function collisionPlayerMonster(players,monsters){
 function pm_collisionHandler(monster,player){
 	//record the time when collision happened so we can keep track of time after collision.
 	//player's HP drops when contacted by monster but there's time frame, so that the player is not hit every ms.
-	if(lastCollisionTime==0){
-		console.log("first damage");
-		player.HP -= 30;
+	if(lastCollisionTime==0||(timeElapsed-lastCollisionTime)>3){
+		player.HP -= 20;
 		lastCollisionTime = timeElapsed;
-	}
-
-	//if it's been more than 3 seconds since last contact with monster, drop HP.
-	else if((timeElapsed - lastCollisionTime)>3){
-		console.log("second damage");		
-		player.HP -= 30;
-		lastCollisionTime = timeElapsed;
+		myHealthBar.setPercent(player.HP);
 	}
  	//player dead.
  	if(player.HP<=0){
@@ -199,6 +187,7 @@ function pm_collisionHandler(monster,player){
  		player.HP = 0;
  		player.kill();
  		gameOver();
+ 		myHealthBar.kill();
  	}
 	// do all this only when collision is allowed 
 	//for 3 seconds after collision, player will not collide with monsters.
@@ -231,22 +220,19 @@ function pm_processHandler(){
 	return true;
 }
 function gameOver(){
-	//display game over text.
-	var msg = game.add.text(80,80,'Game Over :(');
-	msg.font = 'Revalia';
-	msg.fontSize = 60;
-	msg.stroke = '#000000';
-	msg.strokeThickness = 2;
-	msg.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
-	msg.fixedToCamera=true;
-
 	//display replay button.
-	var replayButton = game.add.button(400,500, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
-	var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+49,"Play Again");
+	var replayButton = game.add.button(500,game.world.height/2, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
+	var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+75,"Play Again");
 	decorateText(replayButtonText);
-	replayButtonText.fontSize = 22;
+	replayButtonText.fontSize = 25;
+	replayButton.scale.setTo(1.5,1.5);
+	replayButtonText.fixedToCamera = true;
 	replayButton.fixedToCamera = true;
 	
+	//display game over text.
+	var msg = game.add.text(400,150,'Game Over');
+	decorateText(msg)
+	msg.fixedToCamera=true;
 	//stop time.
 }
 function threeSecoundRule(){

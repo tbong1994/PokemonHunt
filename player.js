@@ -2,10 +2,12 @@
 
 var players;
 var userCharacter;
+var expForLevelUp;
+var myHealthBar;
 
 var player={
 	name:"",
-	HP:150,
+	HP:100,
 	lvl:0,
 	score:0,
 };
@@ -18,11 +20,12 @@ function createPlayer(x,y){
 	//PLAYER CREATION. USERCHARACTER IS ASSIGNED IN MENU.JS WHEN CHARACTER BUTTON IS CLICKED.
 	player = players.create(x,y,userCharacter);
 	player.name = charName
-	player.HP = 150;
+	player.HP = 100;
 	player.lvl = 0;
 	player.score =0;
+	expForLevelUp = 100;
 
-	//WALKING IS DEFINED.
+	//WALKING ANIMATION.
 	player.animations.add('walk');
 	player.scale.setTo(.7,.7);
 
@@ -33,6 +36,10 @@ function createPlayer(x,y){
 	//ADD PHYSICS TO PLAYER
 	game.physics.enable(player,Phaser.Physics.ARCADE);
 	players.enableBody=true;
+
+	//create health bar.
+	var hpBarPosition ={x:player.body.x+10, y:player.body.y};
+	myHealthBar = new HealthBar(this.game,hpBarPosition);
 
 	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
 	player.body.collideWorldBounds = true;
@@ -58,7 +65,6 @@ function playerUpdate(){
 		if(player.scale.x >0){
 			player.anchor.setTo(0.5,0);
 			player.scale.x *=-1;
-
 		}
 	}
 	if(cursor.right.isDown){
@@ -87,13 +93,14 @@ function playerUpdate(){
 			p.body.checkCollision.up = true;
 		});
 	}
-}
-
-//set hit box for players.
-function setHitBox(){
-	hitboxes = game.add.group();
-	hitbox = hitboxes.create(0,0,null);
-	hitbox.body.setSize(10,10,player.body.x,player.body.y);
+	//level up!
+	if(player.score == expForLevelUp){
+		player.lvl +=1;
+		//increase exp for levelup for next level.
+		expForLevelUp*=1.5; 
+	}
+	//health bar should stay with the player.
+	this.myHealthBar.setPosition(player.body.x+30,player.body.y);
 }
  // function updateScore(){
 

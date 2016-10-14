@@ -35,13 +35,15 @@ HealthBar.prototype.setupConfiguration = function (providedConfig) {
 
 HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
     var defaultConfig= {
-        width: 250,
-        height: 40,
+        width: 100,
+        height: 10,
         x: 0,
         y: 0,
+        //background color
         bg: {
             color: '#651828'
         },
+        //bar color
         bar: {
             color: '#FEFF03'
         },

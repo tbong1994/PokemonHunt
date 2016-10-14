@@ -31,6 +31,6 @@ var gameState = {
 	},
 	render: function(){
 		//display monsters killed, player name and HP left.
-		game.debug.text("monsters killed: " + numMonsterKilled + " " + player.name+" HP : " + player.HP, 32, 32);
+		//game.debug.text(player.name+" "+ "HP : "+ player.HP+" EXP: " + player.score + " Level: "+player.lvl +" EXP to lvl up: "+(expForLevelUp-player.score), 32, 32);
 	}
 }
