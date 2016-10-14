@@ -4,10 +4,12 @@ var monsters;
 var lastCollisionTime = 0;
 var displayText;
 var timeElapsed =0;
+var monster;
 
 var monster = {
 	HP: 100,
-	Name:""
+	Name:"",
+	hit: false
 };
 
 function createMob(){
@@ -18,7 +20,7 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=0;i<10;i++){
+	for(i=0;i<1;i++){
 		//create a monster, which is a part of monsters group.
 		monster = monsters.create(Math.random()*((player.body.x+3500)-650)+650,Math.random()*(600-100)+100,'mob');
 		//increate sprite size.
@@ -45,7 +47,7 @@ function mob(){
 
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
-		monster.body.gravity.y = 400;
+		monster.body.gravity.y = 500;
 	}
 }
 
@@ -55,6 +57,7 @@ function mobUpdate(){
 	timeElapsed = game.time.totalElapsedSeconds();
 
 	//each monster's direction and random speed.
+
 	monsters.forEach(function(m){
 		//if monster reached left wall, change direction and keep going.
 		if(m.body.blocked.left&&(m.scale.x<0)){
@@ -66,9 +69,10 @@ function mobUpdate(){
 		//this shouldn't happen but sometimes, monsters collide with players, and then
 		//they just walk backwards.. when walking backwards and touch left wall, don't 
 		//change direction but just change velocity.
-		else if(m.body.blocked.left&&(m.scale.x>0)){
-			m.body.velocity.x = (Math.random()*(100-50)+50);
-		}
+		// else if(m.body.blocked.left&&(m.scale.x>0)){
+		// 	m.body.velocity.x = (Math.random()*(100-50)+50);
+		// }
+
 		//if monster reached right wall, change direction and keep going.
 		else if(m.body.blocked.right&&(m.scale.x>0)){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
@@ -83,13 +87,15 @@ function mobUpdate(){
 		else if(m.body.velocity.x ==0){
 			m.body.velocity.x = -(Math.random()*(130-70)+70);
 		}
+		// else if(monster.hit==true){
+		// 	//chasePlayer. set player as target.
+		// }
 	});
 
 	//keep checking if bullets and monsters collided.
 	killIfHit(monsters,bullets);
 	//keep checking if monsters and players collided.
 	collisionPlayerMonster(players,monsters);
-	attackPlayer(player,monsters);
 	monsters.setAll('outOfBoundsKill',true);
 }
 
@@ -109,6 +115,9 @@ function killIfHit(monsters, bullets){
 
 //this function handles when collision happens between bullet and monster.
 function collisionHandler(monster,bullet){
+	//monster's hit.
+	monster.hit = true;
+
 	if(monster.HP<=0){
 		//monster dead.
 		monster.kill();
@@ -119,29 +128,13 @@ function collisionHandler(monster,bullet){
 	//bullet initial scale.x is positive.
 	//monsters initial scale.x is negative.
 	//monster hit from the back(left) when monster is moving towards the right. change direction(towards where the bullet came from).
-	if(monster.scale.x > 0 && bullet.scale.x>0){
-		monster.anchor.setTo(0.5,0);
-		monster.scale.x *= -1;
-		monster.body.velocity.x *=-1;
+	if(monster.scale.x > 0 && bullet.scale.x>0 || monster.scale.x <0 && bullet.scale.x<0){
+		chasePlayer(monster,player,'back');
 	}
 
-	//monster walking towards the right, hit from the right.
-	else if(monster.scale.x > 0 && bullet.scale.x<0){
-		monster.anchor.setTo(0.5,0);
-		monster.body.velocity.x *=-1;
-	}
-
-	//monster hit directly in the face. keep moving in the same direction.
-	else if(monster.scale.x < 0 && bullet.scale.x>0){
-		monster.anchor.setTo(0.5,0);
-		monster.body.velocity.x *=-1;
-	}
-
-	//if player hits the monsters from the back again but from the right, when monster is moving towards the left. Change direction.
-	else if(monster.scale.x <0 && bullet.scale.x<0){
-		monster.anchor.setTo(0.5,0);
-		monster.scale.x *= -1;
-		monster.body.velocity.x *=-1;
+	//monster walking towards the right, hit from the right. hit from front
+	else if(monster.scale.x > 0 && bullet.scale.x<0 || monster.scale.x < 0 && bullet.scale.x>0){
+		chasePlayer(monster,player,'front');
 	}
 	else{
 		if(monster.scale.x<0){
@@ -238,17 +231,37 @@ function gameOver(){
 }
 
 //doesn't work yet but need to work on it!
-function attackPlayer(player,monsters){
-	monsters.forEach(function(m){
-		//when player is right above monster, monster jumps to attack.
-		if(m.body.x == player.body.x){
-			m.body.velocity.y =-300;
-			console.log("same x");
-		}
-		if(m.body.y == player.body.y&&Math.abs(player.body.x-m.body.x)<300){
-			//run into player
-		}
-	});
+function attackPlayer(monster,player){
+	//when player is right above monster, monster jumps to attack.
+	if(Math.abs(player.x-monster.body.x) < 100 && Math.abs(player.x-monster.body.x) > 40){
+		monster.body.velocity.y =-300;
+		console.log("closeby");
+	}
+	//if player is nearby monster, monster tries to hit him.
+	// if(Math.abs(player.y-monster.body.y) < 50 && Math.abs(player.y-monster.body.y) > 0&&Math.abs(player.x-monster.body.x)<300){
+	 
+	// }
+}
+
+//when bullet hits monster, monster should set the player as target and follow.
+//the monster from the parameter is hit, because only the hit monsters are being passed in,
+//as chasePlayer is called inside the collision handling function.
+//direction is where the bullet came from with respect to monster.
+function chasePlayer(monster,player,direction){
+	if(direction=='back'){
+		monster.anchor.setTo(0.5,0);
+		monster.scale.x *= -1;
+		monster.body.velocity.x *=-1;
+	}
+	else if(direction=='front'){
+		monster.anchor.setTo(0.5,0);
+		monster.body.velocity.x *=-1.5;
+	}
+	//monster will follow the player now.
+	setTarget(player);
+}
+function setTarget(player){
+	//monsters that set the player as target will only move around the player.
 }
 function replay(){
 	game.state.start('menu');
