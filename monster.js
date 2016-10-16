@@ -4,7 +4,6 @@ var monsters;
 var lastCollisionTime = 0;
 var displayText;
 var timeElapsed =0;
-var monster;
 
 var monster = {
 	HP: 100,
@@ -20,23 +19,22 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=0;i<1;i++){
+	for(i=1;i<3;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+3500)-650)+650,Math.random()*(600-100)+100,'mob');
+		monster = monsters.create(Math.random()*((player.body.x+3500)-650)+650,Math.random()*(600-100)+100,'monster'+i);
 		//increate sprite size.
-		monster.scale.setTo(1.5,1.5);
+		monster.scale.setTo(1.1,1.1);
 
 		/*flip monster.scale.x because initial sprite sheet 
 		*is drawn facing to the right, but in this game,
 		*player starts from the left and monsters start from the right.
 		*and initially monsters are supposed to move towards the player.
 		*/
-		monster.scale.x*=-1;
 
 		//play() parameter takes animation name, array of frames, frames per second, boolean value.
 		//if boolean value is true, animation loops, if false, just operate once.
 		monster.animations.add('walk');
-		monster.animations.play('walk',20,true);
+		monster.animations.play('walk',10,true);
 
 		//monster sprite should have physics system in order to collide, etc.
 		game.physics.enable(monster,Phaser.Physics.ARCADE);
@@ -44,10 +42,10 @@ function mob(){
 
 		//initialize monster's HP.
 		monster.HP = 100;
-
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
 		monster.body.gravity.y = 500;
+		monster.body.velocity.x = -(Math.random()*(100-50)+50);
 	}
 }
 
@@ -60,10 +58,11 @@ function mobUpdate(){
 
 	monsters.forEach(function(m){
 		//if monster reached left wall, change direction and keep going.
-		if(m.body.blocked.left&&(m.scale.x<0)){
-			m.body.velocity.x = (Math.random()*(100-50)+50);
+		if(m.body.blocked.left&&(m.scale.x>0)){
+			m.body.velocity.x *=-1;
 			m.anchor.setTo(0.5,0);
 			m.scale.x *= -1;
+			console.log("leftwall");
 		}
 
 		//this shouldn't happen but sometimes, monsters collide with players, and then
@@ -74,18 +73,19 @@ function mobUpdate(){
 		// }
 
 		//if monster reached right wall, change direction and keep going.
-		else if(m.body.blocked.right&&(m.scale.x>0)){
+		else if(m.body.blocked.right&&(m.scale.x<0)){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 			m.anchor.setTo(0.5,0);
 			m.scale.x *= -1;
+			console.log("righttwall");
 		}
 		//same as when monsters walk backwards but reach the right wall.
-		else if(m.body.blocked.right&&(m.scale.x<0)){
+		else if(m.body.blocked.right&&(m.scale.x>0)){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 		}
-		//Initially monsters move towards the player(to the left).
-		else if(m.body.velocity.x ==0){
-			m.body.velocity.x = -(Math.random()*(130-70)+70);
+		//give velocity after hitting left wall
+		else if(m.body.velocity.x==0 && m.body.scale.x <0){
+			m.body.velocity.x = (Math.random()*(100-50)+50);
 		}
 		// else if(monster.hit==true){
 		// 	//chasePlayer. set player as target.
@@ -126,14 +126,14 @@ function collisionHandler(monster,bullet){
 	}
 
 	//bullet initial scale.x is positive.
-	//monsters initial scale.x is negative.
+	//monsters initial scale.x is positive.
 	//monster hit from the back(left) when monster is moving towards the right. change direction(towards where the bullet came from).
-	if(monster.scale.x > 0 && bullet.scale.x>0 || monster.scale.x <0 && bullet.scale.x<0){
+	if(monster.scale.x < 0 && bullet.scale.x>0 || monster.scale.x >0 && bullet.scale.x<0){
 		chasePlayer(monster,player,'back');
 	}
 
 	//monster walking towards the right, hit from the right. hit from front
-	else if(monster.scale.x > 0 && bullet.scale.x<0 || monster.scale.x < 0 && bullet.scale.x>0){
+	else if(monster.scale.x < 0 && bullet.scale.x<0 || monster.scale.x > 0 && bullet.scale.x>0){
 		chasePlayer(monster,player,'front');
 	}
 	else{
