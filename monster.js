@@ -21,7 +21,7 @@ function mob(){
 
 	for(i=1;i<3;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+3500)-650)+650,Math.random()*(600-100)+100,'monster'+i);
+		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(600-100)+100,'monster'+i);
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
@@ -57,6 +57,12 @@ function mobUpdate(){
 	//each monster's direction and random speed.
 
 	monsters.forEach(function(m){
+		if(m.scale.x<0){
+			m.body.velocity.x = (Math.random()*(100-50)+50);			
+		}
+		// else if(m.scale.x>0){
+		// 	m.body.velocity.x = (Math.random()*(100-50)+50);
+		// }
 		//if monster reached left wall, change direction and keep going.
 		if(m.body.blocked.left&&(m.scale.x>0)){
 			m.body.velocity.x *=-1;
@@ -64,13 +70,6 @@ function mobUpdate(){
 			m.scale.x *= -1;
 			console.log("leftwall");
 		}
-
-		//this shouldn't happen but sometimes, monsters collide with players, and then
-		//they just walk backwards.. when walking backwards and touch left wall, don't 
-		//change direction but just change velocity.
-		// else if(m.body.blocked.left&&(m.scale.x>0)){
-		// 	m.body.velocity.x = (Math.random()*(100-50)+50);
-		// }
 
 		//if monster reached right wall, change direction and keep going.
 		else if(m.body.blocked.right&&(m.scale.x<0)){
@@ -83,13 +82,11 @@ function mobUpdate(){
 		else if(m.body.blocked.right&&(m.scale.x>0)){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 		}
-		//give velocity after hitting left wall
-		else if(m.body.velocity.x==0 && m.body.scale.x <0){
-			m.body.velocity.x = (Math.random()*(100-50)+50);
+
+		if(m.hit == true){
+			setTarget(player,m);
+			console.log("hit-true");
 		}
-		// else if(monster.hit==true){
-		// 	//chasePlayer. set player as target.
-		// }
 	});
 
 	//keep checking if bullets and monsters collided.
@@ -117,7 +114,6 @@ function killIfHit(monsters, bullets){
 function collisionHandler(monster,bullet){
 	//monster's hit.
 	monster.hit = true;
-
 	if(monster.HP<=0){
 		//monster dead.
 		monster.kill();
@@ -251,17 +247,44 @@ function chasePlayer(monster,player,direction){
 	if(direction=='back'){
 		monster.anchor.setTo(0.5,0);
 		monster.scale.x *= -1;
-		monster.body.velocity.x *=-1;
+		monster.body.velocity.x *=-1.5;
+		console.log("back vel: "+monster.body.velocity.x);
 	}
 	else if(direction=='front'){
-		monster.anchor.setTo(0.5,0);
 		monster.body.velocity.x *=-1.5;
+		console.log("front vel: "+monster.body.velocity.x);
 	}
-	//monster will follow the player now.
-	setTarget(player);
 }
-function setTarget(player){
-	//monsters that set the player as target will only move around the player.
+//monsters that set the player as target will only move around the player.
+function setTarget(player,monster){
+	//player is behind monster. turn around and follow.
+	if(player.body.x > monster.body.x && monster.scale.x > 0){
+		if(monster.body.velocity.x <0){
+			monster.anchor.setTo(0.5,0);
+			monster.scale.x *= -1;
+			monster.body.velocity.x = -60;
+		}
+	}
+	if(player.body.x < monster.body.x && monster.scale.x < 0){
+	 	if(monster.body.velocity.x >0){
+			monster.anchor.setTo(0.5,0);
+			monster.scale.x *= -1;
+			monster.body.velocity.x = 60;
+		}
+	}
+	//player is in front. keep going
+	if(player.body.x > monster.body.x && monster.scale.x < 0){
+		if(monster.body.velocity.x <0){
+			monster.anchor.setTo(0.5,0);
+			monster.body.velocity.x = 60;
+		}
+	}
+	if(player.body.x < monster.body.x && monster.scale.x > 0){
+		if(monster.body.velocity.x >0){
+			monster.anchor.setTo(0.5,0);
+			monster.body.velocity.x = -60;
+		}
+	}
 }
 function replay(){
 	game.state.start('menu');

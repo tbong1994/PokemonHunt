@@ -4,7 +4,7 @@
 //infoState is entered when info button is clicked from main menu.
 var infoState = {
 	create: function(){
-		game.add.tileSprite(0,0,4600,540,'background');
+		game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 		var infoMsg = game.add.text(50,70,"A : Normal Attack" + "\n" +"S: Special Attack" + "\n" 
 			+"Wizard has the longest range of attack but is the weakest." + "\n" + "Bowman has the 2nd longest reach and normal strength"+"\n"
 			+"Berserker is the strongest, but has the shortest range of attack.");

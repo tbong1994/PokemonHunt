@@ -3,12 +3,14 @@
 //this is the state where the actual game contents are created and updated.
 //called by menu state, when user presses a certain key.
 var background;
+var gamesizeX = 1600;
+var gamesizeY = 540;
 
 var gameState = {
 
 	create: function(){
 	    //create game field.
-	    background = game.add.tileSprite(0,0,4600,540,'background');
+	    background = game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 	    game.world.setBounds(0,0,background.width,background.height);
 
 	    //order of creating matters because of the layer. platforms must be behind the user and monster sprites.
@@ -27,7 +29,6 @@ var gameState = {
 	    mobUpdate();
 	    platformUpdate();
 	    updateBullets();
-	    // background.tilePosition.x -= 1;
 	},
 	render: function(){
 		//display monsters killed, player name and HP left.

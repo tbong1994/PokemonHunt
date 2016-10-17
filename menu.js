@@ -8,7 +8,7 @@ var grd;
 var menuState ={
 	create: function(){
 		//set background color for menu screen.
-	    game.add.tileSprite(0,0,4600,540,'background');
+	    game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 		var header = game.add.text(80,70,'Ready to Play?' + "\n" + "Choose Character and Click Play");
 		
 		//set font and style.
