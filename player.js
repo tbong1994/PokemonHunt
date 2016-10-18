@@ -46,7 +46,7 @@ function createPlayer(x,y){
 
 	//GRAVITY AND BOUNCE OF PLAYER.
 	player.body.bounce.y = 0.2;
-	player.body.gravity.y = 700;
+	player.body.gravity.y = 800;
 }
 
 function playerUpdate(){

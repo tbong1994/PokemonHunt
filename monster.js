@@ -4,6 +4,7 @@ var monsters;
 var lastCollisionTime = 0;
 var displayText;
 var timeElapsed =0;
+var followingTime = 0;
 
 var monster = {
 	HP: 100,
@@ -87,6 +88,9 @@ function mobUpdate(){
 			setTarget(player,m);
 			console.log("hit-true");
 		}
+		if(m.hit == false){
+			console.log("now not hit");
+		}
 	});
 
 	//keep checking if bullets and monsters collided.
@@ -114,6 +118,10 @@ function killIfHit(monsters, bullets){
 function collisionHandler(monster,bullet){
 	//monster's hit.
 	monster.hit = true;
+	// followingTime = timeElapsed;
+	// if((timeElapsed - followingTime) > 3){
+	// 	monster.hit = false;
+	// }
 	if(monster.HP<=0){
 		//monster dead.
 		monster.kill();
