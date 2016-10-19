@@ -87,9 +87,9 @@ function mobUpdate(){
 		if(m.hit == true){
 			setTarget(player,m);
 			console.log("hit-true");
-		}
-		if(m.hit == false){
-			console.log("now not hit");
+			if(timeElapsed - followingTime > 4){
+				m.hit = false;
+			}
 		}
 	});
 
@@ -118,10 +118,7 @@ function killIfHit(monsters, bullets){
 function collisionHandler(monster,bullet){
 	//monster's hit.
 	monster.hit = true;
-	// followingTime = timeElapsed;
-	// if((timeElapsed - followingTime) > 3){
-	// 	monster.hit = false;
-	// }
+	followingTime = timeElapsed;
 	if(monster.HP<=0){
 		//monster dead.
 		monster.kill();
@@ -270,27 +267,27 @@ function setTarget(player,monster){
 		if(monster.body.velocity.x <0){
 			monster.anchor.setTo(0.5,0);
 			monster.scale.x *= -1;
-			monster.body.velocity.x = -60;
+			monster.body.velocity.x = -560;
 		}
 	}
 	if(player.body.x < monster.body.x && monster.scale.x < 0){
 	 	if(monster.body.velocity.x >0){
 			monster.anchor.setTo(0.5,0);
 			monster.scale.x *= -1;
-			monster.body.velocity.x = 60;
+			monster.body.velocity.x = 560;
 		}
 	}
 	//player is in front. keep going
 	if(player.body.x > monster.body.x && monster.scale.x < 0){
 		if(monster.body.velocity.x <0){
 			monster.anchor.setTo(0.5,0);
-			monster.body.velocity.x = 60;
+			monster.body.velocity.x = 560;
 		}
 	}
 	if(player.body.x < monster.body.x && monster.scale.x > 0){
 		if(monster.body.velocity.x >0){
 			monster.anchor.setTo(0.5,0);
-			monster.body.velocity.x = -60;
+			monster.body.velocity.x = -560;
 		}
 	}
 }
