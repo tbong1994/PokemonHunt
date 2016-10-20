@@ -61,7 +61,7 @@ function a1Chosen(){
 }
 function a2Chosen(){
 	userCharacter =	'alienhunter2';
-	charName = "Muscle Lee aka Sudden Lee";
+	charName = "Muscle Lee";
 }
 function a3Chosen(){
 	userCharacter =	'alienhunter3';

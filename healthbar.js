@@ -17,6 +17,11 @@
  SOFTWARE.
  */
 
+
+/*health bar consists of 2 sprites, one health bar and one background healthbar.
+*/
+
+
 var HealthBar = function(game, providedConfig) {
     this.game = game;
 
@@ -71,6 +76,7 @@ HealthBar.prototype.drawBackground = function() {
     var bmd = this.game.add.bitmapData(this.config.width, this.config.height);
     bmd.ctx.fillStyle = this.config.bg.color;
     bmd.ctx.beginPath();
+    //healthbar background shape. must be the same as the healthbar.
     bmd.ctx.rect(0, 0, this.config.width, this.config.height);
     bmd.ctx.fill();
 
@@ -86,6 +92,7 @@ HealthBar.prototype.drawHealthBar = function() {
     var bmd = this.game.add.bitmapData(this.config.width, this.config.height);
     bmd.ctx.fillStyle = this.config.bar.color;
     bmd.ctx.beginPath();
+    //health bar shape.
     bmd.ctx.rect(0, 0, this.config.width, this.config.height);
     bmd.ctx.fill();
 

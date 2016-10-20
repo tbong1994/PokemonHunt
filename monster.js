@@ -146,12 +146,12 @@ function collisionHandler(monster,bullet){
 	//bullet initial scale.x is positive.
 	//monsters initial scale.x is positive.
 	//monster hit from the back(left) when monster is moving towards the right. change direction(towards where the bullet came from).
-	if(monster.scale.x < 0 && bullet.scale.x>0 || monster.scale.x >0 && bullet.scale.x<0){
+	if(monster.scale.x < 0 && monster.body.touching.left || monster.scale.x >0 && monster.body.touching.right){
 		chasePlayer(monster,player,'back');
 	}
 
 	//monster walking towards the right, hit from the right. hit from front
-	else if(monster.scale.x < 0 && bullet.scale.x<0 || monster.scale.x > 0 && bullet.scale.x>0){
+	else if(monster.scale.x < 0 && monster.body.touching.right|| monster.scale.x > 0 && monster.body.touching.left){
 		chasePlayer(monster,player,'front');
 	}
 	else{

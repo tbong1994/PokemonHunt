@@ -40,7 +40,11 @@ function createPlayer(x,y){
 	//create health bar.
 	var hpBarPosition ={x:player.body.x+10, y:player.body.y+5};
 	myHealthBar = new HealthBar(this.game,hpBarPosition);
-
+	chIdOverSprite = this.game.add.text(player.body.x,player.body.y-400,player.name); //character name over player sprite.
+	decorateText(chIdOverSprite);
+	chIdOverSprite.fontSize = 20;
+	chIdOverSprite.setScaleMinMax(1,1,1,1);//don't flip the character name display by setting the x scale only go down to 1.
+	player.addChild(chIdOverSprite);
 	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
 	player.body.collideWorldBounds = true;
 
@@ -83,16 +87,8 @@ function playerUpdate(){
 	}
 
 	//gotta work on this. do something when down is pressed.
-	else if(cursor.down.isDown){
-		//check player's on a platform. if not don't do anything if yes, do something.
-		platforms.forEach(function(p){
-			if(p.body.touching.up){
-				console.log("cursor is down loop");
-				p.body.checkCollision.up = false;
-			}
-			p.body.checkCollision.up = true;
-		});
-	}
+
+
 	//level up!
 	if(player.score == expForLevelUp){
 		player.lvl +=1;
