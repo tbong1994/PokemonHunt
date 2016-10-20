@@ -24,32 +24,35 @@ function createBullets(){
 
 function updateBullets(){
 	// create and shoot 
-	if(game.input.keyboard.isDown(Phaser.KeyCode.A)){
+	if(game.input.keyboard.isDown(Phaser.KeyCode.A) && shootTime%20==0){
 		//don't allow shooting every ms.
 		//if(shootTime%20==0){
-			bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
-			if(bullet){
-				bullet.reset(player.body.x,player.body.y);
-				bullet.animations.add("shoot");
-				bullet.animations.play("shoot",30,true);
-				//bullets change direction according to the player's direction.
-				if(player.scale.x<0){
-					bullet.scale.x *= -1;
-					bullet.body.velocity.x = -500;
-				}
-				//if player is facing to the right.
-				else{
-					bullet.body.velocity.x = 500;
-				}
-		//	}
-		}
+		fire();
 		//increment shoottime.
 		//shootTime++;
 	}
 	bullets.setAll('outOfBoundsKill',true);
 	bullets.setAll('checkWorldBounds',true);
+	shootTime++;
 }
-//this function is for time events argument.
+function fire(){
+	bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
+	if(bullet){
+		bullet.reset(player.body.x,player.body.y+30);
+		bullet.animations.add("shoot");
+		bullet.animations.play("shoot",40,true);
+		//bullets change direction according to the player's direction.
+		if(player.scale.x<0){
+			bullet.scale.x *= -1;
+			bullet.body.velocity.x = -500;
+		}
+		//if player is facing to the right.
+		else{
+			bullet.body.velocity.x = 500;
+		}
+	}
+}
+//this function is called when bullets go out of bounds.
 function dest(bullet){
 	//"this" is the bullet.
 	bullet.kill();

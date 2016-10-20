@@ -5,12 +5,12 @@ var userCharacter;
 var expForLevelUp;
 var myHealthBar;
 var player;
-// var player={
-// 	name:"",
-// 	HP:100,
-// 	lvl:0,
-// 	score:0,
-// };
+var player={
+	name:"",
+	HP:100,
+	lvl:0,
+	score:0,
+};
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 //later on, you give user a choice which character they want to choose.

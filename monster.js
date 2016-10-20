@@ -90,8 +90,7 @@ function mobUpdate(){
 				m.hit = false;
 			}
 		}
-		//if()
-		m.healthbar.setPosition(m.body.x+30,m.body.y+5);
+		m.healthbar.setPosition(m.body.x+30,m.body.y+5);//healthbar always above monster sprites
 	});
 	//keep checking if bullets and monsters collided.
 	killIfHit(monsters,bullets);
@@ -130,6 +129,11 @@ function collisionHandler(monster,bullet){
 		monster.kill();
 		monster.healthbar.kill();
 		this.monsters.remove(monster); //remove dead monsters from the array.
+		
+
+		//OR YOU COULD REUSE MONSTERS JUST LIKE BULLETS. FOR BETTER PERFORMANCE.
+
+
 		//player score up.
 		player.score += 30;
 		//only check when monsters die, if any other monsters are still alive.
