@@ -3,7 +3,6 @@
 //loading state. called by boot. As the name mentions it, add all the assets in this file.
 //then go to menu state.
 var loadState = {
-
 	//Phaser defined function preload() called once at start.
 	preload:function() {
 		var loadingLabel = game.add.text(80,150,'loading...',{font:'30px Courier', fill: '#ffffff'});
@@ -14,8 +13,8 @@ var loadState = {
 		game.load.image('platform1', 'assets/platform/ice-platform.png');
 		game.load.image('platform2', 'assets/platform/platform2.png');
 
-	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,156);
-	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,156);
+	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,155);
+	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,157);
 	    game.load.spritesheet('alienhunter3', 'assets/player/alienhunter3.png',103,158);
 	    
 	    //load sprite sheets for pokemons here.
@@ -23,6 +22,7 @@ var loadState = {
 	    game.load.spritesheet('monster1','assets/Pokemons/lapras-1.png',105,99);
 	    game.load.spritesheet('monster2','assets/Pokemons/squirtle3-1.png',74,70);
 	    game.load.image('bullet', 'assets/bullet/bullet0.png');
+	    game.load.spritesheet('boom','assets/bullet/blowup.png',512/4,512/4);
 
 	    //font 
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');

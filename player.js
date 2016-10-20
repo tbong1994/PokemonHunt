@@ -46,7 +46,7 @@ function createPlayer(x,y){
 
 	//GRAVITY AND BOUNCE OF PLAYER.
 	player.body.bounce.y = 0.2;
-	player.body.gravity.y = 800;
+	player.body.gravity.y = 900;
 }
 
 function playerUpdate(){
@@ -59,7 +59,7 @@ function playerUpdate(){
 
 	//LEFT ARROW KEY PRESSED
 	if(cursor.left.isDown){
-		player.body.velocity.x = -150;
+		player.body.velocity.x = -750;
 		player.animations.play('walk',100,false);
 		//IF PLAYER IS FACING TO THE RIGHT, TURN AROUND AND KEEP GOING.
 		if(player.scale.x >0){
@@ -68,7 +68,7 @@ function playerUpdate(){
 		}
 	}
 	if(cursor.right.isDown){
-		player.body.velocity.x = 150;
+		player.body.velocity.x = 750;
 		player.animations.play('walk',100,false);
 
 		if(player.scale.x<0){
@@ -79,7 +79,7 @@ function playerUpdate(){
 
 	//JUMP
 	if(cursor.up.isDown&&(player.body.touching.down||player.body.onFloor())){
-		player.body.velocity.y = -450;
+		player.body.velocity.y = -650;
 	}
 
 	//gotta work on this. do something when down is pressed.

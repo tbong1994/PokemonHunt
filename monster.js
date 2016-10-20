@@ -22,7 +22,7 @@ function mob(){
 
 	for(i=1;i<3;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(600-100)+100,'monster'+i);
+		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100,'monster'+i);
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
@@ -56,7 +56,6 @@ function mobUpdate(){
 	timeElapsed = game.time.totalElapsedSeconds();
 
 	//each monster's direction and random speed.
-
 	monsters.forEach(function(m){
 		if(m.scale.x<0){
 			m.body.velocity.x = (Math.random()*(100-50)+50);			
@@ -110,6 +109,9 @@ function killIfHit(monsters, bullets){
 		*/
 		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
 			m.HP -= 30;
+			boom = game.add.sprite(m.body.x,m.body.y,'boom');
+			boom.animations.add('boom');
+			boom.animations.play('boom',40,false);
 		}
 	});
 }
@@ -292,5 +294,8 @@ function setTarget(player,monster){
 	}
 }
 function replay(){
+	game.state.start('menu');
+}
+function youWin(){
 	game.state.start('menu');
 }

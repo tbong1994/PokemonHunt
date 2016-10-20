@@ -6,6 +6,7 @@ var shootTime = 20;
 //group of bullts.
 var bullets;
 var bullet;
+var boom;
 
 //make special attack for player. 
 var specialAttackTime = 100;
@@ -26,11 +27,11 @@ function updateBullets(){
 			//bullets change direction according to the player's direction.
 			if(player.scale.x<0){
 				bullet.scale.x *= -1;
-				bullet.body.velocity.x = -300;
+				bullet.body.velocity.x = -500;
 			}
 			//if player is facing to the right.
 			else{
-				bullet.body.velocity.x = 300;
+				bullet.body.velocity.x = 500;
 			}
 		}
 
