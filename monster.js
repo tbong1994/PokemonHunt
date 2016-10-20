@@ -5,11 +5,12 @@ var lastCollisionTime = 0;
 var displayText;
 var timeElapsed =0;
 var followingTime = 0;
-
+var monsterHealthBar;
 var monster = {
 	HP: 100,
 	Name:"",
-	hit: false
+	hit: false,
+	healthbar: monsterHealthBar
 };
 
 function createMob(){
@@ -43,6 +44,8 @@ function mob(){
 
 		//initialize monster's HP.
 		monster.HP = 100;
+		var monsterHealthBarPosition ={x:monster.body.x+10, y:monster.body.y+5};
+		monster.healthbar = new HealthBar(this.game,monsterHealthBarPosition);
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
 		monster.body.gravity.y = 500;
@@ -53,8 +56,7 @@ function mob(){
 function mobUpdate(){
 
 	//keep track of time.
-	timeElapsed = game.time.totalElapsedSeconds();
-
+	timeElapsed = game.time.totalElapsedSeconds();	
 	//each monster's direction and random speed.
 	monsters.forEach(function(m){
 		if(m.scale.x<0){
@@ -68,7 +70,6 @@ function mobUpdate(){
 			m.body.velocity.x *=-1;
 			m.anchor.setTo(0.5,0);
 			m.scale.x *= -1;
-			console.log("leftwall");
 		}
 
 		//if monster reached right wall, change direction and keep going.
@@ -76,7 +77,6 @@ function mobUpdate(){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 			m.anchor.setTo(0.5,0);
 			m.scale.x *= -1;
-			console.log("righttwall");
 		}
 		//same as when monsters walk backwards but reach the right wall.
 		else if(m.body.blocked.right&&(m.scale.x>0)){
@@ -85,13 +85,13 @@ function mobUpdate(){
 
 		if(m.hit == true){
 			setTarget(player,m);
-			console.log("hit-true");
 			if(timeElapsed - followingTime > 4){
 				m.hit = false;
 			}
 		}
+		//if()
+		m.healthbar.setPosition(m.body.x+30,m.body.y+5);
 	});
-
 	//keep checking if bullets and monsters collided.
 	killIfHit(monsters,bullets);
 	//keep checking if monsters and players collided.
@@ -112,6 +112,7 @@ function killIfHit(monsters, bullets){
 			boom = game.add.sprite(m.body.x,m.body.y,'boom');
 			boom.animations.add('boom');
 			boom.animations.play('boom',40,false);
+			m.healthbar.setPercent(m.HP); //display health bar how much is left.
 		}
 	});
 }
@@ -123,9 +124,19 @@ function collisionHandler(monster,bullet){
 	followingTime = timeElapsed;
 	if(monster.HP<=0){
 		//monster dead.
+		//improve performance by disabling the body when dead. won't be called when checking collision.
+		monster.enableBody=false; 
 		monster.kill();
+		monster.healthbar.kill();
+		this.monsters.remove(monster); //remove dead monsters from the array.
 		//player score up.
 		player.score += 30;
+		console.log("monsters left:"+this.monsters.total);
+		//only check when monsters die, if any other monsters are still alive.
+		//if no monsters are alive, player wins.
+		if(this.monsters.total == 0){
+			youWin();
+		}
 	}
 
 	//bullet initial scale.x is positive.
@@ -182,9 +193,11 @@ function pm_collisionHandler(monster,player){
  	if(player.HP<=0){
  		//don't display negative number.
  		player.HP = 0;
+ 		player.enableBody=false; //improve performance.
  		player.kill();
  		myHealthBar.kill();
  		gameOver();
+ 		this.players.remove(player);
   	}
 	// do all this only when collision is allowed 
 	//for 3 seconds after collision, player will not collide with monsters.
@@ -255,11 +268,9 @@ function chasePlayer(monster,player,direction){
 		monster.anchor.setTo(0.5,0);
 		monster.scale.x *= -1;
 		monster.body.velocity.x *=-1.5;
-		console.log("back vel: "+monster.body.velocity.x);
 	}
 	else if(direction=='front'){
 		monster.body.velocity.x *=-1.5;
-		console.log("front vel: "+monster.body.velocity.x);
 	}
 }
 //monsters that set the player as target will only move around the player.
