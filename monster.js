@@ -6,6 +6,7 @@ var displayText;
 var timeElapsed =0;
 var followingTime = 0;
 var monsterHealthBar;
+
 var monster = {
 	HP: 100,
 	Name:"",
@@ -131,7 +132,6 @@ function collisionHandler(monster,bullet){
 		this.monsters.remove(monster); //remove dead monsters from the array.
 		//player score up.
 		player.score += 30;
-		console.log("monsters left:"+this.monsters.total);
 		//only check when monsters die, if any other monsters are still alive.
 		//if no monsters are alive, player wins.
 		if(this.monsters.total == 0){

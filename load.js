@@ -21,7 +21,8 @@ var loadState = {
 	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
 	    game.load.spritesheet('monster1','assets/Pokemons/lapras-1.png',105,99);
 	    game.load.spritesheet('monster2','assets/Pokemons/squirtle3-1.png',74,70);
-	    game.load.image('bullet', 'assets/bullet/bullet0.png');
+
+	    game.load.spritesheet('bullet', 'assets/bullet/pokeball.png',250/5,253/6,25); //25 images only
 	    game.load.spritesheet('boom','assets/bullet/blowup.png',512/4,512/4);
 
 	    //font 
