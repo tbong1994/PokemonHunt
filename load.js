@@ -12,6 +12,7 @@ var loadState = {
 
 		game.load.image('platform1', 'assets/platform/ice-platform.png');
 		game.load.image('platform2', 'assets/platform/platform2.png');
+		game.load.image('potion', 'assets/items/pokeball1.png');
 
 	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,155);
 	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,157);

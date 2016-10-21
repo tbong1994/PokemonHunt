@@ -124,15 +124,15 @@ function collisionHandler(monster,bullet){
 	followingTime = timeElapsed;
 	if(monster.HP<=0){
 		//monster dead.
+		dropItems(monster.body.x,monster.body.y); //item appears.
+
 		//improve performance by disabling the body when dead. won't be called when checking collision.
-		monster.enableBody=false; 
+		monster.enableBody=false;
 		monster.kill();
 		monster.healthbar.kill();
 		this.monsters.remove(monster); //remove dead monsters from the array.
 		
-
 		//OR YOU COULD REUSE MONSTERS JUST LIKE BULLETS. FOR BETTER PERFORMANCE.
-
 
 		//player score up.
 		player.score += 30;
@@ -161,7 +161,6 @@ function collisionHandler(monster,bullet){
 	}
 	bullet.kill();
 }
-
 //processHandler needs to return true for the collision to happen.
 function processHandler(monster,bullet){
 	return true;

@@ -45,7 +45,7 @@ function createPlayer(x,y){
 	chIdOverSprite.fontSize = 20;
 	chIdOverSprite.setScaleMinMax(1,1,1,1);//don't flip the character name display by setting the x scale only go down to 1.
 	player.addChild(chIdOverSprite);
-	//ADD WALLS TO THE SCREEN SO THE PLAYER DOESN'T GO OUT OF BOUNDS.
+
 	player.body.collideWorldBounds = true;
 
 	//GRAVITY AND BOUNCE OF PLAYER.

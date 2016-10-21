@@ -40,7 +40,7 @@ function platformUpdate(){
 		//only players and platforms collide
 		game.physics.arcade.collide(platforms,players);
 		game.physics.arcade.collide(platforms, monsters);
-
+		game.physics.arcade.collide(platforms, hpPotions);
 		//one way collision.players can land on the platform but collision from other directions will not happen.
 		p.body.checkCollision.down = false;
 		p.body.checkCollision.left = false;

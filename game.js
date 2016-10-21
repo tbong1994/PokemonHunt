@@ -18,7 +18,7 @@ var gameState = {
 	    createPlayer(0,350);
 	    createMob();
 	    createBullets();
-
+	    createItems();
 	    //for the camera to be able to actually follow, tileSprite must be greater than the Phaser.Game() initial screen.
 	    game.camera.follow(player);
 	    //detect keyboard input.
@@ -29,6 +29,7 @@ var gameState = {
 	    mobUpdate();
 	    platformUpdate();
 	    updateBullets();
+	    updateItems();
 	},
 	render: function(){
 		//display monsters killed, player name and HP left.
