@@ -9,7 +9,8 @@ var hpPotions; //pokeball will be HP potions.
 function createItems(){
 	hpPotions = game.add.group();
 	//enable physics for items.
-	game.physics.enable(hpPotions,Phaser.Physics.ARCADE);
+	//game.physics.enable(hpPotions,Phaser.Physics.ARCADE);
+	hpPotions.physicsBodyType = Phaser.Physics.ARCADE;
 	hpPotions.enableBody=true; 
 	
 	hpPotions.createMultiple(5,'potion');
@@ -18,27 +19,30 @@ function createItems(){
 	//each potion's property.
 	hpPotions.forEach(function(hp){
 		hp.body.gravity.y = 3000;
+		hp.body.collideWorldBounds = true;
+		hp.body.checkCollision.up = false;
+		hp.body.checkCollision.down =false;
 	});
 	
 }
 
-function updateItems(){
-	//takeItems();
-	hpPotions.forEach(function(potion){
-		//for each platform created, allow collision on their top side. so that players can land on it.
-		// onePotion.body.checkCollision.up = false;
-		//potion.body.checkCollision.down = true;
-		// onePotion.body.checkCollision.left = false;
-		// onePotion.body.checkCollision.right = false;
-		//onePotion.body.immovable = true;
-		if(Math.abs(player.body.x - potion.body.x)<=10 && Math.abs(player.body.x - potion.body.x)>=0 &&
-			Math.abs(player.body.y - potion.body.y)<=10 &&Math.abs(player.body.y - potion.body.y)>=0){
-			potion.kill(); //reuse items, too!
-			player.HP += 20;
-			myHealthBar.setPercent(player.HP);
-		}
-	});
-}
+// function updateItems(){
+// 	//takeItems();
+// 	hpPotions.forEach(function(potion){
+// 		//for each platform created, allow collision on their top side. so that players can land on it.
+// 		// onePotion.body.checkCollision.up = false;
+// 		//potion.body.checkCollision.down = true;
+// 		// onePotion.body.checkCollision.left = false;
+// 		// onePotion.body.checkCollision.right = false;
+// 		//onePotion.body.immovable = true;
+// 		if(Math.abs(player.body.x - potion.body.x)<=10 && Math.abs(player.body.x - potion.body.x)>=0 &&
+// 			Math.abs(player.body.y - potion.body.y)<=10 &&Math.abs(player.body.y - potion.body.y)>=0){
+// 			potion.kill(); //reuse items, too!
+// 			player.HP += 20;
+// 			myHealthBar.setPercent(player.HP);
+// 		}
+// 	});
+// }
 // function takeItems(){
 // 	hpPotions.forEach(function(h){
 // 		if(Math.abs(player.body.x - h.body.x)<=10 && Math.abs(player.body.x - h.body.x)>=0 &&
@@ -52,7 +56,8 @@ function updateItems(){
 
 //similar to bullets. This function is called in monster.js, when monster dies.
 //parameter takes in x and y coords of the monster just died.
-function dropItems(mx, my){
+
+function dropItems(mx, my){						//this function doesn't work yet... I can't find the reason why!!
 	potion = hpPotions.getFirstExists(false);
 	if(potion){
 		potion.reset(mx,my);

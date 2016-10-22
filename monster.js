@@ -22,7 +22,7 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=1;i<10;i++){
+	for(i=1;i<3;i++){
 		//create a monster, which is a part of monsters group.
 		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
 		//increate sprite size.
@@ -45,7 +45,7 @@ function mob(){
 
 		//initialize monster's HP.
 		monster.HP = 100;
-		var monsterHealthBarPosition ={x:monster.body.x+10, y:monster.body.y+5};
+		var monsterHealthBarPosition ={x:monster.body.x+10, y:monster.body.y+10};
 		monster.healthbar = new HealthBar(this.game,monsterHealthBarPosition);
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
@@ -124,8 +124,7 @@ function collisionHandler(monster,bullet){
 	followingTime = timeElapsed;
 	if(monster.HP<=0){
 		//monster dead.
-		dropItems(monster.body.x,monster.body.y); //item appears.
-
+		dropItems(monster.body.x,monster.body.y);
 		//improve performance by disabling the body when dead. won't be called when checking collision.
 		monster.enableBody=false;
 		monster.kill();
@@ -139,6 +138,11 @@ function collisionHandler(monster,bullet){
 		//only check when monsters die, if any other monsters are still alive.
 		//if no monsters are alive, player wins.
 		if(this.monsters.total == 0){
+			// player.enableBody = false;
+			// player.kill();
+			// myHealthBar.kill();
+			// this.players.remove(player);
+			game.world.removeAll();
 			youWin();
 		}
 	}
@@ -195,12 +199,15 @@ function pm_collisionHandler(monster,player){
  	//player dead.
  	if(player.HP<=0){
  		//don't display negative number.
- 		player.HP = 0;
- 		player.enableBody=false; //improve performance.
- 		player.kill();
- 		myHealthBar.kill();
+ 		// player.enableBody=false; //improve performance.
+ 		// player.kill();
+ 		// myHealthBar.kill();
+ 		// this.players.remove(player);
+		game.world.removeAll();
+
+		//ADD A BACKGROUND SCREEN HERE 
+
  		gameOver();
- 		this.players.remove(player);
   	}
 	// do all this only when collision is allowed 
 	//for 3 seconds after collision, player will not collide with monsters.
@@ -311,5 +318,16 @@ function replay(){
 	game.state.start('menu');
 }
 function youWin(){
-	game.state.start('menu');
+	var replayButton = game.add.button(500,game.world.height/2, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
+	var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+75,"Play Again");
+	decorateText(replayButtonText);
+	replayButtonText.fontSize = 25;
+	replayButton.scale.setTo(1.5,1.5);
+	replayButtonText.fixedToCamera = true;
+	replayButton.fixedToCamera = true;
+	
+	//display game over text.
+	var msg = game.add.text(400,150,"YOU CAUGHT'EM ALL!");
+	decorateText(msg)
+	msg.fixedToCamera=true;
 }

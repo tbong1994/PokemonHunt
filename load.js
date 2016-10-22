@@ -32,9 +32,6 @@ var loadState = {
         //button
         game.load.spritesheet('startbutton', 'assets/button/startbutton.png', 193, 71);
         game.load.spritesheet('emptybutton', 'assets/button/emptybutton.png', 10, 60);
-
-
-
 	},
 
 	create: function(){

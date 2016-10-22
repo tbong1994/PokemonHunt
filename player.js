@@ -38,7 +38,7 @@ function createPlayer(x,y){
 	players.enableBody=true;
 
 	//create health bar.
-	var hpBarPosition ={x:player.body.x+10, y:player.body.y+5};
+	var hpBarPosition ={x:player.body.x+10, y:player.body.y+10};
 	myHealthBar = new HealthBar(this.game,hpBarPosition);
 	chIdOverSprite = this.game.add.text(player.body.x,player.body.y-400,player.name); //character name over player sprite.
 	decorateText(chIdOverSprite);
@@ -118,8 +118,10 @@ function takeItems(hpPotions, players){
 }
 
 function upPlayerHP(potion,player){
-	player.HP += 20;
-	myHealthBar.setPercent(player.HP);
+	if(player.HP <100){
+		player.HP += 20;
+		myHealthBar.setPercent(player.HP);
+	}
 }
 function processHandler(potion,player){
 	return true;

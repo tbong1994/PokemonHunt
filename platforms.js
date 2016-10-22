@@ -12,7 +12,7 @@ function createPlatform(){
 	platformX = 30;
 
 	//work on creating platform, make sure they're not too over populated in one area and empty in other areas.
-	for(i =0;i<40;i++){
+	for(i =0;i<10;i++){
 		var randomNum = Math.floor((Math.random()*2)+1);
 
 		//generate 2 platforms randomly.
