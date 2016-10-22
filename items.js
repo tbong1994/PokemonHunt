@@ -16,13 +16,15 @@ function createItems(){
 	hpPotions.scale.setTo(0.3,0.3);
 	
 	//each potion's property.
+	hpPotions.forEach(function(hp){
+		hp.body.gravity.y = 3000;
+	});
 	
 }
 
 function updateItems(){
 	//takeItems();
 	hpPotions.forEach(function(potion){
-		potion.body.gravity.y = 2000;
 		//for each platform created, allow collision on their top side. so that players can land on it.
 		// onePotion.body.checkCollision.up = false;
 		//potion.body.checkCollision.down = true;
@@ -53,6 +55,6 @@ function updateItems(){
 function dropItems(mx, my){
 	potion = hpPotions.getFirstExists(false);
 	if(potion){
-		potion.reset(800,300);
+		potion.reset(mx,my);
 	}
 }

@@ -29,7 +29,7 @@ var gameState = {
 	    mobUpdate();
 	    platformUpdate();
 	    updateBullets();
-	    updateItems();
+	    // updateItems();
 	},
 	render: function(){
 		//display monsters killed, player name and HP left.

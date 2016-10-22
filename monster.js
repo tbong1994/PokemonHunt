@@ -22,9 +22,9 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=1;i<3;i++){
+	for(i=1;i<10;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100,'monster'+i);
+		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 

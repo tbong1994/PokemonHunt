@@ -60,7 +60,7 @@ function playerUpdate(){
 
 	//SET COLLISION BEFORE INPUT.
 	game.physics.arcade.collide(players, platforms);
-
+	game.physics.arcade.collide(players, hpPotions);
 	//LEFT ARROW KEY PRESSED
 	if(cursor.left.isDown){
 		player.body.velocity.x = -750;
@@ -97,7 +97,30 @@ function playerUpdate(){
 	}
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);
+	takeItems(hpPotions,players);
+
 }
  // function updateScore(){
 
  // }
+
+function takeItems(hpPotions, players){
+	hpPotions.forEach(function(potion){
+		/*detect collision between object1 and object 2. when collided, callback function is called.
+		*@param: object1,object2, callBackFunction, processCallback, callBackContext.
+		*processCallback has to return either true or false. when true, colliding between ob1 and ob2
+		*is acknowledged and calls the call back function. if false, the collision is ignored and fallback function also is ignored.
+		*/
+		if (game.physics.arcade.collide(potion, players, upPlayerHP,processHandler,this)){
+			potion.kill(); //reuse items, too!
+		}
+	});
+}
+
+function upPlayerHP(potion,player){
+	player.HP += 20;
+	myHealthBar.setPercent(player.HP);
+}
+function processHandler(potion,player){
+	return true;
+}
