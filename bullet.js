@@ -51,11 +51,11 @@ function fire(){
 		//bullets change direction according to the player's direction.
 		if(player.scale.x<0){
 			bullet.scale.x *= -1;
-			bullet.body.velocity.x = -500;
+			bullet.body.velocity.x = -700;
 		}
 		//if player is facing to the right.
 		else{
-			bullet.body.velocity.x = 500;
+			bullet.body.velocity.x = 700;
 		}
 	}
 }

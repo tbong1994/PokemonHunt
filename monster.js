@@ -109,7 +109,7 @@ function killIfHit(monsters, bullets){
 		*/
 		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
 			m.HP -= 30;
-			boom = game.add.sprite(m.body.x,m.body.y,'boom');
+			boom = game.add.sprite(m.body.x,m.body.y,'boom'); //creating this everytime may affect performance.
 			boom.animations.add('boom');
 			boom.animations.play('boom',40,false);
 			m.healthbar.setPercent(m.HP); //display health bar how much is left.
