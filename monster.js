@@ -39,6 +39,10 @@ function mob(){
 		monster.animations.add('walk');
 		monster.animations.play('walk',10,true);
 
+		//animation for monsters getting hit.
+		booms = game.add.group();
+		booms.createMultiple(3,'boom');
+
 		//monster sprite should have physics system in order to collide, etc.
 		game.physics.enable(monster,Phaser.Physics.ARCADE);
 		monsters.enableBody=true;
@@ -109,9 +113,13 @@ function killIfHit(monsters, bullets){
 		*/
 		if (game.physics.arcade.collide(m, bullets, collisionHandler, processHandler, this)){
 			m.HP -= 30;
-			boom = game.add.sprite(m.body.x,m.body.y,'boom'); //creating this everytime may affect performance.
-			boom.animations.add('boom');
-			boom.animations.play('boom',40,false);
+			boom = booms.getFirstExists(false);
+			if(boom){
+				boom.reset(m.body.x,m.body.y);
+				boom.animations.add('boom');
+				boom.animations.play('boom',40,false);
+				game.time.events.add(Phaser.Timer.SECOND * 0.2, killSprite, boom);
+			}
 			m.healthbar.setPercent(m.HP); //display health bar how much is left.
 		}
 	});
@@ -192,6 +200,17 @@ function pm_collisionHandler(monster,player){
 	//record the time when collision happened so we can keep track of time after collision.
 	//player's HP drops when contacted by monster but there's time frame, so that the player is not hit every ms.
 	if(lastCollisionTime==0||(timeElapsed-lastCollisionTime)>3){
+		var hpStats = game.add.text(player.body.x,player.body.y-50,'-20 HP');
+		decorateText(hpStats);
+		hpStats.fontSize = 15;
+		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
+
+		//fade text after 3 seconds.
+		this.game.add.tween(hpStats).to({alpha: 0}, 
+			Phaser.Timer.SECOND * 0.2, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
+		           this.destroy();
+		        }, hpStats
+		    );
 		player.HP -= 20;
 		lastCollisionTime = timeElapsed;
 		myHealthBar.setPercent(player.HP);
@@ -330,4 +349,8 @@ function youWin(){
 	var msg = game.add.text(400,150,"YOU CAUGHT'EM ALL!");
 	decorateText(msg)
 	msg.fixedToCamera=true;
+}
+
+function killSprite(){
+	this.kill();
 }

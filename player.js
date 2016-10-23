@@ -28,11 +28,15 @@ function createPlayer(x,y){
 	//WALKING ANIMATION.
 	player.animations.add('walk');
 	player.scale.setTo(.7,.7);
-	// player.animations.add('jumpDust');
-	// player.animations.add('hpup');
-	/*JUMP ANIMATION HERE.
-	*
-	*/
+	
+	
+	//JUMP ANIMATION ARRAY. REUSE SPRITES WHENEVER PLAYER JUMPS.
+	jumps = game.add.group();
+	jumps.createMultiple(2,'jumpDust');
+
+	//CONSUMING ITEM ANIMATION.
+	hpups = game.add.group();
+	hpups.createMultiple(2,'hpup');
 
 	//ADD PHYSICS TO PLAYER
 	game.physics.enable(player,Phaser.Physics.ARCADE);
@@ -84,10 +88,16 @@ function playerUpdate(){
 
 	//JUMP
 	if(cursor.up.isDown&&(player.body.touching.down||player.body.onFloor())){
+		var jump = jumps.getFirstExists(false);
+		if(jump){
+			jump.reset(player.body.x-50,player.body.y-50);
+			jump.animations.add('jumpDust');
+			jump.animations.play('jumpDust',100,false);
+
+			//kill sprite so you can reuse it.
+			game.time.events.add(Phaser.Timer.SECOND * 0.2, killSprite, jump);
+		}
 		player.body.velocity.y = -650;
-		jumpDust = game.add.sprite(player.body.x-30, player.body.y-20,'jumpDust');
-		jumpDust.animations.add('jumpDust');
-		jumpDust.animations.play('jumpDust',100,false);
 	}
 
 	//gotta work on this. do something when down is pressed.
@@ -116,7 +126,6 @@ function takeItems(hpPotions, players){
 		*is acknowledged and calls the call back function. if false, the collision is ignored and fallback function also is ignored.
 		*/
 		if (game.physics.arcade.collide(potion, players, upPlayerHP,processHandler,this)){
-			console.log("display +20 HP");
 			potion.kill(); //reuse items, too!
 		}
 	});
@@ -131,13 +140,21 @@ function upPlayerHP(potion,player){
 
 		//fade text after 3 seconds.
 		this.game.add.tween(hpStats).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 3, Phaser.Easing.Default, true, 3000).onComplete.add(function () {
+			Phaser.Timer.SECOND * 0.7, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
 		           this.destroy();
 		        }, hpStats
 		    );
-		hpup = game.add.sprite(player.body.x,player.body.y,'hpup'); //creating this everytime may affect performance.
-		hpup.animations.add('hpup');
-		hpup.animations.play('hpup',50,false);
+
+		//CONSUMING ITEM ANIMATION.
+		var hpup = hpups.getFirstExists(false);
+		if(hpup){
+			hpup.reset(player.body.x-30,player.body.y-30);
+			hpup.animations.add('hpup');
+			hpup.animations.play('hpup',100,false);
+
+			//kill sprite so you can reuse it.
+			game.time.events.add(Phaser.Timer.SECOND * 0.2, killSprite, hpup);
+		}
 		player.HP += 20;
 		myHealthBar.setPercent(player.HP);
 	}
@@ -145,6 +162,6 @@ function upPlayerHP(potion,player){
 function processHandler(potion,player){
 	return true;
 }
-function killText(){
-	this.destroy();
+function killSprite(){
+	this.kill();
 }
