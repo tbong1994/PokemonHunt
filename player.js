@@ -4,12 +4,13 @@ var players;
 var userCharacter;
 var expForLevelUp;
 var myHealthBar;
-var player;
 var player={
 	name:"",
 	HP:100,
 	lvl:0,
 	score:0,
+	expForLevelUp:0,
+	HealthBar:myHealthBar
 };
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
@@ -92,10 +93,11 @@ function playerUpdate(){
 		if(jump){
 			jump.reset(player.body.x-50,player.body.y-50);
 			jump.animations.add('jumpDust');
-			jump.animations.play('jumpDust',100,false);
+			jump.animations.play('jumpDust',150,false);
+			sound = game.sound.play('jump_sound');
 
 			//kill sprite so you can reuse it.
-			game.time.events.add(Phaser.Timer.SECOND * 0.2, killSprite, jump);
+			game.time.events.add(Phaser.Timer.SECOND * 0.1, killSprite, jump);
 		}
 		player.body.velocity.y = -650;
 	}
@@ -126,6 +128,7 @@ function takeItems(hpPotions, players){
 		*is acknowledged and calls the call back function. if false, the collision is ignored and fallback function also is ignored.
 		*/
 		if (game.physics.arcade.collide(potion, players, upPlayerHP,processHandler,this)){
+			sound = game.sound.play('item_consumed_sound');
 			potion.kill(); //reuse items, too!
 		}
 	});
@@ -150,8 +153,7 @@ function upPlayerHP(potion,player){
 		if(hpup){
 			hpup.reset(player.body.x-30,player.body.y-30);
 			hpup.animations.add('hpup');
-			hpup.animations.play('hpup',100,false);
-
+			hpup.animations.play('hpup',50,false);
 			//kill sprite so you can reuse it.
 			game.time.events.add(Phaser.Timer.SECOND * 0.2, killSprite, hpup);
 		}

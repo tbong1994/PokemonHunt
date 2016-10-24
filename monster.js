@@ -22,9 +22,9 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=1;i<3;i++){
+	for(i=1;i<5;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
+		monster = monsters.create(Math.random()*((gamesizeX)-player.body.x+400)+player.body.x+400,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
@@ -48,7 +48,7 @@ function mob(){
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
 		monster.body.gravity.y = 500;
-		monster.body.velocity.x = -(Math.random()*(100-50)+50);
+		monster.body.velocity.x = (Math.random()*(100-(-100))+(-100));
 	}
 }
 
@@ -56,6 +56,7 @@ function mobUpdate(){
 
 	//keep track of time.
 	timeElapsed = game.time.totalElapsedSeconds();	
+	
 	//each monster's direction and random speed.
 	monsters.forEach(function(m){
 		if(m.scale.x<0){
@@ -81,18 +82,20 @@ function mobUpdate(){
 		else if(m.body.blocked.right&&(m.scale.x>0)){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 		}
-
+		//don't let the monsters face one direction and move towards the other direction.
+		else if(m.body.velocity.x > 0&&m.scale>0 || m.body.velocity.x < 0&&m.scale<0 ){
+			m.scale *= -1;
+		}
 		if(m.hit == true){
-			setTarget(player,m);
+			//setTarget(player,m);
 			if(timeElapsed - followingTime > 4){
 				m.hit = false;
 			}
 		}
 		m.healthbar.setPosition(m.body.x+30,m.body.y+5);//healthbar always above monster sprites
 	});
-	//keep checking if bullets and monsters collided.
-	killIfHit(monsters,bullets);
-	//keep checking if monsters and players collided.
+
+	killIfHit(monsters,bullets);//collision between bullet and monster.
 	collisionPlayerMonster(players,monsters);
 	monsters.setAll('outOfBoundsKill',true);
 }
@@ -124,6 +127,7 @@ function collisionHandler(monster,bullet){
 	//monster's hit.
 	monster.hit = true;
 	followingTime = timeElapsed;
+	sound = game.sound.play('monsters_hit_sound');
 	if(monster.HP<=0){
 		//monster dead.
 		dropItems(monster.body.x,monster.body.y);
@@ -184,6 +188,7 @@ function collisionPlayerMonster(players,monsters){
 		player.body.checkCollision.right = true;
 		monsters.forEach(function(m){
 			if (game.physics.arcade.collide(m, players, pm_collisionHandler, pm_processHandler, this)){
+				sound = game.sound.play('player_hit_sound');
 			}
 		});
 	}
@@ -263,7 +268,7 @@ function gameOver(){
 	replayButton.fixedToCamera = true;
 	
 	//display game over text.
-	var msg = game.add.text(400,150,'Game Over');
+	var msg = game.add.text(400,150,'Pay $1 to play again');
 	decorateText(msg)
 	msg.fixedToCamera=true;
 	//stop time.
@@ -347,4 +352,8 @@ function youWin(){
 
 function killSprite(){
 	this.kill();
+}
+
+function reviveMonster(){
+	this.reset(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100);
 }

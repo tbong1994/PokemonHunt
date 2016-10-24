@@ -35,7 +35,15 @@ var loadState = {
         //button
         game.load.spritesheet('startbutton', 'assets/button/startbutton.png', 193, 71);
         game.load.spritesheet('emptybutton', 'assets/button/emptybutton.png', 10, 60);
+
+        //sound
+        game.load.audio('shoot_sound', ['assets/sound/112.mp3', 'assets/sound/112.ogg']);
+        game.load.audio('item_consumed_sound', ['assets/sound/4.ogg', 'assets/sound/4.ogg']);
+        game.load.audio('jump_sound', ['assets/sound/113.mp3', 'assets/sound/113.ogg']);
+        game.load.audio('monsters_hit_sound', ['assets/sound/121.mp3', 'assets/sound/121.ogg']);
+        game.load.audio('player_hit_sound', ['assets/sound/5.mp3', 'assets/sound/5.ogg']);	
 	},
+
 
 	create: function(){
 		//call menu.

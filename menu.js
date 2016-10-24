@@ -52,8 +52,6 @@ var menuState ={
 	},
 }
 
-//this function is called when button is clicked.
-
 //set character for each button.
 function a1Chosen(){
 	userCharacter =	'alienhunter1';
@@ -92,7 +90,12 @@ function start(){
 	if(userCharacter== null){
 		var msg = game.add.text(50,350,"Choose a character first!!");
 		decorateText(msg);
+		game.time.events.add(Phaser.Timer.SECOND * 1, destroyText, msg);
 	}else{
-		game.state.start('game');	
+		game.state.start('game');
 	}
+}
+
+function destroyText(){
+	this.destroy();
 }

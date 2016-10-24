@@ -48,6 +48,7 @@ function fire(){
 		bullet.reset(player.body.x,player.body.y+30);
 		bullet.animations.add("shoot");
 		bullet.animations.play("shoot",40,true);
+		sound = game.sound.play('shoot_sound');
 		//bullets change direction according to the player's direction.
 		if(player.scale.x<0){
 			bullet.scale.x *= -1;
