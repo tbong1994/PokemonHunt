@@ -28,12 +28,6 @@ function mob(){
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
-		/*flip monster.scale.x because initial sprite sheet 
-		*is drawn facing to the right, but in this game,
-		*player starts from the left and monsters start from the right.
-		*and initially monsters are supposed to move towards the player.
-		*/
-
 		//play() parameter takes animation name, array of frames, frames per second, boolean value.
 		//if boolean value is true, animation loops, if false, just operate once.
 		monster.animations.add('walk');
