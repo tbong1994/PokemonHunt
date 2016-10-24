@@ -41,7 +41,8 @@ var loadState = {
         game.load.audio('item_consumed_sound', ['assets/sound/4.ogg', 'assets/sound/4.ogg']);
         game.load.audio('jump_sound', ['assets/sound/113.mp3', 'assets/sound/113.ogg']);
         game.load.audio('monsters_hit_sound', ['assets/sound/121.mp3', 'assets/sound/121.ogg']);
-        game.load.audio('player_hit_sound', ['assets/sound/5.mp3', 'assets/sound/5.ogg']);	
+        game.load.audio('player_hit_sound', ['assets/sound/5.ogg', 'assets/sound/5.ogg']);
+        game.load.audio('monster_dead_sound', ['assets/sound/131.mp3', 'assets/sound/131.mp3']);
 	},
 
 

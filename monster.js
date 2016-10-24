@@ -83,8 +83,8 @@ function mobUpdate(){
 			m.body.velocity.x = -(Math.random()*(100-50)+50);
 		}
 		//don't let the monsters face one direction and move towards the other direction.
-		else if(m.body.velocity.x > 0&&m.scale>0 || m.body.velocity.x < 0&&m.scale<0 ){
-			m.scale *= -1;
+		else if(m.body.velocity.x > 0&&m.scale.x>0 || m.body.velocity.x < 0&&m.scale.x<0 ){
+			m.scale.x *= -1;
 		}
 		if(m.hit == true){
 			//setTarget(player,m);
@@ -130,6 +130,7 @@ function collisionHandler(monster,bullet){
 	sound = game.sound.play('monsters_hit_sound');
 	if(monster.HP<=0){
 		//monster dead.
+		sound = game.sound.play('monster_dead_sound');
 		dropItems(monster.body.x,monster.body.y);
 		//improve performance by disabling the body when dead. won't be called when checking collision.
 		monster.enableBody=false;
