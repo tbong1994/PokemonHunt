@@ -5,10 +5,13 @@
 //text font and stuff for the game.
 var grd;
 var sound;
+var comeBackFromInfo = false;
 
 var menuState ={
 	create: function(){
-		sound = game.sound.play('menu_music');
+		if(!comeBackFromInfo){
+			sound = game.sound.play('menu_music');
+		}
 		//set background color for menu screen.
 	    game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 		var header = game.add.text(80,70,'Ready to Play?' + "\n" + "Choose Character and Click Play");

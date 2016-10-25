@@ -346,8 +346,8 @@ function setTarget(player,monster){
 	}
 }
 function replay(){
-	//gameOverSound.destroy();
 	game.state.start('menu');
+	gameSound.destroy();
 }
 function youWin(){
 	var replayButton = game.add.button(500,game.world.height/2, 'emptybutton', replay, this, 0.3, 0.3, 0.5);

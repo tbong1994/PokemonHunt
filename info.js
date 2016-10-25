@@ -5,9 +5,8 @@
 var infoState = {
 	create: function(){
 		game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
-		var infoMsg = game.add.text(50,70,"A : Normal Attack" + "\n" +"S: Special Attack" + "\n" 
-			+"Wizard has the longest range of attack but is the weakest." + "\n" + "Bowman has the 2nd longest reach and normal strength"+"\n"
-			+"Berserker is the strongest, but has the shortest range of attack.");
+		var infoMsg = game.add.text(50,70,"A : Normal Attack" + "\n" +"S: Special Attack" + "\n" +
+			"move with the arrow keys."+"\n" + "Pick any of the characters and play");
 
 		decorateText(infoMsg);
 
@@ -28,12 +27,14 @@ var infoState = {
 //go back to menu.
 function goBackButton(){
 	game.state.start("menu");
+	comeBackFromInfo = true;
 }
 
 //go right into the game.
 function startFromInfo(){
 	if(userCharacter ==null){
 		var msg = game.add.text(50,400,"Go back to main menu and choose a character first!");
+		game.time.events.add(Phaser.Timer.SECOND * 1.5, destroyText, msg); //destroyText() is in menu.js
 		decorateText(msg);
 	}
 	else{
