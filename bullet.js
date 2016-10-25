@@ -16,7 +16,7 @@ function createBullets(){
 	bullets.enableBody = true;
 	bullets.physicsBodyType = Phaser.Physics.ARCADE;
 	
-	bullets.createMultiple(20,'bullet');//default exists = false.
+	bullets.createMultiple(15,'bullet');//default exists = false.
 
 	//dest function will be called when bullets go out of bounds.
 	//callAll function will pass in the child in bullets group as the input
@@ -33,8 +33,8 @@ function updateBullets(){
 		//increment shoottime.
 		//shootTime++;
 	}
-	if(game.input.keyboard.isDown(Phaser.KeyCode.S)){
-		console.log("s pressed");
+	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&specialAttackTime%100==0){
+		// console.log("s pressed");
 		specialAttack();
 	}
 	bullets.setAll('outOfBoundsKill',true);
@@ -46,6 +46,8 @@ function fire(){
 	bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
 	if(bullet){
 		bullet.reset(player.body.x,player.body.y+30);
+		bullet.body.gravity.y = 0;
+		bullet.body.bounce.x = 0;
 		bullet.animations.add("shoot");
 		bullet.animations.play("shoot",40,true);
 		sound = game.sound.play('shoot_sound');
@@ -63,20 +65,23 @@ function fire(){
 //raining pokeballs.
 function specialAttack(){
 	//get all the non active bullets and rain them!!
-
-	for(i=0;i<bullets.total;i++){
+	bullets.forEach(function(b){
 		bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
 		if(bullet){
 			bullet.reset(Math.random()*((gamesizeX)-50)+50, 0);
 			bullet.animations.add("shoot");
 			bullet.animations.play("shoot",40,true);
 			bullet.body.gravity.y = 1200;
+			bullet.body.collideWorldBounds=true;
+			bullet.body.bounce.y = 0.5;
+			bullet.body.bounce.x = 0.3;
+			game.time.events.add(Phaser.Timer.SECOND * 1.5, dest, bullet);
 			//bullets change direction according to the player's direction.
 		}
-	}
+	});
 }
 //this function is called when bullets go out of bounds.
-function dest(bullet){
+function dest(){
 	//"this" is the bullet.
-	bullet.kill();
+	this.kill();
 }

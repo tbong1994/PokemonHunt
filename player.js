@@ -114,7 +114,6 @@ function playerUpdate(){
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);
 	takeItems(hpPotions,players);
-
 }
  // function updateScore(){
 

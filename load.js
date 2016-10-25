@@ -37,6 +37,9 @@ var loadState = {
         game.load.spritesheet('emptybutton', 'assets/button/emptybutton.png', 10, 60);
 
         //sound
+        game.load.audio('menu_music', ['assets/sound/menu_music.mp3', 'assets/sound/menu_music.mp3']);
+        game.load.audio('gameover_music', ['assets/sound/gameover_music.mp3', 'assets/sound/gameover_music.mp3']);
+        game.load.audio('game_music', ['assets/sound/game_music.mp3', 'assets/sound/game_music.mp3']);
         game.load.audio('shoot_sound', ['assets/sound/112.mp3', 'assets/sound/112.ogg']);
         game.load.audio('item_consumed_sound', ['assets/sound/4.ogg', 'assets/sound/4.ogg']);
         game.load.audio('jump_sound', ['assets/sound/113.mp3', 'assets/sound/113.ogg']);

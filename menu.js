@@ -4,9 +4,11 @@
 
 //text font and stuff for the game.
 var grd;
+var sound;
 
 var menuState ={
 	create: function(){
+		sound = game.sound.play('menu_music');
 		//set background color for menu screen.
 	    game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 		var header = game.add.text(80,70,'Ready to Play?' + "\n" + "Choose Character and Click Play");
@@ -55,15 +57,15 @@ var menuState ={
 //set character for each button.
 function a1Chosen(){
 	userCharacter =	'alienhunter1';
-	charName = "JoonNam";
+	charName = "A1";
 }
 function a2Chosen(){
 	userCharacter =	'alienhunter2';
-	charName = "Muscle Lee";
+	charName = "A2";
 }
 function a3Chosen(){
 	userCharacter =	'alienhunter3';
-	charName = "T-Bong";
+	charName = "A3";
 }
 
 //called when infobutton is pressed.
@@ -92,6 +94,7 @@ function start(){
 		decorateText(msg);
 		game.time.events.add(Phaser.Timer.SECOND * 1, destroyText, msg);
 	}else{
+		sound.destroy();
 		game.state.start('game');
 	}
 }

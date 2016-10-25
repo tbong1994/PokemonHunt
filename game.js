@@ -5,10 +5,12 @@
 var background;
 var gamesizeX = 1600;
 var gamesizeY = 540;
+var gameSound;
 
 var gameState = {
 
 	create: function(){
+		gameSound = game.sound.play('game_music');
 	    //create game field.
 	    background = game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 	    game.world.setBounds(0,0,background.width,background.height);

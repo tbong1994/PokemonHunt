@@ -6,7 +6,9 @@ var displayText;
 var timeElapsed =0;
 var followingTime = 0;
 var monsterHealthBar;
-
+var monster_vel_x = 600;
+var monster_vel_y = 0;
+var gameOverSound;
 var monster = {
 	HP: 100,
 	Name:"",
@@ -48,7 +50,7 @@ function mob(){
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
 		monster.body.gravity.y = 500;
-		monster.body.velocity.x = (Math.random()*(100-(-100))+(-100));
+		monster.body.velocity.x = (Math.random()*(monster_vel_x-(-monster_vel_x))+(-monster_vel_x));
 	}
 }
 
@@ -217,15 +219,12 @@ function pm_collisionHandler(monster,player){
 	}
  	//player dead.
  	if(player.HP<=0){
+ 		gameSound.destroy();
  		//don't display negative number.
  		// player.enableBody=false; //improve performance.
  		// player.kill();
  		// myHealthBar.kill();
  		// this.players.remove(player);
-		game.world.removeAll();
-
-		//ADD A BACKGROUND SCREEN HERE 
-
  		gameOver();
   	}
 	// do all this only when collision is allowed 
@@ -259,6 +258,19 @@ function pm_processHandler(){
 	return true;
 }
 function gameOver(){
+	//REMOVE EVERYTHING.
+	game.world.removeAll();
+	monsters.removeAll();
+	players.removeAll();
+	bullets.removeAll();
+	hpPotions.removeAll();
+	platforms.removeAll();
+
+
+	gameOverSound = game.sound.play('gameover_music');
+	//ADD A BACKGROUND HERE.
+
+
 	//display replay button.
 	var replayButton = game.add.button(500,game.world.height/2, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
 	var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+75,"Play Again");
@@ -267,7 +279,7 @@ function gameOver(){
 	replayButton.scale.setTo(1.5,1.5);
 	replayButtonText.fixedToCamera = true;
 	replayButton.fixedToCamera = true;
-	
+
 	//display game over text.
 	var msg = game.add.text(400,150,'Pay $1 to play again');
 	decorateText(msg)
@@ -309,31 +321,32 @@ function setTarget(player,monster){
 		if(monster.body.velocity.x <0){
 			monster.anchor.setTo(0.5,0);
 			monster.scale.x *= -1;
-			monster.body.velocity.x = -560;
+			monster.body.velocity.x -= -1;
 		}
 	}
 	if(player.body.x < monster.body.x && monster.scale.x < 0){
 	 	if(monster.body.velocity.x >0){
 			monster.anchor.setTo(0.5,0);
 			monster.scale.x *= -1;
-			monster.body.velocity.x = 560;
+			monster.body.velocity.x *= -1;
 		}
 	}
 	//player is in front. keep going
 	if(player.body.x > monster.body.x && monster.scale.x < 0){
 		if(monster.body.velocity.x <0){
 			monster.anchor.setTo(0.5,0);
-			monster.body.velocity.x = 560;
+			monster.body.velocity.x *= 1;
 		}
 	}
 	if(player.body.x < monster.body.x && monster.scale.x > 0){
 		if(monster.body.velocity.x >0){
 			monster.anchor.setTo(0.5,0);
-			monster.body.velocity.x = -560;
+			monster.body.velocity.x *= 1;
 		}
 	}
 }
 function replay(){
+	//gameOverSound.destroy();
 	game.state.start('menu');
 }
 function youWin(){
