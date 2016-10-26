@@ -1,31 +1,27 @@
-//game.js
 
-//this is the state where the actual game contents are created and updated.
-//called by menu state, when user presses a certain key.
+
+//SECOND LEVEL!
+
 var background;
-var gamesizeX = 1600;
-var gamesizeY = 540;
 var gameSound;
-var initialPlayerX = 0;
-var initialPlayerY = 350;
+//var this_player;
 
-var gameState = {
-
+var secondLevel = {
 	create: function(){
 		//main game background music.
 		gameSound = game.sound.play('game_music');
 	    //create game field.
-	    background = game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
+	    background = game.add.tileSprite(0,0,gamesizeX,gamesizeY,'secondlevel_background');
 	    game.world.setBounds(0,0,background.width,background.height);
-
 	    //order of creating matters because of the layer. platforms must be behind the user and monster sprites.
  		createPlatform();
- 	    createPlayer(initialPlayerX,initialPlayerY);
+		createPlayer(initialPlayerX,initialPlayerY,player);
+	   	//player.enableBody = true;
 	    createMob();
 	    createBullets();
 	    createItems();
 	    //for the camera to be able to actually follow, tileSprite must be greater than the Phaser.Game() initial screen.
-	    game.camera.follow(player);
+	    game.camera.follow(this.player);
 	    //detect keyboard input.
 	    cursor = game.input.keyboard.createCursorKeys();
 	},

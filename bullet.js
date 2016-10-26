@@ -48,6 +48,7 @@ function fire(){
 		bullet.reset(player.body.x,player.body.y+30);
 		bullet.body.gravity.y = 0;
 		bullet.body.bounce.x = 0;
+		bullet.body.collideWorldBounds=false;
 		bullet.animations.add("shoot");
 		bullet.animations.play("shoot",40,true);
 		sound = game.sound.play('shoot_sound');
@@ -81,7 +82,6 @@ function specialAttack(){
 	});
 }
 //this function is called when bullets go out of bounds.
-function dest(){
-	//"this" is the bullet.
-	this.kill();
+function dest(bullet){
+	bullet.kill();
 }

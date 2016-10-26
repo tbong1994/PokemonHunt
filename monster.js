@@ -9,6 +9,7 @@ var monsterHealthBar;
 var monster_vel_x = 600;
 var monster_vel_y = 0;
 var gameOverSound;
+
 var monster = {
 	HP: 100,
 	Name:"",
@@ -24,9 +25,9 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=1;i<5;i++){
+	for(i=1;i<2;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((gamesizeX)-player.body.x+400)+player.body.x+400,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
+		monster = monsters.create(Math.random()*((gamesizeX)-gamesizeX/2)+gamesizeX/2,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
@@ -147,11 +148,6 @@ function collisionHandler(monster,bullet){
 		//only check when monsters die, if any other monsters are still alive.
 		//if no monsters are alive, player wins.
 		if(this.monsters.total == 0){
-			// player.enableBody = false;
-			// player.kill();
-			// myHealthBar.kill();
-			// this.players.remove(player);
-			game.world.removeAll();
 			youWin();
 		}
 	}
@@ -265,11 +261,10 @@ function gameOver(){
 	bullets.removeAll();
 	hpPotions.removeAll();
 	platforms.removeAll();
-
-
+	
+	this.currentLevel = 1;
 	gameOverSound = game.sound.play('gameover_music');
 	//ADD A BACKGROUND HERE.
-
 
 	//display replay button.
 	var replayButton = game.add.button(500,game.world.height/2, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
@@ -346,17 +341,38 @@ function setTarget(player,monster){
 	}
 }
 function replay(){
+	game.world.removeAll();
 	game.state.start('menu');
 	gameSound.destroy();
 }
+function nextLevel(){
+
+	//check current level, then start the state accordingly.
+	game.state.start('level'+this.currentLevel);
+}
 function youWin(){
-	var replayButton = game.add.button(500,game.world.height/2, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
-	var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+75,"Play Again");
+	
+	this.currentLevel++; //increase level.
+	var replayButtonX = 500;
+	var replayButtonY = game.world.height/2
+	var nextLevelButtonX = replayButtonX + 400;
+	var nextLevelButtonY = replayButtonY;
+
+	var replayButton = game.add.button(replayButtonX,replayButtonY, 'emptybutton', replay, this, 0.3, 0.3, 0.5);
+	var replayButtonText = game.add.text(replayButton.x+25,replayButton.y+75,"Main Menu");
 	decorateText(replayButtonText);
 	replayButtonText.fontSize = 25;
 	replayButton.scale.setTo(1.5,1.5);
 	replayButtonText.fixedToCamera = true;
 	replayButton.fixedToCamera = true;
+
+	var nextLevelButton = game.add.button(nextLevelButtonX,nextLevelButtonY, 'emptybutton', nextLevel, this, 0.3, 0.3, 0.5);
+	var nextLevelButtonText = game.add.text(nextLevelButton.x+30,nextLevelButton.y+75,"Next Level");
+	decorateText(nextLevelButtonText);
+	nextLevelButtonText.fontSize = 25;
+	nextLevelButton.scale.setTo(1.5,1.5);
+	nextLevelButtonText.fixedToCamera = true;
+	nextLevelButton.fixedToCamera = true;
 	
 	//display game over text.
 	var msg = game.add.text(400,150,"YOU CAUGHT'EM ALL!");

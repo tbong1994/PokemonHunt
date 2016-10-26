@@ -2,29 +2,63 @@
 
 var players;
 var userCharacter;
-var expForLevelUp;
 var myHealthBar;
+
 var player={
 	name:"",
 	HP:100,
 	lvl:0,
 	score:0,
 	expForLevelUp:0,
-	HealthBar:myHealthBar
+	healthBar:myHealthBar
 };
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
 //later on, you give user a choice which character they want to choose.
-function createPlayer(x,y){
+function createPlayer(x,y,playerFromPrevLvl){
 	players = game.add.group();
 
 	//PLAYER CREATION. USERCHARACTER IS ASSIGNED IN MENU.JS WHEN CHARACTER BUTTON IS CLICKED.
 	player = players.create(x,y,userCharacter);
 	player.name = charName
-	player.HP = 100;
-	player.lvl = 0;
-	player.score =0;
-	expForLevelUp = 100;
+
+	console.log("#ofplayers: "+players.total);
+	//ADD PHYSICS TO PLAYER
+	game.physics.enable(player,Phaser.Physics.ARCADE);
+	players.enableBody=true;
+	
+	chIdOverSprite = this.game.add.text(player.body.x,player.body.y-400,player.name); //character name over player sprite.
+	decorateText(chIdOverSprite);
+	chIdOverSprite.fontSize = 20;
+	chIdOverSprite.setScaleMinMax(1,1,1,1);//don't flip the character name display by setting the x scale only go down to 1.
+	player.addChild(chIdOverSprite);
+
+	//FIRST LEVEL...INITIALIZE EVERYTHING.
+	if(currentLevel ==1){
+		player.HP = 100;
+		player.lvl = 0;
+		player.score =0;
+		player.expForLevelUp = 100;
+	}
+	//OTHER LEVELS.
+	else{
+		console.log(playerFromPrevLvl);
+		player.HP = playerFromPrevLvl.HP;
+		player.lvl = playerFromPrevLvl.lvl;
+		player.score = playerFromPrevLvl.score;
+		player.expForLevelUp = playerFromPrevLvl.expForLevelUp;
+	}
+	//create health bar.
+	var hpBarPosition ={x:player.body.x+10, y:player.body.y+10};
+	myHealthBar = new HealthBar(this.game,hpBarPosition);
+
+	myHealthBar.setPercent(player.HP);
+
+	player.body.collideWorldBounds = true;
+
+	//GRAVITY AND BOUNCE OF PLAYER.
+	player.body.bounce.y = 0.2;
+	player.body.gravity.y = 1100;
 
 	//WALKING ANIMATION.
 	player.animations.add('walk');
@@ -38,29 +72,13 @@ function createPlayer(x,y){
 	//CONSUMING ITEM ANIMATION.
 	hpups = game.add.group();
 	hpups.createMultiple(2,'hpup');
-
-	//ADD PHYSICS TO PLAYER
-	game.physics.enable(player,Phaser.Physics.ARCADE);
-	players.enableBody=true;
-
-	//create health bar.
-	var hpBarPosition ={x:player.body.x+10, y:player.body.y+10};
-	myHealthBar = new HealthBar(this.game,hpBarPosition);
-	chIdOverSprite = this.game.add.text(player.body.x,player.body.y-400,player.name); //character name over player sprite.
-	decorateText(chIdOverSprite);
-	chIdOverSprite.fontSize = 20;
-	chIdOverSprite.setScaleMinMax(1,1,1,1);//don't flip the character name display by setting the x scale only go down to 1.
-	player.addChild(chIdOverSprite);
-
-	player.body.collideWorldBounds = true;
-
-	//GRAVITY AND BOUNCE OF PLAYER.
-	player.body.bounce.y = 0.2;
-	player.body.gravity.y = 900;
 }
+function playerReset(x,y){
+	//CALLED WHEN NEW LEVEL STARTS.
+	this.player.reset(x,y);
 
+}
 function playerUpdate(){
-
 	//INITIAL VELOCITY
 	player.body.velocity.x = 0;
 
@@ -106,10 +124,10 @@ function playerUpdate(){
 
 
 	//level up!
-	if(player.score == expForLevelUp){
-		player.lvl +=1;
+	if(this.player.score == this.player.expForLevelUp){
+		this.player.lvl +=1;
 		//increase exp for levelup for next level.
-		expForLevelUp*=1.5; 
+		this.expForLevelUp*=1.5; 
 	}
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);

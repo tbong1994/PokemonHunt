@@ -9,6 +9,7 @@ var loadState = {
 
 		//load all assets here.
 		game.load.image('background', 'assets/background/background.jpg');
+		game.load.image('secondlevel_background', 'assets/background/background3.jpg');
 
 		game.load.image('platform1', 'assets/platform/ice-platform.png');
 		game.load.image('platform2', 'assets/platform/platform2.png');

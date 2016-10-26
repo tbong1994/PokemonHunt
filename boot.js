@@ -11,7 +11,6 @@ var bootState = {
 
         //just activate physics system here.
         game.physics.startSystem(Phaser.Physics.ARCADE);
-
         //call load.
         game.state.start('load');
     }

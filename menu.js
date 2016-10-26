@@ -6,17 +6,22 @@
 var grd;
 var sound;
 var comeBackFromInfo = false;
+var currentLevel; // keep the level number.
 
 var menuState ={
 	create: function(){
+		currentLevel = 1; //set current level back to 1 when starting from the menu screen
+
+		//OR YOU CAN EDIT THE GAME AND ALLOW USER TO GO TO MAIN MENU TO CHANGE SETTINGS OR SOMETHING
+		//AND THEN GOES BACK TO WHERE HE LEFT OFF, WHEN THE SCALE OF THE GAME GETS BIGGER. 
+		
+		//PLAY ONLY ONE MUSIC.
 		if(!comeBackFromInfo){
 			sound = game.sound.play('menu_music');
 		}
 		//set background color for menu screen.
 	    game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
 		var header = game.add.text(80,70,'Ready to Play?' + "\n" + "Choose Character and Click Play");
-		
-		//set font and style.
 		decorateText(header);
 
 		//all buttons have the same y coordinates.

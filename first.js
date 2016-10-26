@@ -10,6 +10,7 @@ game.state.add("load",loadState);
 game.state.add("menu",menuState);
 game.state.add("info",infoState);
 game.state.add("game",gameState);
+game.state.add("level2",secondLevel);
 
 
 //call booting state first.
