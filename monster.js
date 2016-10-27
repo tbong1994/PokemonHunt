@@ -351,15 +351,14 @@ function setTarget(player,monster){
 }
 function replay(){
 	game.world.removeAll();
-	game.state.start('menu');
 	gameSound.destroy();
+	game.state.start('menu');
 }
 function nextLevel(){
 	//check current level, then start the state accordingly.
 	game.state.start('level'+this.currentLevel);
 }
 function youWin(){
-	
 	this.currentLevel++; //increase level.
 	var replayButtonX = 500;
 	var replayButtonY = game.world.height/2

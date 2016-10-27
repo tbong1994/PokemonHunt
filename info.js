@@ -9,7 +9,6 @@ var infoState = {
 			"move with the arrow keys."+"\n" + "Pick any of the characters and play");
 
 		decorateText(infoMsg);
-
 		//go back to menu button
 		backToMenuButton = game.add.button(game.world.centerX -200 , 400, 'emptybutton', goBackButton, this, 0.3, 0.3, 0.5);
 	    var backToMenuButtonText = game.add.text(backToMenuButton.x + 40,backToMenuButton.y + 50,"Back");
@@ -38,6 +37,7 @@ function startFromInfo(){
 		decorateText(msg);
 	}
 	else{
+		sound.destroy();
 		game.state.start("game");
 	}
 }

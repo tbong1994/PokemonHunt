@@ -11,7 +11,7 @@ var player={
 	HP:100,
 	lvl:0,
 	score:0,
-	expForLevelUp:0,
+	expForLevelUp:100,
 	healthBar:myHealthBar
 };
 
@@ -24,7 +24,6 @@ function createPlayer(x,y,playerFromPrevLvl){
 	player = players.create(x,y,userCharacter);
 	player.name = charName
 
-	console.log("#ofplayers: "+players.total);
 	//ADD PHYSICS TO PLAYER
 	game.physics.enable(player,Phaser.Physics.ARCADE);
 	players.enableBody=true;
@@ -131,11 +130,13 @@ function playerUpdate(){
 
 
 	//level up!
-	if(this.player.score == this.player.expForLevelUp){
-		this.player.lvl +=1;
+	if(player.score >= player.expForLevelUp){
+		player.lvl +=1;
 		//increase exp for levelup for next level.
-		this.expForLevelUp*=1.5; 
-		this.player.score = 0;
+		player.expForLevelUp*=1.5; 
+		player.score = 0;
+		console.log(player.score);
+		expBar.setPercent(player.score,player.expForLevelUp);
 	}
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);

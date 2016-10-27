@@ -21,7 +21,7 @@ function createBullets(){
 	//dest function will be called when bullets go out of bounds.
 	//callAll function will pass in the child in bullets group as the input
 	//for dest function.
-	bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', dest);
+	bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', destBounds);
 }
 
 function updateBullets(){
@@ -82,6 +82,10 @@ function specialAttack(){
 	});
 }
 //this function is called when bullets go out of bounds.
-function dest(bullet){
+function dest(){
+	this.kill();
+}
+
+function destBounds(bullet){
 	bullet.kill();
 }
