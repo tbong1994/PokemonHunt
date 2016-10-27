@@ -3,6 +3,8 @@
 var players;
 var userCharacter;
 var myHealthBar;
+var expBar;
+var expBarPosition;
 
 var player={
 	name:"",
@@ -50,9 +52,14 @@ function createPlayer(x,y,playerFromPrevLvl){
 	}
 	//create health bar.
 	var hpBarPosition ={x:player.body.x+10, y:player.body.y+10};
-	myHealthBar = new HealthBar(this.game,hpBarPosition);
-
+	myHealthBar = new HealthBar(this.game,hpBarPosition,"healthBar");
 	myHealthBar.setPercent(player.HP);
+
+	expBarPositionX = 800;
+	expBarPositionY = 30;
+	expBarPosition ={x:expBarPositionX, y:expBarPositionX};
+	expBar = new HealthBar(this.game,hpBarPosition);
+	expBar.setPercentExp(player.score,player.expForLevelUp);//bartype is optional for expbar.
 
 	player.body.collideWorldBounds = true;
 
@@ -128,9 +135,12 @@ function playerUpdate(){
 		this.player.lvl +=1;
 		//increase exp for levelup for next level.
 		this.expForLevelUp*=1.5; 
+		this.player.score = 0;
 	}
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);
+	this.expBar.setPosition(expBarPositionX,expBarPositionY);
+	expBar.setFixedToCamera();
 	takeItems(hpPotions,players);
 }
  // function updateScore(){

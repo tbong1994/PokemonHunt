@@ -1,5 +1,4 @@
 
-
 //SECOND LEVEL!
 
 var background;
@@ -13,15 +12,15 @@ var secondLevel = {
 	    //create game field.
 	    background = game.add.tileSprite(0,0,gamesizeX,gamesizeY,'secondlevel_background');
 	    game.world.setBounds(0,0,background.width,background.height);
-	    //order of creating matters because of the layer. platforms must be behind the user and monster sprites.
+
+	    //ORDER MATTERS
  		createPlatform();
 		createPlayer(initialPlayerX,initialPlayerY,player);
-	   	//player.enableBody = true;
 	    createMob();
 	    createBullets();
 	    createItems();
 	    //for the camera to be able to actually follow, tileSprite must be greater than the Phaser.Game() initial screen.
-	    game.camera.follow(this.player);
+	    game.camera.follow(player);
 	    //detect keyboard input.
 	    cursor = game.input.keyboard.createCursorKeys();
 	},

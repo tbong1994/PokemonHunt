@@ -25,7 +25,7 @@ function mob(){
 	//create monsters group.
 	monsters = game.add.group();
 
-	for(i=1;i<2;i++){
+	for(i=1;i<6;i++){
 		//create a monster, which is a part of monsters group.
 		monster = monsters.create(Math.random()*((gamesizeX)-gamesizeX/2)+gamesizeX/2,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
 		//increate sprite size.
@@ -47,7 +47,7 @@ function mob(){
 		//initialize monster's HP.
 		monster.HP = 100;
 		var monsterHealthBarPosition ={x:monster.body.x+10, y:monster.body.y+10};
-		monster.healthbar = new HealthBar(this.game,monsterHealthBarPosition);
+		monster.healthbar = new HealthBar(this.game,monsterHealthBarPosition,"monster");
 		//monsters should collide with boundaries of the game.
 		monster.body.collideWorldBounds=true;
 		monster.body.gravity.y = 500;
@@ -132,6 +132,10 @@ function collisionHandler(monster,bullet){
 	followingTime = timeElapsed;
 	sound = game.sound.play('monsters_hit_sound');
 	if(monster.HP<=0){
+		//player score up.
+		player.score += 30;
+
+		expBar.setPercentExp(player.score,player.expForLevelUp);
 		//monster dead.
 		sound = game.sound.play('monster_dead_sound');
 		dropItems(monster.body.x,monster.body.y);
@@ -143,8 +147,7 @@ function collisionHandler(monster,bullet){
 		
 		//OR YOU COULD REUSE MONSTERS JUST LIKE BULLETS. FOR BETTER PERFORMANCE.
 
-		//player score up.
-		player.score += 30;
+
 		//only check when monsters die, if any other monsters are still alive.
 		//if no monsters are alive, player wins.
 		if(this.monsters.total == 0){
@@ -346,7 +349,6 @@ function replay(){
 	gameSound.destroy();
 }
 function nextLevel(){
-
 	//check current level, then start the state accordingly.
 	game.state.start('level'+this.currentLevel);
 }

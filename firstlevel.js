@@ -1,4 +1,4 @@
-//game.js
+//first level has a key name "game" as phaser.js requires the game state's key as "game".
 
 //this is the state where the actual game contents are created and updated.
 //called by menu state, when user presses a certain key.
@@ -9,7 +9,7 @@ var gameSound;
 var initialPlayerX = 0;
 var initialPlayerY = 350;
 
-var gameState = {
+var firstLevel = {
 
 	create: function(){
 		//main game background music.

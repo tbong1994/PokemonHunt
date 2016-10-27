@@ -22,10 +22,10 @@
 */
 
 
-var HealthBar = function(game, providedConfig) {
+var HealthBar = function(game, providedConfig, barType) {
     this.game = game;
 
-    this.setupConfiguration(providedConfig);
+    this.setupConfiguration(providedConfig,barType);
     this.setPosition(this.config.x, this.config.y);
     this.drawBackground();
     this.drawHealthBar();
@@ -33,13 +33,14 @@ var HealthBar = function(game, providedConfig) {
 };
 HealthBar.prototype.constructor = HealthBar;
 
-HealthBar.prototype.setupConfiguration = function (providedConfig) {
-    this.config = this.mergeWithDefaultConfiguration(providedConfig);
+HealthBar.prototype.setupConfiguration = function (providedConfig,barType) {
+    this.config = this.mergeWithDefaultConfiguration(providedConfig,barType);
     this.flipped = this.config.flipped;
 };
 
-HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
-    var defaultConfig= {
+HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) {
+    if(barType == "healthBar" || barType == "monster"){
+        var defaultConfig= {
         width: 100,
         height: 8,
         x: 0,
@@ -55,7 +56,26 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
         animationDuration: 200,
         flipped: false,
         isFixedToCamera: false
-    };
+        };
+    }else{
+        var defaultConfig= {
+        width: 1000,
+        height: 15,
+        x: 0,
+        y: 0,
+        //background color
+        bg: {
+            color:'#740C0C'
+        },
+        //bar color
+        bar: {
+            color:'#0C7417'
+        },
+        animationDuration: 200,
+        flipped: false,
+        isFixedToCamera: false
+        };
+    }
 
     return mergeObjetcs(defaultConfig, newConfig);
 };
@@ -117,13 +137,21 @@ HealthBar.prototype.setPosition = function (x, y) {
     }
 };
 
-
 HealthBar.prototype.setPercent = function(newValue){
     if(newValue < 0) newValue = 0;
     if(newValue > 100) newValue = 100;
 
     var newWidth =  (newValue * this.config.width) / 100;
 
+    this.setWidth(newWidth);
+};
+
+//ADDED THIS FUNCTION FOR EXP AND SCORE BAR.
+HealthBar.prototype.setPercentExp = function(score,exp){
+    if(score < 0) score = 0;
+    if(score > exp) score = 100;
+
+    var newWidth =  (score/exp) * this.config.width;
     this.setWidth(newWidth);
 };
 

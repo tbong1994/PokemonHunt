@@ -5,7 +5,7 @@
 //text font and stuff for the game.
 var grd;
 var sound;
-var comeBackFromInfo = false;
+var comeBackFromInfo = false; //coming back from the info page.
 var currentLevel; // keep the level number.
 
 var menuState ={
