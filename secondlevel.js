@@ -7,8 +7,6 @@ var gameSound;
 
 var secondLevel = {
 	create: function(){
-		//main game background music.
-		gameSound = game.sound.play('game_music');
 	    //create game field.
 	    background = game.add.tileSprite(0,0,gamesizeX,gamesizeY,'secondlevel_background');
 	    game.world.setBounds(0,0,background.width,background.height);

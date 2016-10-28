@@ -15,6 +15,8 @@ var menuState ={
 		//OR YOU CAN EDIT THE GAME AND ALLOW USER TO GO TO MAIN MENU TO CHANGE SETTINGS OR SOMETHING
 		//AND THEN GOES BACK TO WHERE HE LEFT OFF, WHEN THE SCALE OF THE GAME GETS BIGGER. 
 		
+		userCharacter = null; //When coming to menu screen after game over, users still need to select a character.
+		
 		//PLAY ONLY ONE MUSIC.
 		if(!comeBackFromInfo){
 			sound = game.sound.play('menu_music');
@@ -64,8 +66,8 @@ var menuState ={
 
 //set character for each button.
 function a1Chosen(){
-	userCharacter =	'alienhunter1';
-	charName = "A1";
+	userCharacter =	'alienhunter1'; //key value for sprite
+	charName = "A1"; //character name to display
 }
 function a2Chosen(){
 	userCharacter =	'alienhunter2';

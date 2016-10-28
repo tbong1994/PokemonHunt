@@ -91,6 +91,7 @@ function playerUpdate(){
 	//SET COLLISION BEFORE INPUT.
 	game.physics.arcade.collide(players, platforms);
 	game.physics.arcade.collide(players, hpPotions);
+	game.physics.arcade.collide(players, hpPotions2);
 	//LEFT ARROW KEY PRESSED
 	if(cursor.left.isDown){
 		player.body.velocity.x = -650;
