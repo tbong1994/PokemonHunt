@@ -8,9 +8,6 @@ var bullets;
 var bullet;
 var boom;
 
-//make special attack for player. or you need to have MP, but deal with time for now.
-var specialAttackTime = 100;
-
 function createBullets(){
 	bullets = game.add.group();
 	bullets.enableBody = true;
@@ -27,20 +24,15 @@ function createBullets(){
 function updateBullets(){
 	// create and shoot 
 	if(game.input.keyboard.isDown(Phaser.KeyCode.A) && shootTime%20==0){
-		//don't allow shooting every ms.
-		//if(shootTime%20==0){
 		fire();
-		//increment shoottime.
-		//shootTime++;
 	}
-	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&specialAttackTime%100==0){
-		// console.log("s pressed");
+	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&player.MP>=30){
 		specialAttack();
+		console.log(player.MP);
 	}
 	bullets.setAll('outOfBoundsKill',true);
 	bullets.setAll('checkWorldBounds',true);
 	shootTime++;
-	specialAttackTime ++;
 }
 function fire(){
 	bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
@@ -65,6 +57,7 @@ function fire(){
 }
 //raining pokeballs.
 function specialAttack(){
+	player.MP -=30;
 	//get all the non active bullets and rain them!!
 	bullets.forEach(function(b){
 		bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.

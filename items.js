@@ -23,17 +23,17 @@ function createItems(){
 	});
 	
 	//MP POTIONS
-	hpPotions2 = game.add.group();
-	hpPotions2.physicsBodyType = Phaser.Physics.ARCADE;
-	hpPotions2.enableBody=true; 
-	hpPotions2.createMultiple(5,'potion2');
-	hpPotions2.scale.setTo(0.2,0.2);
+	mpPotions = game.add.group();
+	mpPotions.physicsBodyType = Phaser.Physics.ARCADE;
+	mpPotions.enableBody=true; 
+	mpPotions.createMultiple(5,'potion2');
+	mpPotions.scale.setTo(0.15,0.15);
 
-	hpPotions2.forEach(function(hp){
-		hp.body.gravity.y = 3000;
-		hp.body.collideWorldBounds = true;
-		hp.body.checkCollision.up = false;
-		hp.body.checkCollision.down =false;
+	mpPotions.forEach(function(mp){
+		mp.body.gravity.y = 3000;
+		mp.body.collideWorldBounds = true;
+		mp.body.checkCollision.up = false;
+		mp.body.checkCollision.down =false;
 	});
 	
 }
@@ -48,9 +48,9 @@ function dropItems(mx, my){						//this function doesn't work yet... I can't fin
 			potion.reset(mx,my);
 		}
 	}else{
-		potion2 = hpPotions2.getFirstExists(false);
-		if(potion2){
-			potion2.reset(mx,my);
+		mpPotion = mpPotions.getFirstExists(false);
+		if(mpPotion){
+			mpPotion.reset(mx,my);
 		}
 	}
 }

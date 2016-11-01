@@ -3,16 +3,19 @@
 var players;
 var userCharacter;
 var myHealthBar;
+var myMpBar;
 var expBar;
 var expBarPosition;
 
 var player={
 	name:"",
 	HP:100,
+	MP:100,
 	lvl:0,
 	score:0,
 	expForLevelUp:100,
-	healthBar:myHealthBar
+	healthBar:myHealthBar,
+	mpBar:myMpBar
 };
 
 //CREATE PLAYER. CALLED IN INITIAL.JS.CREATE()
@@ -37,6 +40,7 @@ function createPlayer(x,y,playerFromPrevLvl){
 	//FIRST LEVEL...INITIALIZE EVERYTHING.
 	if(currentLevel ==1){
 		player.HP = 100;
+		player.MP =100;
 		player.lvl = 0;
 		player.score =0;
 		player.expForLevelUp = 100;
@@ -53,6 +57,10 @@ function createPlayer(x,y,playerFromPrevLvl){
 	var hpBarPosition ={x:player.body.x+10, y:player.body.y+10};
 	myHealthBar = new HealthBar(this.game,hpBarPosition,"healthBar");
 	myHealthBar.setPercent(player.HP);
+
+	var mpBarPosition ={x:player.body.x+10, y:player.body.y-5};
+	myMpBar = new HealthBar(this.game,mpBarPosition,"mpBar");
+	myMpBar.setPercent(player.MP);
 
 	expBarPositionX = 800;
 	expBarPositionY = 30;
@@ -79,11 +87,13 @@ function createPlayer(x,y,playerFromPrevLvl){
 	hpups = game.add.group();
 	hpups.createMultiple(2,'hpup');
 }
+
 function playerReset(x,y){
 	//CALLED WHEN NEW LEVEL STARTS.
 	this.player.reset(x,y);
 
 }
+
 function playerUpdate(){
 	//INITIAL VELOCITY
 	player.body.velocity.x = 0;
@@ -91,7 +101,7 @@ function playerUpdate(){
 	//SET COLLISION BEFORE INPUT.
 	game.physics.arcade.collide(players, platforms);
 	game.physics.arcade.collide(players, hpPotions);
-	game.physics.arcade.collide(players, hpPotions2);
+	game.physics.arcade.collide(players, mpPotions);
 	//LEFT ARROW KEY PRESSED
 	if(cursor.left.isDown){
 		player.body.velocity.x = -650;
@@ -141,24 +151,37 @@ function playerUpdate(){
 	}
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);
+	this.myMpBar.setPosition(player.body.x+30,player.body.y-5);
 	this.expBar.setPosition(expBarPositionX,expBarPositionY);
-	expBar.setFixedToCamera();
+	this.expBar.setFixedToCamera();
 	takeItems(hpPotions,players);
+	takeItems(mpPotions,players);
 }
  // function updateScore(){
 
  // }
 
-function takeItems(hpPotions, players){
-	hpPotions.forEach(function(potion){
+function takeItems(Potions, players){
+	Potions.forEach(function(potion){
 		/*detect collision between object1 and object 2. when collided, callback function is called.
 		*@param: object1,object2, callBackFunction, processCallback, callBackContext.
 		*processCallback has to return either true or false. when true, colliding between ob1 and ob2
 		*is acknowledged and calls the call back function. if false, the collision is ignored and fallback function also is ignored.
 		*/
-		if (game.physics.arcade.collide(potion, players, upPlayerHP,processHandler,this)){
-			sound = game.sound.play('item_consumed_sound');
-			potion.kill(); //reuse items, too!
+
+		//DETERMINE MP OR HP POTION FIRST. potion1 is hp potion.
+		if(potion.key=='potion1'){
+			if (game.physics.arcade.collide(potion, players, upPlayerHP,processHandler,this)){
+				sound = game.sound.play('item_consumed_sound');
+				potion.kill(); //reuse items, too!
+			}
+		}
+		//MP
+		else{
+			if (game.physics.arcade.collide(potion, players, upPlayerMP,processHandler,this)){
+				sound = game.sound.play('item_consumed_sound');
+				potion.kill(); //reuse items, too!
+			}
 		}
 	});
 }
@@ -188,6 +211,33 @@ function upPlayerHP(potion,player){
 		}
 		player.HP += 20;
 		myHealthBar.setPercent(player.HP);
+	}
+}
+function upPlayerMP(potion,player){
+	if(player.MP <100){
+		var mpStats = game.add.text(player.body.x,player.body.y-50,'+20 MP');
+		decorateText(mpStats);
+		mpStats.fontSize = 15;
+		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
+
+		//fade text after 3 seconds.
+		this.game.add.tween(mpStats).to({alpha: 0}, 
+			Phaser.Timer.SECOND * 0.7, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
+		           this.destroy();
+		        }, mpStats
+		    );
+
+		//CONSUMING ITEM ANIMATION.
+		var mpup = hpups.getFirstExists(false);
+		if(mpup){
+			mpup.reset(player.body.x-30,player.body.y-30);
+			mpup.animations.add('hpup');
+			mpup.animations.play('hpup',50,false);
+			//kill sprite so you can reuse it.
+			game.time.events.add(Phaser.Timer.SECOND * 0.5, killSprite, mpup);
+		}
+		player.MP += 20;
+		myMpBar.setPercent(player.MP);
 	}
 }
 function processHandler(potion,player){

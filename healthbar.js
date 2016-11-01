@@ -39,7 +39,7 @@ HealthBar.prototype.setupConfiguration = function (providedConfig,barType) {
 };
 
 HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) {
-    if(barType == "healthBar" || barType == "monster"){
+    if(barType == 'healthBar' || barType == 'monster'|| barType =='mpBar'){
         var defaultConfig= {
         width: 100,
         height: 8,

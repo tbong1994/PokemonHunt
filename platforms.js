@@ -36,12 +36,11 @@ function platformUpdate(){
 
 	platforms.forEach(function(p){
 		p.body.immovable = true;
-		
 		//only players and platforms collide
 		game.physics.arcade.collide(platforms,players);
 		game.physics.arcade.collide(platforms, monsters);
 		game.physics.arcade.collide(platforms, hpPotions);
-		game.physics.arcade.collide(platforms, hpPotions2);
+		game.physics.arcade.collide(platforms, mpPotions);
 		//one way collision.players can land on the platform but collision from other directions will not happen.
 		p.body.checkCollision.down = false;
 		p.body.checkCollision.left = false;
