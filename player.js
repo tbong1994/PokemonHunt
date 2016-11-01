@@ -6,7 +6,6 @@ var myHealthBar;
 var myMpBar;
 var expBar;
 var expBarPosition;
-
 var player={
 	name:"",
 	HP:100,

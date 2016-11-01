@@ -3,6 +3,8 @@
 //time in between each shot.
 var shootTime = 20;
 
+var lastSpecialAttackTime = 0;
+var lastNotEnoughMpDisplayTime = 0;
 //group of bullts.
 var bullets;
 var bullet;
@@ -26,9 +28,25 @@ function updateBullets(){
 	if(game.input.keyboard.isDown(Phaser.KeyCode.A) && shootTime%20==0){
 		fire();
 	}
-	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&player.MP>=30){
+	//timeElapsed is defined in monster.js
+	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&player.MP>=30&&(timeElapsed-lastSpecialAttackTime)>=2.5){
 		specialAttack();
+		lastSpecialAttackTime = timeElapsed;
 		console.log(player.MP);
+	}
+	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&player.MP<30&&(timeElapsed-lastNotEnoughMpDisplayTime)>2){
+		var notEnoughMp = game.add.text(player.body.x,player.body.y-50,'Not Enough MP');
+		decorateText(notEnoughMp);
+		notEnoughMp.fontSize = 15;
+		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
+
+		//fade text after 3 seconds.
+		this.game.add.tween(notEnoughMp).to({alpha: 0}, 
+			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
+		           this.destroy();
+		        }, notEnoughMp
+		    );
+		lastNotEnoughMpDisplayTime = timeElapsed;
 	}
 	bullets.setAll('outOfBoundsKill',true);
 	bullets.setAll('checkWorldBounds',true);
@@ -57,19 +75,31 @@ function fire(){
 }
 //raining pokeballs.
 function specialAttack(){
+	var mpStats = game.add.text(player.body.x,player.body.y-50,'-20 MP');
+	decorateText(mpStats);
+	mpStats.fontSize = 15;
+	//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
+
+	//fade text after 3 seconds.
+	this.game.add.tween(mpStats).to({alpha: 0}, 
+		Phaser.Timer.SECOND * 0.2, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
+	           this.destroy();
+	        }, mpStats
+	    );
 	player.MP -=30;
+	myMpBar.setPercent(player.MP);
 	//get all the non active bullets and rain them!!
 	bullets.forEach(function(b){
 		bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
 		if(bullet){
-			bullet.reset(Math.random()*((gamesizeX)-50)+50, 0);
+			bullet.reset(Math.random()*((gamesizeX)-10)+10, 0);
 			bullet.animations.add("shoot");
 			bullet.animations.play("shoot",40,true);
 			bullet.body.gravity.y = 1200;
 			bullet.body.collideWorldBounds=true;
 			bullet.body.bounce.y = 0.5;
 			bullet.body.bounce.x = 0.3;
-			game.time.events.add(Phaser.Timer.SECOND * 1.5, dest, bullet);
+			game.time.events.add(Phaser.Timer.SECOND * 2, dest, bullet);
 			//bullets change direction according to the player's direction.
 		}
 	});
