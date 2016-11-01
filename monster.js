@@ -225,11 +225,6 @@ function pm_collisionHandler(monster,player){
  	//player dead.
  	if(player.HP<=0){
  		gameSound.destroy();
- 		//don't display negative number.
- 		// player.enableBody=false; //improve performance.
- 		// player.kill();
- 		// myHealthBar.kill();
- 		// this.players.remove(player);
  		gameOver();
   	}
 	// do all this only when collision is allowed 
@@ -271,7 +266,8 @@ function gameOver(){
 	hpPotions.removeAll();
 	platforms.removeAll();
 	
-	this.currentLevel = 1;
+	currentLevel = 1; //GO BACK TO INITIAL LEVEL
+
 	gameOverSound = game.sound.play('gameover_music');
 	//ADD A BACKGROUND HERE.
 
@@ -356,10 +352,10 @@ function replay(){
 }
 function nextLevel(){
 	//check current level, then start the state accordingly.
-	game.state.start('level'+this.currentLevel);
+	game.state.start('level'+currentLevel);
 }
 function youWin(){
-	this.currentLevel++; //increase level.
+	currentLevel++; //increase level.
 	var replayButtonX = 500;
 	var replayButtonY = game.world.height/2
 	var nextLevelButtonX = replayButtonX + 400;

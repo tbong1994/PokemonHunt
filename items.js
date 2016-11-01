@@ -12,7 +12,7 @@ function createItems(){
 	hpPotions = game.add.group();
 	hpPotions.physicsBodyType = Phaser.Physics.ARCADE;
 	hpPotions.enableBody=true;
-	hpPotions.createMultiple(0,0,'potion1');
+	hpPotions.createMultiple(5,'potion1');
 	hpPotions.scale.setTo(0.3,0.3);
 	//each potion's property.
 	hpPotions.forEach(function(hp){
@@ -27,7 +27,7 @@ function createItems(){
 	hpPotions2.physicsBodyType = Phaser.Physics.ARCADE;
 	hpPotions2.enableBody=true; 
 	hpPotions2.createMultiple(5,'potion2');
-	hpPotions2.scale.setTo(0.05,0.05);
+	hpPotions2.scale.setTo(0.2,0.2);
 
 	hpPotions2.forEach(function(hp){
 		hp.body.gravity.y = 3000;
@@ -42,7 +42,6 @@ function createItems(){
 
 function dropItems(mx, my){						//this function doesn't work yet... I can't find the reason why!!
 	var random = Math.floor((Math.random() * 10) + 1); //random between 1 and 10
-
 	if(random <=5){
 		potion = hpPotions.getFirstExists(false);
 		if(potion){
