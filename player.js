@@ -48,6 +48,7 @@ function createPlayer(x,y,playerFromPrevLvl){
 	else{
 		console.log(playerFromPrevLvl);
 		player.HP = playerFromPrevLvl.HP;
+		player.MP = playerFromPrevLvl.MP;
 		player.lvl = playerFromPrevLvl.lvl;
 		player.score = playerFromPrevLvl.score;
 		player.expForLevelUp = playerFromPrevLvl.expForLevelUp;

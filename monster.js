@@ -137,7 +137,25 @@ function collisionHandler(monster,bullet){
 	monster.hit = true;
 	followingTime = timeElapsed;
 	sound = game.sound.play('monsters_hit_sound');
+	var monsterHit = game.add.text(monster.body.x,monster.body.y-50,'-30HP');
+		decorateText(monsterHit);
+		monsterHit.fontSize = 15;
+		//fade text after 3 seconds.
+		this.game.add.tween(monsterHit).to({alpha: 0}, 
+			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
+		           this.destroy();
+		        }, monsterHit
+		    );
 	if(monster.HP<=0){
+		var exp = game.add.text(player.body.x,player.body.y-50,'+30EXP');
+		decorateText(exp);
+		exp.fontSize = 15;
+		//fade text after 3 seconds.
+		this.game.add.tween(exp).to({alpha: 0}, 
+			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
+		           this.destroy();
+		        }, exp
+		    );
 		//player score up.
 		player.score += 30;
 
