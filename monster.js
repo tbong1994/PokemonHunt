@@ -15,7 +15,7 @@ var monsterHealthBar;
 var monster_vel_x = 600;
 var monster_vel_y = 0;
 var gameOverSound;
-
+var bossMob;
 var monster = {
 	HP: 100,
 	Name:"",
@@ -30,6 +30,12 @@ function createMob(){
 function mob(){
 	//create monsters group.
 	monsters = game.add.group();
+	bossMob = game.add.group();
+
+	bossMob.createMultiple(1,'boss');
+	//ANIMATION SHOULD BE CREATED AND PLAYED WHEN ONE OBJECT FROM bossMob is referred.
+	//PERHAPS IN THE SAME FUNCTION WHEN THE bossMob IS RESET.
+	// bossMob.animations.add('walk',[21,22,23,24,25,26,27,28]);
 
 	for(i=1;i<6;i++){
 		//create a monster, which is a part of monsters group.
@@ -407,4 +413,8 @@ function killSprite(){
 
 function reviveMonster(){
 	this.reset(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100);
+}
+//BOSS MOB IS ABLE TO ATTACK THE PLAYER.
+function specialMonsterAttack(){
+
 }

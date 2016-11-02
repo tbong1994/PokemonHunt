@@ -24,6 +24,7 @@ var loadState = {
 	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
 	    game.load.spritesheet('monster1','assets/Pokemons/lapras-1.png',105,99);
 	    game.load.spritesheet('monster2','assets/Pokemons/squirtle3-1.png',74,70);
+	    game.load.spritesheet('boss','assets/Pokemons/magma-1.png',773/10,420/6);
 
 	    game.load.spritesheet('bullet', 'assets/bullet/pokeball.png',250/5,253/6,25); //25 images only
 	    game.load.spritesheet('boom','assets/bullet/blowup.png',512/4,512/4);
@@ -49,8 +50,6 @@ var loadState = {
         game.load.audio('player_hit_sound', ['assets/sound/5.ogg', 'assets/sound/5.ogg']);
         game.load.audio('monster_dead_sound', ['assets/sound/131.mp3', 'assets/sound/131.mp3']);
 	},
-
-
 	create: function(){
 		//call menu.
 		game.state.start('menu');
