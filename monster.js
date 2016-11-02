@@ -180,6 +180,16 @@ function collisionHandler(monster,bullet){
 
 		//only check when monsters die, if any other monsters are still alive.
 		//if no monsters are alive, player wins.
+		
+		// if(this.monsters.total ==1){
+		// 	//CREATE THE LAST MOB.
+		// 	boss = bossMob.getFirstExists(false);
+		// 	if(boss){
+		// 		//ADD ANIMATIONS AND STUFF
+		// 	}
+		// }
+
+		//ADD this.bossMOb.total==0 IN THE PARAMETER AFTER bossMob is completely defined.
 		if(this.monsters.total == 0){
 			youWin();
 		}

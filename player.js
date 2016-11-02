@@ -55,11 +55,11 @@ function createPlayer(x,y,playerFromPrevLvl){
 	}
 	//create health bar.
 	var hpBarPosition ={x:player.body.x+10, y:player.body.y+10};
-	myHealthBar = new HealthBar(this.game,hpBarPosition,"healthBar");
+	myHealthBar = new HealthBar(this.game,hpBarPosition,'healthBar');
 	myHealthBar.setPercent(player.HP);
 
 	var mpBarPosition ={x:player.body.x+10, y:player.body.y-5};
-	myMpBar = new HealthBar(this.game,mpBarPosition,"mpBar");
+	myMpBar = new HealthBar(this.game,mpBarPosition,'mpBar');
 	myMpBar.setPercent(player.MP);
 
 	expBarPositionX = 800;

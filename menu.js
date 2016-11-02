@@ -23,7 +23,7 @@ var menuState ={
 		}
 		//set background color for menu screen.
 	    game.add.tileSprite(0,0,gamesizeX,gamesizeY,'background');
-		var header = game.add.text(80,70,'Ready to Play?' + "\n" + "Choose Character and Click Play");
+		var header = game.add.text(80,70,"Gotta Catch'Em All");
 		decorateText(header);
 
 		//all buttons have the same y coordinates.

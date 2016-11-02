@@ -21,7 +21,6 @@
 /*health bar consists of 2 sprites, one health bar and one background healthbar.
 */
 
-
 var HealthBar = function(game, providedConfig, barType) {
     this.game = game;
 
@@ -39,7 +38,7 @@ HealthBar.prototype.setupConfiguration = function (providedConfig,barType) {
 };
 
 HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) {
-    if(barType == 'healthBar' || barType == 'monster'|| barType =='mpBar'){
+    if(barType == 'healthBar' || barType == 'monster'){
         var defaultConfig= {
         width: 100,
         height: 8,
@@ -47,7 +46,7 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) 
         y: 0,
         //background color
         bg: {
-            color:'#740C0C'
+            color:'#D4FF33'
         },
         //bar color
         bar: {
@@ -57,7 +56,27 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) 
         flipped: false,
         isFixedToCamera: false
         };
-    }else{
+    }
+    else if(barType == 'mpBar'){
+        var defaultConfig= {
+        width: 100,
+        height: 8,
+        x: 0,
+        y: 0,
+        //background color
+        bg: {
+            color:'#33BBFF'
+        },
+        //bar color
+        bar: {
+            color:'#3933FF'
+        },
+        animationDuration: 200,
+        flipped: false,
+        isFixedToCamera: false
+        };
+    }
+    else{
         var defaultConfig= {
         width: 1000,
         height: 15,
