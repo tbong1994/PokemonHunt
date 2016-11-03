@@ -16,6 +16,7 @@ var monster_vel_x = 600;
 var monster_vel_y = 0;
 var gameOverSound;
 var bossMob;
+var bossAlive = false;
 var monster = {
 	HP: 100,
 	Name:"",
@@ -33,13 +34,15 @@ function mob(){
 	bossMob = game.add.group();
 
 	bossMob.createMultiple(1,'boss');
+	game.physics.enable(bossMob,Phaser.Physics.ARCADE);
+	bossMob.enableBody = true;
 	//ANIMATION SHOULD BE CREATED AND PLAYED WHEN ONE OBJECT FROM bossMob is referred.
 	//PERHAPS IN THE SAME FUNCTION WHEN THE bossMob IS RESET.
 	// bossMob.animations.add('walk',[21,22,23,24,25,26,27,28]);
 
 	for(i=1;i<6;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((gamesizeX)-gamesizeX/2)+gamesizeX/2,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
+		monster = monsters.create(Math.random()*((gamesizeX)-0)+0,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
@@ -73,43 +76,56 @@ function mobUpdate(){
 	timeElapsed = game.time.totalElapsedSeconds();	
 	
 	//each monster's direction and random speed.
-	monsters.forEach(function(m){
-		if(m.scale.x<0){
-			m.body.velocity.x = (Math.random()*(100-50)+50);			
-		}
-		// else if(m.scale.x>0){
-		// 	m.body.velocity.x = (Math.random()*(100-50)+50);
-		// }
-		//if monster reached left wall, change direction and keep going.
-		if(m.body.blocked.left&&(m.scale.x>0)){
-			m.body.velocity.x *=-1;
-			m.anchor.setTo(0.5,0);
-			m.scale.x *= -1;
-		}
-
-		//if monster reached right wall, change direction and keep going.
-		else if(m.body.blocked.right&&(m.scale.x<0)){
-			m.body.velocity.x = -(Math.random()*(100-50)+50);
-			m.anchor.setTo(0.5,0);
-			m.scale.x *= -1;
-		}
-		//same as when monsters walk backwards but reach the right wall.
-		else if(m.body.blocked.right&&(m.scale.x>0)){
-			m.body.velocity.x = -(Math.random()*(100-50)+50);
-		}
-		//don't let the monsters face one direction and move towards the other direction.
-		else if(m.body.velocity.x > 0&&m.scale.x>0 || m.body.velocity.x < 0&&m.scale.x<0 ){
-			m.scale.x *= -1;
-		}
-		if(m.hit == true){
-			//setTarget(player,m);
-			if(timeElapsed - followingTime > 4){
-				m.hit = false;
+	if(monsters.total>0){
+		monsters.forEach(function(m){
+			if(m.scale.x<0){
+				m.body.velocity.x = (Math.random()*(100-50)+50);			
 			}
-		}
-		m.healthbar.setPosition(m.body.x+30,m.body.y+5);//healthbar always above monster sprites
-	});
+			// else if(m.scale.x>0){
+			// 	m.body.velocity.x = (Math.random()*(100-50)+50);
+			// }
+			//if monster reached left wall, change direction and keep going.
+			if(m.body.blocked.left&&(m.scale.x>0)){
+				m.body.velocity.x *=-1;
+				m.anchor.setTo(0.5,0);
+				m.scale.x *= -1;
+			}
 
+			//if monster reached right wall, change direction and keep going.
+			else if(m.body.blocked.right&&(m.scale.x<0)){
+				m.body.velocity.x = -(Math.random()*(100-50)+50);
+				m.anchor.setTo(0.5,0);
+				m.scale.x *= -1;
+			}
+			//same as when monsters walk backwards but reach the right wall.
+			else if(m.body.blocked.right&&(m.scale.x>0)){
+				m.body.velocity.x = -(Math.random()*(100-50)+50);
+			}
+			//don't let the monsters face one direction and move towards the other direction.
+			else if(m.body.velocity.x > 0&&m.scale.x>0 || m.body.velocity.x < 0&&m.scale.x<0 ){
+				m.scale.x *= -1;
+			}
+			if(m.hit == true){
+				//setTarget(player,m);
+				if(timeElapsed - followingTime > 4){
+					m.hit = false;
+				}
+			}
+			m.healthbar.setPosition(m.body.x+30,m.body.y+5);//healthbar always above monster sprites
+		});
+	}	
+// if(this.monsters.total ==1){
+	// 	//CREATE THE LAST MOB.
+	// 	boss = bossMob.getFirstExists(false);
+	// 	if(boss){
+	//		bossCreate(boss);
+	// 	}
+	// }
+		
+	//BOSS UPDATE FUNCTION HERE.
+	// if(bossAlive){
+		// bossMobMoveAndAttack();
+	// }
 	killIfHit(monsters,bullets);//collision between bullet and monster.
 	collisionPlayerMonster(players,monsters);
 	monsters.setAll('outOfBoundsKill',true);
@@ -174,20 +190,6 @@ function collisionHandler(monster,bullet){
 		monster.kill();
 		monster.healthbar.kill();
 		this.monsters.remove(monster); //remove dead monsters from the array.
-		
-		//OR YOU COULD REUSE MONSTERS JUST LIKE BULLETS. FOR BETTER PERFORMANCE.
-
-
-		//only check when monsters die, if any other monsters are still alive.
-		//if no monsters are alive, player wins.
-		
-		// if(this.monsters.total ==1){
-		// 	//CREATE THE LAST MOB.
-		// 	boss = bossMob.getFirstExists(false);
-		// 	if(boss){
-		// 		//ADD ANIMATIONS AND STUFF
-		// 	}
-		// }
 
 		//ADD this.bossMOb.total==0 IN THE PARAMETER AFTER bossMob is completely defined.
 		if(this.monsters.total == 0){
@@ -424,7 +426,48 @@ function killSprite(){
 function reviveMonster(){
 	this.reset(Math.random()*((player.body.x+750)-650)+650,Math.random()*(300-100)+100);
 }
-//BOSS MOB IS ABLE TO ATTACK THE PLAYER.
-function specialMonsterAttack(){
 
+function bossCreate(boss){
+	bossAlive = true;
+	boss.reset(Math.random()*((gamesizeX)-0)+0,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
+	boss.animations.add('walk');
+	boss.animations.play('walk');
+
+	//FLYING OR OTHER ANIMATIONS SHOULD BE ADDED HERE, TOO.
+}
+//BOSS MOB IS ABLE TO ATTACK THE PLAYER. THIS FUNCTION INCLUDES BOSS MOVING.
+function bossMobMoveAndAttack(){
+	if(m.scale.x<0){
+			m.body.velocity.x = (Math.random()*(100-50)+50);			
+		}
+		// else if(m.scale.x>0){
+		// 	m.body.velocity.x = (Math.random()*(100-50)+50);
+		// }
+		//if monster reached left wall, change direction and keep going.
+		if(m.body.blocked.left&&(m.scale.x>0)){
+			m.body.velocity.x *=-1;
+			m.anchor.setTo(0.5,0);
+			m.scale.x *= -1;
+		}
+
+		//if monster reached right wall, change direction and keep going.
+		else if(m.body.blocked.right&&(m.scale.x<0)){
+			m.body.velocity.x = -(Math.random()*(100-50)+50);
+			m.anchor.setTo(0.5,0);
+			m.scale.x *= -1;
+		}
+		//same as when monsters walk backwards but reach the right wall.
+		else if(m.body.blocked.right&&(m.scale.x>0)){
+			m.body.velocity.x = -(Math.random()*(100-50)+50);
+		}
+		//don't let the monsters face one direction and move towards the other direction.
+		else if(m.body.velocity.x > 0&&m.scale.x>0 || m.body.velocity.x < 0&&m.scale.x<0 ){
+			m.scale.x *= -1;
+		}
+		if(m.hit == true){
+			//setTarget(player,m);
+			if(timeElapsed - followingTime > 4){
+				m.hit = false;
+			}
+		}
 }
