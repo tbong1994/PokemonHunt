@@ -437,8 +437,9 @@ function bossCreate(boss){
 }
 //BOSS MOB IS ABLE TO ATTACK THE PLAYER. THIS FUNCTION INCLUDES BOSS MOVING.
 function bossMobMoveAndAttack(){
-	if(m.scale.x<0){
-			m.body.velocity.x = (Math.random()*(100-50)+50);			
+	bossMob.forEach(function(m){
+		if(m.scale.x<0){
+			m.body.velocity.x = (Math.random()*(200-150)+150);			
 		}
 		// else if(m.scale.x>0){
 		// 	m.body.velocity.x = (Math.random()*(100-50)+50);
@@ -452,13 +453,13 @@ function bossMobMoveAndAttack(){
 
 		//if monster reached right wall, change direction and keep going.
 		else if(m.body.blocked.right&&(m.scale.x<0)){
-			m.body.velocity.x = -(Math.random()*(100-50)+50);
+			m.body.velocity.x = -(Math.random()*(200-150)+150);
 			m.anchor.setTo(0.5,0);
 			m.scale.x *= -1;
 		}
 		//same as when monsters walk backwards but reach the right wall.
 		else if(m.body.blocked.right&&(m.scale.x>0)){
-			m.body.velocity.x = -(Math.random()*(100-50)+50);
+			m.body.velocity.x = -(Math.random()*(200-150)+150);
 		}
 		//don't let the monsters face one direction and move towards the other direction.
 		else if(m.body.velocity.x > 0&&m.scale.x>0 || m.body.velocity.x < 0&&m.scale.x<0 ){
@@ -470,4 +471,13 @@ function bossMobMoveAndAttack(){
 				m.hit = false;
 			}
 		}
+	});
+}
+
+//BOSS ATTACK PLAYER
+function mobAttack(monster){
+	//PLAYER MUST BE ATTACKED. MAYBE ADD AN ANIMATION FOR ATTACK AND
+	//PLACE THE ANIMATION ON THE PLAYER'S POSITION,
+	//THEN DECREASE PLAYER'S HEALTH
+
 }
