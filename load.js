@@ -19,12 +19,14 @@ var loadState = {
 	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,155);
 	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,157);
 	    game.load.spritesheet('alienhunter3', 'assets/player/alienhunter3.png',103,158);
+	    game.load.spritesheet('playerattack3', 'assets/player/alienhunter3_attack.png',534/3,330/2);
 	    
 	    //load sprite sheets for pokemons here.
 	    //spritesheet('variablename',locationoffile,framex,framey,numberofframesfromfile);
 	    game.load.spritesheet('monster1','assets/Pokemons/lapras-1.png',105,99);
-	    game.load.spritesheet('monster2','assets/Pokemons/squirtle3-1.png',74,70);
-	    game.load.spritesheet('boss','assets/Pokemons/magma-1.png',773/10,420/6);
+	    game.load.spritesheet('boss','assets/Pokemons/squirtle3-1.png',685/9.13,426/6);
+	    game.load.spritesheet('monster3','assets/Pokemons/lichu-1.png',394/5,288/5);
+	    game.load.spritesheet('monster2','assets/Pokemons/magma-1.png',777/10,420/6);
 
 	    game.load.spritesheet('bullet', 'assets/bullet/pokeball.png',250/5,253/6,25); //25 images only
 	    game.load.spritesheet('boom','assets/bullet/blowup.png',512/4,512/4);

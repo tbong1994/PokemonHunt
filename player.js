@@ -24,7 +24,9 @@ function createPlayer(x,y,playerFromPrevLvl){
 
 	//PLAYER CREATION. USERCHARACTER IS ASSIGNED IN MENU.JS WHEN CHARACTER BUTTON IS CLICKED.
 	player = players.create(x,y,userCharacter);
-	player.name = charName
+	player.name = charName;
+	playerAttackAnims = game.add.group();
+	playerAttackAnims.createMultiple(1,'playerattack'+player.name[1]); //player animations
 
 	//ADD PHYSICS TO PLAYER
 	game.physics.enable(player,Phaser.Physics.ARCADE);
@@ -142,6 +144,19 @@ function playerUpdate(){
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, killSprite, jump);
 		}
 		player.body.velocity.y = -650;
+	}
+	if(game.input.keyboard.isDown(Phaser.KeyCode.A)){
+		playerAttackAnims.forEach(function(a){
+		playerAttackAnim = playerAttackAnims.getFirstExists(false); //get the first inactive bullet for reuse.
+		if(playerAttackAnim){
+			//decrease scale of the animation
+			playerAttackAnim.reset(player.body.x,player.body.y);
+			playerAttackAnim.animations.add("attack");
+			playerAttackAnim.animations.play("attack",10,true);
+			game.time.events.add(Phaser.Timer.SECOND * 2, dest, playerAttackAnim);
+			//bullets change direction according to the player's direction.
+		}
+	});
 	}
 
 	//gotta work on this. do something when down is pressed.

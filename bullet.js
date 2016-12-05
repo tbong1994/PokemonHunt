@@ -39,7 +39,7 @@ function updateBullets(){
 		decorateText(notEnoughMp);
 		notEnoughMp.fontSize = 15;
 		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
-
+		
 		//fade text after 3 seconds.
 		this.game.add.tween(notEnoughMp).to({alpha: 0}, 
 			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {

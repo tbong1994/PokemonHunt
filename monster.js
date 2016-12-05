@@ -36,24 +36,80 @@ function mob(){
 	bossMob.createMultiple(1,'boss');
 	game.physics.enable(bossMob,Phaser.Physics.ARCADE);
 	bossMob.enableBody = true;
-	//ANIMATION SHOULD BE CREATED AND PLAYED WHEN ONE OBJECT FROM bossMob is referred.
-	//PERHAPS IN THE SAME FUNCTION WHEN THE bossMob IS RESET.
-	// bossMob.animations.add('walk',[21,22,23,24,25,26,27,28]);
 
+	//NEED TO CREATE MONSTERS SEPARATELY BECAUSE THE SPRITE SHEET INDEXES ARE DIFFERENTLY ACCESSED FOR EACH IMAGE FOR NOW..NEED PHOTOSHOP HELP
+
+	//LAPRAS
 	for(i=1;i<6;i++){
 		//create a monster, which is a part of monsters group.
-		monster = monsters.create(Math.random()*((gamesizeX)-0)+0,Math.random()*(300-100)+100,'monster'+Math.floor((Math.random() * 2) + 1));
+		monster = monsters.create(Math.random()*((gamesizeX)-0)+0,Math.random()*(300-100)+100,'monster1');
 		//increate sprite size.
 		monster.scale.setTo(1.1,1.1);
 
 		//play() parameter takes animation name, array of frames, frames per second, boolean value.
 		//if boolean value is true, animation loops, if false, just operate once.
-		monster.animations.add('walk');
+		monster.animations.add('walk',[1,2,3,4,5]);
 		monster.animations.play('walk',10,true);
 
 		//animation for monsters getting hit.
 		booms = game.add.group();
 		booms.createMultiple(3,'boom');
+
+		//monster sprite should have physics system in order to collide, etc.
+		game.physics.enable(monster,Phaser.Physics.ARCADE);
+		monsters.enableBody=true;
+
+		//initialize monster's HP.
+		monster.HP = 100;
+		var monsterHealthBarPosition ={x:monster.body.x+10, y:monster.body.y+10};
+		monster.healthbar = new HealthBar(this.game,monsterHealthBarPosition,"monster");
+		//monsters should collide with boundaries of the game.
+		monster.body.collideWorldBounds=true;
+		monster.body.gravity.y = 500;
+		monster.body.velocity.x = (Math.random()*(monster_vel_x-(-monster_vel_x))+(-monster_vel_x));
+	}
+	for(i=1;i<6;i++){
+		//create a monster, which is a part of monsters group.
+		monster = monsters.create(Math.random()*((gamesizeX)-0)+0,Math.random()*(300-100)+100,'monster2');
+		//increate sprite size.
+		monster.scale.setTo(1.1,1.1);
+
+		//play() parameter takes animation name, array of frames, frames per second, boolean value.
+		//if boolean value is true, animation loops, if false, just operate once.
+		monster.animations.add('walk',[2,3,4]);
+		monster.animations.play('walk',10,true);
+
+		//animation for monsters getting hit.
+		booms = game.add.group();
+		booms.createMultiple(3,'boom');
+
+		//monster sprite should have physics system in order to collide, etc.
+		game.physics.enable(monster,Phaser.Physics.ARCADE);
+		monsters.enableBody=true;
+
+		//initialize monster's HP.
+		monster.HP = 100;
+		var monsterHealthBarPosition ={x:monster.body.x+10, y:monster.body.y+10};
+		monster.healthbar = new HealthBar(this.game,monsterHealthBarPosition,"monster");
+		//monsters should collide with boundaries of the game.
+		monster.body.collideWorldBounds=true;
+		monster.body.gravity.y = 500;
+		monster.body.velocity.x = (Math.random()*(monster_vel_x-(-monster_vel_x))+(-monster_vel_x));
+	}
+	for(i=1;i<6;i++){
+		//create a monster, which is a part of monsters group.
+		monster = monsters.create(Math.random()*((gamesizeX)-0)+0,Math.random()*(300-100)+100,'monster3');
+		//increate sprite size.
+		monster.scale.setTo(1.1,1.1);
+
+		//play() parameter takes animation name, array of frames, frames per second, boolean value.
+		//if boolean value is true, animation loops, if false, just operate once.
+		monster.animations.add('walk',[11,12,13,14,15]);
+		monster.animations.play('walk',10,true);
+
+		// //animation for monsters getting hit.
+		// booms = game.add.group();
+		// booms.createMultiple(3,'boom');
 
 		//monster sprite should have physics system in order to collide, etc.
 		game.physics.enable(monster,Phaser.Physics.ARCADE);
