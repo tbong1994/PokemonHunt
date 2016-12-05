@@ -54,7 +54,7 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) 
         },
         animationDuration: 200,
         flipped: false,
-        isFixedToCamera: false
+        isFixedToCamera: false //should not follow camera. stay with its body(player or monster)
         };
     }
     else if(barType == 'mpBar'){
@@ -73,13 +73,13 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) 
         },
         animationDuration: 200,
         flipped: false,
-        isFixedToCamera: false
+        isFixedToCamera: false 
         };
     }
-    else{
+    else{//exp bar
         var defaultConfig= {
-        width: 1000,
-        height: 15,
+        width: window.innerWidth,
+        height: 20,
         x: 0,
         y: 0,
         //background color
@@ -92,7 +92,7 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig,barType) 
         },
         animationDuration: 200,
         flipped: false,
-        isFixedToCamera: false
+        isFixedToCamera: true //should follow camera.
         };
     }
 

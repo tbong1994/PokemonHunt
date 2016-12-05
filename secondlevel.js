@@ -23,6 +23,8 @@ var secondLevel = {
 	    cursor = game.input.keyboard.createCursorKeys();
 	},
 	update: function(){
+		game.scale.setGameSize(window.innerWidth, gamesizeY/1.2);
+		game.world.setBounds(0,0,gamesizeX,gamesizeY/1.2);
 	    playerUpdate();
 	    mobUpdate();
 	    platformUpdate();

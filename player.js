@@ -62,14 +62,19 @@ function createPlayer(x,y,playerFromPrevLvl){
 	myMpBar = new HealthBar(this.game,mpBarPosition,'mpBar');
 	myMpBar.setPercent(player.MP);
 
-	expBarPositionX = 800;
-	expBarPositionY = 30;
-	expBarPosition ={x:expBarPositionX, y:expBarPositionX};
-	expBar = new HealthBar(this.game,hpBarPosition);
+	expBarPositionX = window.innerWidth/2;
+	expBarPositionY = 500;
+	expBarPosition ={x:expBarPositionX, y:expBarPositionY};
+	expBar = new HealthBar(this.game,expBarPosition,'expBar'); //from the healthbar class, I've managed to set this fixed to camera.
+	expBar.setPosition(expBarPositionX,expBarPositionY);
+	// expBar.fixedToCamera = true;
 	expBar.setPercentExp(player.score,player.expForLevelUp);//bartype is optional for expbar.
-	expBarText = "EXP: ";
-	game.add.text(expBarPositionX - 50,expBarPositionY,expBarText);
+	
+	expBarText = this.game.add.text(0,470,"EXP: ");
 	decorateText(expBarText);
+	expBarText.fontSize = 15;
+	expBarText.fixedToCamera = true;
+
 	player.body.collideWorldBounds = true;
 
 	//GRAVITY AND BOUNCE OF PLAYER.
@@ -154,8 +159,6 @@ function playerUpdate(){
 	//health bar should stay with the player.
 	this.myHealthBar.setPosition(player.body.x+30,player.body.y+5);
 	this.myMpBar.setPosition(player.body.x+30,player.body.y-5);
-	this.expBar.setPosition(player.body.x+400, gamesizeY - player.body.y); //exp bar should also move with camera.
-	this.expBar.setFixedToCamera();
 	takeItems(hpPotions,players);
 	takeItems(mpPotions,players);
 }
