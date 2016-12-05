@@ -92,7 +92,7 @@ function specialAttack(){
 	bullets.forEach(function(b){
 		bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
 		if(bullet){
-			bullet.reset(Math.random()*((gamesizeX)-10)+10, 0);
+			bullet.reset(Math.random()*((gamesizeX)+10), 0);
 			bullet.animations.add("shoot");
 			bullet.animations.play("shoot",40,true);
 			bullet.body.gravity.y = 1200;

@@ -5,6 +5,9 @@
 //text font and stuff for the game.
 var grd;
 var sound;
+var background;
+var gamesizeX = 2200;
+var gamesizeY = 600;
 var comeBackFromInfo = false; //coming back from the info page.
 var currentLevel; // keep the level number.
 
@@ -88,8 +91,8 @@ function decorateText(str){
 	str.font = 'Revalia';
 	str.fontSize = 40;
 	grd = str.context.createLinearGradient(0, 0, 0, str.canvas.height);
-    grd.addColorStop(0, '#8ED6FF');   
-    grd.addColorStop(1, '#004CB3');
+    grd.addColorStop(0, '#FF9033');   
+    grd.addColorStop(1, '#FFF933');
 	str.fill = grd;
 	str.align;
 	str.stroke = '#000000';
@@ -105,7 +108,7 @@ function start(){
 		game.time.events.add(Phaser.Timer.SECOND * 1, destroyText, msg);
 	}else{
 		sound.destroy();
-		game.state.start('game');
+		game.state.start('level1');
 	}
 }
 

@@ -9,7 +9,7 @@ game.state.add("boot",bootState);
 game.state.add("load",loadState);
 game.state.add("menu",menuState);
 game.state.add("info",infoState);
-game.state.add("game",firstLevel);
+game.state.add("level1",firstLevel);
 game.state.add("level2",secondLevel);
 
 
