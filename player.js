@@ -146,19 +146,19 @@ function playerUpdate(){
 		}
 		player.body.velocity.y = -650;
 	}
-	if(game.input.keyboard.isDown(Phaser.KeyCode.A)){
-		playerAttackAnims.forEach(function(a){
-		playerAttackAnim = playerAttackAnims.getFirstExists(false); //get the first inactive bullet for reuse.
-		if(playerAttackAnim){
-			//decrease scale of the animation
-			playerAttackAnim.reset(player.body.x,player.body.y);
-			playerAttackAnim.animations.add("attack");
-			playerAttackAnim.animations.play("attack",20,true);
-			game.time.events.add(Phaser.Timer.SECOND * 0.5, dest, playerAttackAnim);
-			//bullets change direction according to the player's direction.
-		}
-	});
-	}
+	// if(game.input.keyboard.isDown(Phaser.KeyCode.A)){
+	// 	playerAttackAnims.forEach(function(a){
+	// 	playerAttackAnim = playerAttackAnims.getFirstExists(false); //get the first inactive bullet for reuse.
+	// 	if(playerAttackAnim){
+	// 		//decrease scale of the animation
+	// 		playerAttackAnim.reset(player.body.x,player.body.y);
+	// 		playerAttackAnim.animations.add("attack");
+	// 		playerAttackAnim.animations.play("attack",20,true);
+	// 		game.time.events.add(Phaser.Timer.SECOND * 0.5, dest, playerAttackAnim);
+	// 		//bullets change direction according to the player's direction.
+	// 	}
+	// });
+	// }
 	if(game.input.keyboard.isDown(Phaser.KeyCode.W)&&player.MP>=10&&(timeElapsed-lastTeleportTime)>2){ //teleport
 		var mpDown = game.add.text(player.body.x,player.body.y-50,'-10MP');
 		decorateText(mpDown);
@@ -204,22 +204,22 @@ function playerUpdate(){
 function teleport(){
 	console.log(player.MP);
 	if(player.scale.x>0){ //facing right
-			if((gamesizeX - player.body.x) > 300){
-				player.body.x += 200;
-			}
-			else{
-				player.body.x += gamesizeX - player.body.x + 50;
-			}
-			player.MP -= 50;
+		if((gamesizeX - player.body.x) > 300){
+			player.body.x += 200;
+		}
+		else{
+			player.body.x += gamesizeX - player.body.x + 50;
+		}
+		player.MP -= 50;
 			
 		}
 	else{ //facing left
-			if(player.body.x > 300){
-				player.body.x -= 300;
-			}else{
-				player.body.x -= player.body.x + 50;
-			}
-			player.MP -= 50;
+		if(player.body.x > 300){
+			player.body.x -= 300;
+		}else{
+			player.body.x -= player.body.x + 50;
+		}
+		player.MP -= 50;
 	}
 	player.MP -= 10;
 	myMpBar.setPercent(player.MP);

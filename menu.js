@@ -9,6 +9,7 @@ var background;
 var gamesizeX = 2200;
 var gamesizeY = 600;
 var comeBackFromInfo = false; //coming back from the info page.
+var comeBackFromGameOver = false;
 var currentLevel; // keep the level number.
 
 var menuState ={
@@ -21,7 +22,7 @@ var menuState ={
 		userCharacter = null; //When coming to menu screen after game over, users still need to select a character.
 		
 		//PLAY ONLY ONE MUSIC.
-		if(!comeBackFromInfo){
+		if(!comeBackFromInfo && !comeBackFromGameOver){
 			sound = game.sound.play('menu_music');
 		}
 		//set background color for menu screen.

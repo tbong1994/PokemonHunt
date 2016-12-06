@@ -337,6 +337,7 @@ function pm_processHandler(){
 	return true;
 }
 function gameOver(){
+	comeBackFromGameOver = true;
 	//REMOVE EVERYTHING.
 	game.world.removeAll();
 	monsters.removeAll();
