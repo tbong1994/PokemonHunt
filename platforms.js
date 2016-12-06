@@ -12,11 +12,11 @@ function createPlatform(){
 	platformX = 30;
 
 	//work on creating platform, make sure they're not too over populated in one area and empty in other areas.
-	for(i =0;i<10;i++){
+	for(i =0;i<14;i++){
 		var randomNum = Math.floor((Math.random()*2)+1);
 
 		//generate 2 platforms randomly.
-		var platform = platforms.create(platformX,Math.random()*(game.world.height-350)+350,'platform' + ''+randomNum);
+		var platform = platforms.create(platformX,Math.random()*(game.world.height)+250,'platform' + ''+randomNum);
 		platform.scale.setTo(1,1);
 
 		//enable physics for platforms.

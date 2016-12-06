@@ -19,6 +19,10 @@ var loadState = {
 	    game.load.spritesheet('alienhunter1', 'assets/player/alienhunter.png',93,155);
 	    game.load.spritesheet('alienhunter2', 'assets/player/alienhunter2.png',93,157);
 	    game.load.spritesheet('alienhunter3', 'assets/player/alienhunter3.png',103,158);
+
+	    //WHEN EVERY ANIMATION IS IN ONE FILE, YOU CAN JUST ACCESS WITH INDEXES.THIS CREATES ANOTHER OBJECT. SO NOT GOOD.
+	    game.load.spritesheet('playerattack1', 'assets/player/alienhunter3_attack.png',534/3,330/2);
+	    game.load.spritesheet('playerattack2', 'assets/player/alienhunter3_attack.png',534/3,330/2);
 	    game.load.spritesheet('playerattack3', 'assets/player/alienhunter3_attack.png',534/3,330/2);
 	    
 	    //load sprite sheets for pokemons here.

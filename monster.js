@@ -216,24 +216,16 @@ function collisionHandler(monster,bullet){
 	followingTime = timeElapsed;
 	sound = game.sound.play('monsters_hit_sound');
 	var monsterHit = game.add.text(monster.body.x,monster.body.y-50,'-30HP');
-		decorateText(monsterHit);
-		monsterHit.fontSize = 15;
-		//fade text after 3 seconds.
-		this.game.add.tween(monsterHit).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
-		           this.destroy();
-		        }, monsterHit
-		    );
+	decorateText(monsterHit);
+	monsterHit.fontSize = 15;
+	//fade text after 3 seconds.
+	fadeText(monsterHit);
 	if(monster.HP<=0){
 		var exp = game.add.text(player.body.x,player.body.y-50,'+30EXP');
 		decorateText(exp);
 		exp.fontSize = 15;
 		//fade text after 3 seconds.
-		this.game.add.tween(exp).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
-		           this.destroy();
-		        }, exp
-		    );
+		fadeText(exp);
 		//player score up.
 		player.score += 30;
 
@@ -304,12 +296,7 @@ function pm_collisionHandler(monster,player){
 		hpStats.fontSize = 15;
 		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
 
-		//fade text after 3 seconds.
-		this.game.add.tween(hpStats).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 0.2, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
-		           this.destroy();
-		        }, hpStats
-		    );
+		fadeText(hpStats);
 		player.HP -= 20;
 		lastCollisionTime = timeElapsed;
 		myHealthBar.setPercent(player.HP);

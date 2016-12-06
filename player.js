@@ -6,6 +6,7 @@ var myHealthBar;
 var myMpBar;
 var expBar;
 var expBarPosition;
+var lastTeleportTime = 0;
 var player={
 	name:"",
 	HP:100,
@@ -152,11 +153,27 @@ function playerUpdate(){
 			//decrease scale of the animation
 			playerAttackAnim.reset(player.body.x,player.body.y);
 			playerAttackAnim.animations.add("attack");
-			playerAttackAnim.animations.play("attack",10,true);
-			game.time.events.add(Phaser.Timer.SECOND * 2, dest, playerAttackAnim);
+			playerAttackAnim.animations.play("attack",20,true);
+			game.time.events.add(Phaser.Timer.SECOND * 0.5, dest, playerAttackAnim);
 			//bullets change direction according to the player's direction.
 		}
 	});
+	}
+	if(game.input.keyboard.isDown(Phaser.KeyCode.W)&&player.MP>=10&&(timeElapsed-lastTeleportTime)>2){ //teleport
+		var mpDown = game.add.text(player.body.x,player.body.y-50,'-10MP');
+		decorateText(mpDown);
+		mpDown.fontSize = 15;
+		fadeText(mpDown);
+		teleport();
+		lastTeleportTime = timeElapsed;
+	}
+	if(game.input.keyboard.isDown(Phaser.KeyCode.W)&&player.MP<10&&(timeElapsed-lastNotEnoughMpDisplayTime)>1.5){//teleport not enough mp
+		var notEnoughMp = game.add.text(player.body.x,player.body.y-50,'Not Enough MP');
+		decorateText(notEnoughMp);
+		notEnoughMp.fontSize = 15;
+		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
+		fadeText(notEnoughMp);
+		lastNotEnoughMpDisplayTime = timeElapsed;
 	}
 
 	//gotta work on this. do something when down is pressed.
@@ -168,7 +185,11 @@ function playerUpdate(){
 		//increase exp for levelup for next level.
 		player.expForLevelUp*=1.5; 
 		player.score = 0;
-		console.log(player.score);
+		var notEnoughMp = game.add.text(player.body.x,player.body.y - 200,'LVL UP!');
+		decorateText(notEnoughMp);
+		notEnoughMp.fontSize = 100;
+		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
+		fadeText(notEnoughMp);
 		expBar.setPercent(player.score,player.expForLevelUp);
 	}
 	//health bar should stay with the player.
@@ -180,7 +201,29 @@ function playerUpdate(){
  // function updateScore(){
 
  // }
-
+function teleport(){
+	console.log(player.MP);
+	if(player.scale.x>0){ //facing right
+			if((gamesizeX - player.body.x) > 300){
+				player.body.x += 200;
+			}
+			else{
+				player.body.x += gamesizeX - player.body.x + 50;
+			}
+			player.MP -= 50;
+			
+		}
+	else{ //facing left
+			if(player.body.x > 300){
+				player.body.x -= 300;
+			}else{
+				player.body.x -= player.body.x + 50;
+			}
+			player.MP -= 50;
+	}
+	player.MP -= 10;
+	myMpBar.setPercent(player.MP);
+}
 function takeItems(Potions, players){
 	Potions.forEach(function(potion){
 		/*detect collision between object1 and object 2. when collided, callback function is called.
@@ -214,11 +257,7 @@ function upPlayerHP(potion,player){
 		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
 
 		//fade text after 3 seconds.
-		this.game.add.tween(hpStats).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 0.7, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
-		           this.destroy();
-		        }, hpStats
-		    );
+		fadeText(hpStats);
 
 		//CONSUMING ITEM ANIMATION.
 		var hpup = hpups.getFirstExists(false);
@@ -240,12 +279,7 @@ function upPlayerMP(potion,player){
 		mpStats.fontSize = 15;
 		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
 
-		//fade text after 3 seconds.
-		this.game.add.tween(mpStats).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 0.7, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
-		           this.destroy();
-		        }, mpStats
-		    );
+		fadeText(mpStats);
 
 		//CONSUMING ITEM ANIMATION.
 		var mpup = hpups.getFirstExists(false);
@@ -265,4 +299,12 @@ function processHandler(potion,player){
 }
 function killSprite(){
 	this.kill();
+}
+function fadeText(str){
+	//fade text after a few seconds.
+	this.game.add.tween(str).to({alpha: 0}, 
+		Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
+	           this.destroy();
+	        }, str
+	    );
 }

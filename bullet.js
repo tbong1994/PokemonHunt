@@ -32,7 +32,7 @@ function updateBullets(){
 	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&player.MP>=30&&(timeElapsed-lastSpecialAttackTime)>=2.5){
 		specialAttack();
 		lastSpecialAttackTime = timeElapsed;
-		console.log(player.MP);
+		// console.log(player.MP);
 	}
 	if(game.input.keyboard.isDown(Phaser.KeyCode.S)&&player.MP<30&&(timeElapsed-lastNotEnoughMpDisplayTime)>2){
 		var notEnoughMp = game.add.text(player.body.x,player.body.y-50,'Not Enough MP');
@@ -40,12 +40,7 @@ function updateBullets(){
 		notEnoughMp.fontSize = 15;
 		//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
 		
-		//fade text after 3 seconds.
-		this.game.add.tween(notEnoughMp).to({alpha: 0}, 
-			Phaser.Timer.SECOND * 0.1, Phaser.Easing.Default, true, 800).onComplete.add(function () {
-		           this.destroy();
-		        }, notEnoughMp
-		    );
+		fadeText(notEnoughMp);
 		lastNotEnoughMpDisplayTime = timeElapsed;
 	}
 	bullets.setAll('outOfBoundsKill',true);
@@ -75,24 +70,19 @@ function fire(){
 }
 //raining pokeballs.
 function specialAttack(){
-	var mpStats = game.add.text(player.body.x,player.body.y-50,'-20 MP');
+	var mpStats = game.add.text(player.body.x,player.body.y-50,'-30 MP');
 	decorateText(mpStats);
-	mpStats.fontSize = 15;
+	mpStats.fontSize = 25;
 	//game.time.events.add(Phaser.Timer.SECOND * 3, killText, hpStats);
 
-	//fade text after 3 seconds.
-	this.game.add.tween(mpStats).to({alpha: 0}, 
-		Phaser.Timer.SECOND * 0.2, Phaser.Easing.Default, true, 1000).onComplete.add(function () {
-	           this.destroy();
-	        }, mpStats
-	    );
+	fadeText(mpStats);
 	player.MP -=30;
 	myMpBar.setPercent(player.MP);
 	//get all the non active bullets and rain them!!
 	bullets.forEach(function(b){
 		bullet = bullets.getFirstExists(false); //get the first inactive bullet for reuse.
 		if(bullet){
-			bullet.reset(Math.random()*((gamesizeX)+10), 0);
+			bullet.reset(Math.random()*((gamesizeX)), Math.random()*(gamesizeY/2)+0);
 			bullet.animations.add("shoot");
 			bullet.animations.play("shoot",40,true);
 			bullet.body.gravity.y = 1200;
