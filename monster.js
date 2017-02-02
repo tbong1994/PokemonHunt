@@ -17,6 +17,7 @@ var monster_vel_y = 0;
 var gameOverSound;
 var bossMob;
 var bossAlive = false;
+var onlyOneLeft = false;
 var monster = {
 	HP: 100,
 	Name:"",
@@ -170,18 +171,22 @@ function mobUpdate(){
 			m.healthbar.setPosition(m.body.x+30,m.body.y+5);//healthbar always above monster sprites
 		});
 	}	
-// if(this.monsters.total ==1){
-	// 	//CREATE THE LAST MOB.
-	// 	boss = bossMob.getFirstExists(false);
-	// 	if(boss){
-	//		bossCreate(boss);
-	// 	}
-	// }
+
+	if(this.monsters.total ==1 && !onlyOneLeft){
+		//CREATE THE LAST MOB.
+		boss = bossMob.getFirstExists(false);
+		if(boss){
+			bossCreate(boss);
+		}
+		//set true to avoid creating mob every milisecond, this if block should only be executed once.
+		onlyOneLeft = true;
+	}
 		
-	//BOSS UPDATE FUNCTION HERE.
-	// if(bossAlive){
-		// bossMobMoveAndAttack();
-	// }
+	// BOSS UPDATE FUNCTION HERE.
+	if(bossAlive){
+		bossMobMoveAndAttack();
+	}
+
 	killIfHit(monsters,bullets);//collision between bullet and monster.
 	collisionPlayerMonster(players,monsters);
 	monsters.setAll('outOfBoundsKill',true);
