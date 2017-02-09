@@ -1,5 +1,7 @@
 # PokemonHunt
-game for fun with Javascript, Phaser.js is mainly used.
+2D adventure-type game written in Javascript, HTML, CSS. 
+User must defeat all pokemons in order to survive in the game.
+Phaser.js was used for the physics system and sprite loading/updating/animations.
 All the game assets are from; 
 
 https://phaser.io/
